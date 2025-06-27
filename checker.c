@@ -17,6 +17,8 @@ typedef struct s_stack
 	size_t	size;
 }	t_stack;
 
+enum ops { SA, SB, PA, PB, RA, RB, RRA, RRB };
+
 void				stack_init(t_stack *stack);
 void				stack_print(t_stack *stack);
 static inline void	stack_push(t_stack *stack, int elem);
@@ -29,8 +31,12 @@ static inline void	stack_reverse_rotate(t_stack *stack);
 void				stack_push_a(t_stack *a, t_stack *b);
 void				stack_push_b(t_stack *a, t_stack *b);
 
+int					is_array_sorted(int *arr, int size);
+
 int	main(int argc, char **argv)
 {
+	const char *ops_strs[8] = { "sa", "sb", "pa", "pb", "ra", "rb", "rra", "rrb" };
+
 	t_stack	a;
 	t_stack	b;
 
@@ -102,6 +108,17 @@ int	main(int argc, char **argv)
 	stack_print(&a);
 	printf("b | ");
 	stack_print(&b);
+
+	/*for (int a = 0; a < 8; ++a)
+	{
+		for (int b = 0; b < 8; ++b)
+		{
+			printf("%s %s\n", ops_strs[a], ops_strs[b]);
+		}
+		printf("\n");
+	}*/
+
+
 
 	return (0);
 }
@@ -189,3 +206,19 @@ void	stack_push_b(t_stack *a, t_stack *b)
 	top_a = stack_pop(a);
 	stack_push(b, *top_a);
 }
+
+/* Checks if the array is sorted in
+ * ascending order */
+int	is_array_sorted(int *arr, int size)
+{
+	for (int i = 0; i < size - 1; ++i)
+	{
+		if (arr[i] > arr[i + 1])
+			return (0);
+	}
+	return (1);
+}
+
+// 2^64 = 18446744073709551616
+// 8^21 = 18014398509481984000
+// 8^10 = 1073741824
