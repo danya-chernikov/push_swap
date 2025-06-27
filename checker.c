@@ -26,45 +26,82 @@ static inline int	*stack_pop(t_stack *stack);
 static inline void	stack_swap(t_stack *stack);
 static inline void	stack_reverse(t_stack *stack);
 static inline void	stack_reverse_rotate(t_stack *stack);
+void				stack_push_a(t_stack *a, t_stack *b);
+void				stack_push_b(t_stack *a, t_stack *b);
 
 int	main(int argc, char **argv)
 {
 	t_stack	a;
+	t_stack	b;
 
 	stack_init(&a);
+	stack_init(&b);
 
-	for (int i = 0; i < 10; ++i)
-		stack_push(&a, i);
+	stack_push(&a, 8);
+	stack_push(&a, 5);
+	stack_push(&a, 6);
+	stack_push(&a, 3);
+	stack_push(&a, 1);
+	stack_push(&a, 2);
 
+	printf("a | ");
 	stack_print(&a);
+	printf("b | ");
+	stack_print(&b);
+	printf("\n");
 
-	/*for (int i = 0; i < 8; ++i)
-		stack_pop(&a);*/
-
+	printf("Exec sa:\n");
 	stack_swap(&a);
-
+	printf("a | ");
 	stack_print(&a);
-
+	printf("b | ");
+	stack_print(&b);
 	printf("\n");
 
-	for (int i = 0; i < 5; ++i)
-	{
-		stack_reverse(&a);
-		stack_print(&a);
-	}
-
+	printf("Exec pb pb pb:\n");
+	stack_push_b(&a, &b);
+	stack_push_b(&a, &b);
+	stack_push_b(&a, &b);
+	printf("a | ");
+	stack_print(&a);
+	printf("b | ");
+	stack_print(&b);
 	printf("\n");
 
-	for (int i = 0; i < 5; ++i)
-	{
-		stack_reverse_rotate(&a);
-		stack_print(&a);
-	}
-
-	int *elem = stack_pop(&a);
-	printf("elem = %d\n", *elem);
-
+	printf("Exec ra rb:\n");
+	stack_reverse(&a);
+	stack_reverse(&b);
+	printf("a | ");
 	stack_print(&a);
+	printf("b | ");
+	stack_print(&b);
+	printf("\n");
+
+	printf("Exec rra rrb:\n");
+	stack_reverse_rotate(&a);
+	stack_reverse_rotate(&b);
+	printf("a | ");
+	stack_print(&a);
+	printf("b | ");
+	stack_print(&b);
+	printf("\n");
+
+	printf("Exec sa:\n");
+	stack_swap(&a);
+	printf("a | ");
+	stack_print(&a);
+	printf("b | ");
+	stack_print(&b);
+	printf("\n");
+
+	printf("Exec pa pa pa:\n");
+	stack_push_a(&a, &b);
+	stack_push_a(&a, &b);
+	stack_push_a(&a, &b);
+	printf("a | ");
+	stack_print(&a);
+	printf("b | ");
+	stack_print(&b);
 
 	return (0);
 }
@@ -131,4 +168,24 @@ static inline void	stack_reverse_rotate(t_stack *stack)
 	for (int i = 0; i < stack->size; ++i)
 		stack->elems[i] = stack->elems[i + 1];
 	stack->elems[stack->size - 1] = tmp;
+}
+
+/* Takes the top element of stack `b`
+ * and places it on top of stack `a` */
+void	stack_push_a(t_stack *a, t_stack *b)
+{
+	int	*top_b;
+	
+	top_b = stack_pop(b);
+	stack_push(a, *top_b);
+}
+
+/* Takes the top element of stack `a`
+ * and places it on top of stack `b` */
+void	stack_push_b(t_stack *a, t_stack *b)
+{
+	int	*top_a;
+
+	top_a = stack_pop(a);
+	stack_push(b, *top_a);
 }
