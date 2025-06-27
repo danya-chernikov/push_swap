@@ -24,31 +24,48 @@ void	stack_init(t_stack *stack)
 	stack->size = 0;
 }
 
-int	push(t_stack *stack, int elem)
+static inline int	stack_push(t_stack *stack, int elem)
 {
 	if (stack->size == MAX_STACK_SIZE)
 		return (1);
 	stack->elems[stack->size] = elem;
+	++stack->size;
 	return (0);
 }
 
 /* It is the caller's responsibility
  * to ensure that the stack contains
  * at least one element before popping */
-int	*pop(t_stack *stack)
+static inline int	*stack_pop(t_stack *stack)
 {
-	return (&stack->elems[size - 1]);
+	return (&stack->elems[stack->size - 1]);
+}
+
+void stack_print(t_stack *stack)
+{
+	for (int i = 0; i < stack->size; ++i)
+		printf("%d ", stack->elems[i]);
+	printf("\n");
 }
 
 int	main(int argc, char **argv)
 {
-	if (argc != 2)
-	{
-		exit (EXIT_FAILURE);
-	}
-
 	t_stack	a;
+
 	stack_init(&a);
+
+	for (int i = 0; i < 10; ++i)
+		stack_push(&a, i);
+
+	stack_print(&a);
+
+	for (int i = 0; i < 8; ++i)
+		stack_pop(&a);
+
+	stack_print(&a);
+
+	int *elem = stack_pop(&a);
+	printf("elem = %d\n", *elem);
 
 	return (0);
 }
