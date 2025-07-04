@@ -9,7 +9,7 @@
  *	 v							   v
  * bottom						  top */
 
-typedef struct s_stack
+typedef struct	s_stack
 {
 	int		elems[MAX_STACK_SIZE];
 	int		*top;
@@ -18,6 +18,8 @@ typedef struct s_stack
 }	t_stack;
 
 enum ops { SA, SB, PA, PB, RA, RB, RRA, RRB };
+
+void				sort_three(t_stack *stack);
 
 void				stack_init(t_stack *stack);
 void				stack_print(t_stack *stack);
@@ -38,89 +40,135 @@ int	main(int argc, char **argv)
 	const char *ops_strs[8] = { "sa", "sb", "pa", "pb", "ra", "rb", "rra", "rrb" };
 
 	t_stack	a;
-	t_stack	b;
 
+	printf("| 3 7 8\n");
 	stack_init(&a);
-	stack_init(&b);
-
-	stack_push(&a, 8);
-	stack_push(&a, 5);
-	stack_push(&a, 6);
 	stack_push(&a, 3);
-	stack_push(&a, 1);
+	stack_push(&a, 7);
+	stack_push(&a, 8);
+	sort_three(&a);
+	stack_print(&a);
+	printf("\n");
+	
+	printf("| 2 5 10\n");
+	stack_init(&a);
+	stack_init(&a);
 	stack_push(&a, 2);
-
-	printf("a | ");
+	stack_push(&a, 5);
+	stack_push(&a, 10);
+	sort_three(&a);
 	stack_print(&a);
-	printf("b | ");
-	stack_print(&b);
 	printf("\n");
 
-	printf("Exec sa:\n");
-	stack_swap(&a);
-	printf("a | ");
+	printf("| 2 10 5\n");
+	stack_init(&a);
+	stack_init(&a);
+	stack_push(&a, 2);
+	stack_push(&a, 10);
+	stack_push(&a, 5);
+	sort_three(&a);
 	stack_print(&a);
-	printf("b | ");
-	stack_print(&b);
 	printf("\n");
 
-	printf("Exec pb pb pb:\n");
-	stack_push_b(&a, &b);
-	stack_push_b(&a, &b);
-	stack_push_b(&a, &b);
-	printf("a | ");
+	printf("| 5 2 10\n");
+	stack_init(&a);
+	stack_init(&a);
+	stack_push(&a, 5);
+	stack_push(&a, 2);
+	stack_push(&a, 10);
+	sort_three(&a);
 	stack_print(&a);
-	printf("b | ");
-	stack_print(&b);
 	printf("\n");
 
-	printf("Exec ra rb:\n");
-	stack_reverse(&a);
-	stack_reverse(&b);
-	printf("a | ");
+	printf("| 5 10 2\n");
+	stack_init(&a);
+	stack_init(&a);
+	stack_push(&a, 5);
+	stack_push(&a, 10);
+	stack_push(&a, 2);
+	sort_three(&a);
 	stack_print(&a);
-	printf("b | ");
-	stack_print(&b);
 	printf("\n");
 
-	printf("Exec rra rrb:\n");
-	stack_reverse_rotate(&a);
-	stack_reverse_rotate(&b);
-	printf("a | ");
+	printf("| 10 2 5\n");
+	stack_init(&a);
+	stack_init(&a);
+	stack_push(&a, 10);
+	stack_push(&a, 2);
+	stack_push(&a, 5);
+	sort_three(&a);
 	stack_print(&a);
-	printf("b | ");
-	stack_print(&b);
 	printf("\n");
 
-	printf("Exec sa:\n");
-	stack_swap(&a);
-	printf("a | ");
+	printf("| 10 5 2\n");
+	stack_init(&a);
+	stack_init(&a);
+	stack_push(&a, 10);
+	stack_push(&a, 5);
+	stack_push(&a, 2);
+	sort_three(&a);
 	stack_print(&a);
-	printf("b | ");
-	stack_print(&b);
 	printf("\n");
-
-	printf("Exec pa pa pa:\n");
-	stack_push_a(&a, &b);
-	stack_push_a(&a, &b);
-	stack_push_a(&a, &b);
-	printf("a | ");
-	stack_print(&a);
-	printf("b | ");
-	stack_print(&b);
-
-	/*for (int a = 0; a < 8; ++a)
-	{
-		for (int b = 0; b < 8; ++b)
-		{
-			printf("%s %s\n", ops_strs[a], ops_strs[b]);
-		}
-		printf("\n");
-	}*/
-
-
 
 	return (0);
+}
+
+/* Sorts the stack consiting of
+ * three arbitrary elements
+ * performing minimum possible
+ * amount of operations. If the
+ * stack is already sorted does
+ * nothing */
+void	sort_three(t_stack *stack)
+{
+	// | 2 10 5 <-top
+	if (stack->elems[0] < stack->elems[1] &&
+		stack->elems[1] > stack->elems[2] &&
+		stack->elems[0] < stack->elems[2])
+	{
+		stack_reverse_rotate(stack);
+		printf("rra\n");
+	}
+
+	// | 5 2 10
+	if (stack->elems[0] > stack->elems[1] &&
+		stack->elems[1] < stack->elems[2] &&
+		stack->elems[0] < stack->elems[2])
+	{
+		stack_reverse(stack);
+		printf("ra\n");
+	}
+
+	// | 5 10 2
+	if (stack->elems[0] < stack->elems[1] &&
+		stack->elems[1] > stack->elems[2] &&
+		stack->elems[0] > stack->elems[2])
+	{
+		stack_reverse_rotate(stack);
+		stack_swap(stack);
+		printf("rra\n");
+		printf("sa\n");
+	}
+	
+	// | 10 2 5
+	if (stack->elems[0] > stack->elems[1] &&
+		stack->elems[1] < stack->elems[2] &&
+		stack->elems[0] > stack->elems[2])
+	{
+		stack_swap(stack);
+		printf("sa\n");
+	}
+
+	// | 2 5 10	worst case
+	if (stack->elems[0] < stack->elems[1] &&
+		stack->elems[1] < stack->elems[2] &&
+		stack->elems[0] < stack->elems[2])
+	{
+		stack_swap(stack);
+		stack_reverse_rotate(stack);
+		printf("sa\n");
+		printf("rra\n");
+	}
 }
 
 void	stack_init(t_stack *stack)

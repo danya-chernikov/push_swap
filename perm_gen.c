@@ -62,7 +62,6 @@ int main(int argc, char **argv)
 	int *v = (int *)malloc(sizeof(int) * arr_size);
 	init(v, arr_size);
 	permute(v, 0, arr_size);
-	free(v);
 
 	return (0);
 }
