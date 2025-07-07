@@ -1,5 +1,7 @@
 #include "quick_sort.h"
 
+#include <stddef.h>
+
 static void		swap(int *a, int *b);
 static size_t	partition(int *arr, int low, int high);
 
@@ -21,7 +23,7 @@ static void	swap(int *a, int *b)
 
 	tmp = *a;
 	*a = *b;
-	*b = t;
+	*b = tmp;
 }
 
 static size_t	partition(int *arr, int low, int high)
@@ -39,11 +41,9 @@ static size_t	partition(int *arr, int low, int high)
 		{
 			i++;
 			swap(&arr[i], &arr[j]);
-			swap_cnt++;
 		}
 		j++;
 	}
 	swap(&arr[i + 1], &arr[high]);
-	swap_cnt++;
 	return (i + 1);
 }

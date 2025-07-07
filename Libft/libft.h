@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:40:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/06/13 19:32:55 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/07 23:30:12 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char		*ft_strdup(const char *s);
 
 /* Second part */
 int			ft_atoi(const char *nptr);
+long long	ft_atoll(const char *s);
 char		*ft_itoa(int n);
 char		**ft_split(char const *s, char c);
 char		*ft_strtrim(char const *s1, char const *set);
