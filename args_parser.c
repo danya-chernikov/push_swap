@@ -4,11 +4,25 @@
 
 #include <limits.h>
 
+int		check_ints_validity(int argc, char **argv)
+{
+	int	i;
+
+	i = 1;
+	while (i < argc)
+	{
+		if (!is_number(argv[i]) || !is_num_in_range(argv[i], INT_MIN, INT_MAX))
+			return (0);
+		++i;
+	}
+	return (1);
+}
+
 int		is_number(const char *num)
 {
 	size_t	i;
 
-	if ((num[0] != '-') || !ft_isdigit((num[0])))
+	if ((num[0] != '-') && !ft_isdigit((num[0])))
 		return (0);
 	if ((num[0] == '-') && (num[1] == '0'))
 		return (0);
@@ -26,14 +40,16 @@ int		is_number(const char *num)
 	return (1);
 }
 
-int		check_ints_validity(int argc, char **argv)
+/* Returns 1 if no duplicate elements were found
+ * in the sorted array */
+int		check_duplicates(int *arr, size_t size)
 {
-	int	i;
+	size_t	i;
 
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (i < size - 1)
 	{
-		if (!is_number(argv[i]) || !is_num_in_range(argv[i], INT_MIN, INT_MAX))
+		if (arr[i] == arr[i + 1])
 			return (0);
 		++i;
 	}

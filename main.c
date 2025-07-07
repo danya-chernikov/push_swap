@@ -4,6 +4,7 @@
 #include "libft.h"
 #include "args_parser.h"
 #include "stack_basis.h"
+#include "quick_sort.h"
 #include "sorting.h"
 
 #define ERROR_MSG	"Error\n"
@@ -12,6 +13,8 @@ int	main(int argc, char **argv)
 {
 	t_stack	a;
 	t_stack	b;
+	int		*arr;
+	int		i;
 
 	if (argc == 1)
 		exit(1);
@@ -22,15 +25,34 @@ int	main(int argc, char **argv)
 		exit(2);
 	}
 
+	arr = (int *)malloc((argc - 1) * sizeof (int));
+	if (!arr)
+	{
+		write(2, ERROR_MSG, ft_strlen(ERROR_MSG));
+		exit(3);
+	}
+	i = 1;
+	while (i < argc)
+	{
+		arr[i - 1] = ft_atoi(argv[i]);
+		++i;
+	}
+	quick_sort(arr, 0, argc - 2);
+	if (!check_duplicates(arr, argc - 1))
+	{
+		write(2, ERROR_MSG, ft_strlen(ERROR_MSG));
+		exit(4);
+	}
+
 	if (!stack_init(&a, argc - 1))
 	{
 		write(2, ERROR_MSG, ft_strlen(ERROR_MSG));
-		exit(2);
+		exit(5);
 	}	
 	if (!stack_init(&b, argc - 1))
 	{
 		write(2, ERROR_MSG, ft_strlen(ERROR_MSG));
-		exit(2);
+		exit(6);
 	}	
 
 	args_to_stack(&a, argc, argv);
@@ -50,6 +72,7 @@ int	main(int argc, char **argv)
 	else
 		sort_common(&a, &b);
 
+	free(arr);
 	stack_free(&a);
 	stack_free(&b);
 	return (0);

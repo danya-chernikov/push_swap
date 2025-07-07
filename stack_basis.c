@@ -5,7 +5,7 @@
 
 int	stack_init(t_stack *stack, const size_t capacity)
 {
-	stack->elems = (int *)ft_calloc(capacity, sizeof (int));
+	stack->elems = (int *)malloc(capacity * sizeof (int));
 	if (!stack->elems)
 		return (0);
 	stack->capacity = capacity;
@@ -51,7 +51,9 @@ void	stack_push(t_stack *stack, const int elem)
  * at least one element before popping */
 int	*stack_pop(t_stack *stack)
 {
-	int	*elem = &stack->elems[stack->size - 1];
+	int	*elem;
+	
+	elem = &stack->elems[stack->size - 1];
 	--stack->size;
 	return (elem);
 }
