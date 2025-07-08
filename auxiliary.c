@@ -37,7 +37,7 @@ int	get_digit(long long num, const int len, const int base, const int ind)
 
 /* Checks if the number is in range of
  * [INT_MIN; INT_MAX] */
-int	is_num_in_range(const char *num, const int left, const int right)
+int	num_in_range(const char *num, const int left, const int right)
 {
 	long long	number;
 
@@ -45,4 +45,30 @@ int	is_num_in_range(const char *num, const int left, const int right)
 	if (number < left || number > right)
 		return (0);	
 	return (1);
+}
+
+int	array_sorted(int *arr, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size - 1)
+	{
+		if (arr[i] > arr[i + 1])
+			return (0);
+		++i;
+	}
+	return (1);
+}
+
+void	print_n_times(const char *str, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		ft_printf("%s", str);
+		++i;
+	}
 }

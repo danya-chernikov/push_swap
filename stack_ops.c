@@ -1,3 +1,4 @@
+#include "stack_basis.h"
 #include "stack_ops.h"
 
 /* If the stack contains N elements,

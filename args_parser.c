@@ -11,7 +11,7 @@ int		check_ints_validity(int argc, char **argv)
 	i = 1;
 	while (i < argc)
 	{
-		if (!is_number(argv[i]) || !is_num_in_range(argv[i], INT_MIN, INT_MAX))
+		if (!is_number(argv[i]) || !num_in_range(argv[i], INT_MIN, INT_MAX))
 			return (0);
 		++i;
 	}

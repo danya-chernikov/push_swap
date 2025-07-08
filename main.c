@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "libft.h"
+#include "auxiliary.h"
 #include "args_parser.h"
 #include "stack_basis.h"
 #include "quick_sort.h"
@@ -11,10 +12,10 @@
 
 int	main(int argc, char **argv)
 {
-	t_stack	a;
-	t_stack	b;
 	int		*arr;
 	int		i;
+	t_stack	a;
+	t_stack	b;
 
 	if (argc == 1)
 		exit(1);
@@ -53,15 +54,30 @@ int	main(int argc, char **argv)
 	{
 		write(2, ERROR_MSG, ft_strlen(ERROR_MSG));
 		exit(6);
-	}	
+	}
+
+	i = 1;
+	while (i < argc)
+	{
+		arr[i - 1] = ft_atoi(argv[i]);
+		++i;
+	}
+	if (array_sorted(arr, argc - 1))
+	{
+		ft_printf("Already sorted. Do nothing\n");
+		exit(7);
+	}
 
 	args_to_stack(&a, argc, argv);
 
+	ft_printf("\nBefore sorting\n\n");
 	ft_printf("a | ");
 	stack_print(&a);
 
 	ft_printf("b | ");
 	stack_print(&b);
+
+	ft_printf("\nOperations:\n");
 
 	if (argc == 3)
 		sort_two(&a);
@@ -71,6 +87,13 @@ int	main(int argc, char **argv)
 		sort_four(&a, &b);
 	else
 		sort_common(&a, &b);
+
+	ft_printf("\nAfter sorting\n\n");
+	ft_printf("a | ");
+	stack_print(&a);
+
+	ft_printf("b | ");
+	stack_print(&b);
 
 	free(arr);
 	stack_free(&a);

@@ -1,6 +1,8 @@
 #include "sorting.h"
+#include "sort_aux.h"
 #include "libft.h"
 #include "stack_ops.h"
+#include "auxiliary.h"
 
 void	sort_two(t_stack *stack)
 {
@@ -65,10 +67,37 @@ void	sort_three(t_stack *stack)
 	}
 }
 
+/* First, we try rotating three times and
+ * reverse rotating three times to see if
+ * the array gets sorted. If not, we push
+ * the top element of stack A into stack B,
+ * sort stack A, determine the element in A
+ * on top of which the element from B should
+ * be placed, move that element to the top
+ * of A using ra or rra (in the most efficient
+ * way, of course), push the element from B
+ * back onto the top of A, and finally ra or
+ * rra stack A until it is sorted */
 void	sort_four(t_stack *a, t_stack *b)
 {
-	(void)a;
-	(void)b;
+	int	ops_num;
+
+	ops_num = r_til_sorted(a);
+	if (ops_num)
+	{
+		print_n_times("ra", ops_num);
+	}
+	else
+	{
+		ops_num = rr_til_sorted(a);
+		if (ops_num)
+			print_n_times("rra", ops_num);
+	}
+	if (!ops_num)
+	{
+		stack_push_b(a, b);
+		sort_three(a);	
+	}
 }
 
 void	sort_common(t_stack *a, t_stack *b)

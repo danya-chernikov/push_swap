@@ -24,7 +24,7 @@ void	stack_free(t_stack *stack);
 void	stack_print(t_stack *stack);
 void	stack_push(t_stack *stack, const int elem);
 int		*stack_pop(t_stack *stack);
-int		is_stack_empty(t_stack *stack);
-int		is_stack_sorted(t_stack *stack);
+int		stack_empty(t_stack *stack);
+int		stack_sorted(t_stack *stack);
 
 #endif

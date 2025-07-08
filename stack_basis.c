@@ -58,14 +58,14 @@ int	*stack_pop(t_stack *stack)
 	return (elem);
 }
 
-int	is_stack_empty(t_stack *stack)
+int	stack_empty(t_stack *stack)
 {
 	if (stack->size == 0)
 		return (0);
 	return (1);
 }
 
-int	is_stack_sorted(t_stack *stack)
+int	stack_sorted(t_stack *stack)
 {
 	int	i;
 
