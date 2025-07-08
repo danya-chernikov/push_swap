@@ -95,8 +95,51 @@ void	sort_four(t_stack *a, t_stack *b)
 	}
 	if (!ops_num)
 	{
+		ft_printf("pb\n");
 		stack_push_b(a, b);
-		sort_three(a);	
+		sort_three(a);
+		
+		/* Let's find the next maximum element
+		 * in A after the element from B that
+		 * exists in A */
+		size_t i = 0;
+		ft_printf("b->top = %d\n", *b->top);
+		while (i < a->capacity) /* Going through stack a */
+		{
+			ft_printf("a->sorted[%u] = %d\n", i, a->sorted[i]);
+			if (a->sorted[i] == *b->top) /* Found the position of the b->top */
+			{
+				/* Now we want to find the next element that is bigger than b->top and exists in stack A */
+				ft_printf("%d == *b->top; i = %u\n", a->sorted[i], i);
+				// We don't need to check if b->top exists in A in this case cause it's currently in B
+				if (i == a->capacity - 1) // b->top is the biggest element amoung all in both stacks
+				{
+					ft_printf("You should put %d on the bottom of stack A\n", *b->top);
+					break ;
+				}
+				// All elements to the right will be bigger than b->top
+				// Obviously now i < a->capacity - 1
+				++i;
+				while ((!stack_contains(a, a->sorted[i])) && (i < a->capacity))
+				{
+					ft_printf("Stack A does not contain %d\n", a->sorted[i]);
+					++i;
+				}
+				if (i < a->capacity)
+				{
+					ft_printf("Stack A does contain %d !\n", a->sorted[i]);
+					ft_printf("You should put %d above the %d\n", *b->top, a->sorted[i]);
+				}
+				else // i == a->capacity
+				{
+					ft_printf("You should put %d on the bottom of stack A\n", *b->top);
+					// But what if b->top will be the biggest element when putted into A? In this case we should put b->top on the bottom of stack A!
+					// just execute `pa` -> `rra`
+				}
+				break ; // the element match was already found so there is no need to go further
+			}
+			++i;
+		}
 	}
 }
 

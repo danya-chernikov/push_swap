@@ -11,6 +11,7 @@ void	stack_swap(t_stack *stack)
 	tmp = stack->elems[stack->size - 1];
 	stack->elems[stack->size - 1] = stack->elems[stack->size - 2];
 	stack->elems[stack->size - 2] = tmp;
+	stack->top = &stack->elems[stack->size - 1];
 }
 
 void	stack_reverse(t_stack *stack)
@@ -26,6 +27,7 @@ void	stack_reverse(t_stack *stack)
 		--i;
 	}
 	stack->elems[0] = tmp;
+	stack->top = &stack->elems[stack->size - 1];
 }
 
 void	stack_reverse_rotate(t_stack *stack)
@@ -33,14 +35,15 @@ void	stack_reverse_rotate(t_stack *stack)
 	int		tmp;
 	size_t	i;
 
-	tmp = stack->elems[0];
 	i = 0;
+	tmp = stack->elems[0];
 	while (i < stack->size)
 	{
 		stack->elems[i] = stack->elems[i + 1];
 		++i;
 	}
 	stack->elems[stack->size - 1] = tmp;
+	stack->top = &stack->elems[stack->size - 1];
 }
 
 /* Takes the top element of stack `b`

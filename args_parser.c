@@ -42,7 +42,7 @@ int		is_number(const char *num)
 
 /* Returns 1 if no duplicate elements were found
  * in the sorted array */
-int		check_duplicates(int *arr, size_t size)
+int		check_duplicates(const int *arr, const size_t size)
 {
 	size_t	i;
 

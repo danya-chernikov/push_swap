@@ -47,7 +47,7 @@ int	num_in_range(const char *num, const int left, const int right)
 	return (1);
 }
 
-int	array_sorted(int *arr, size_t size)
+int	array_sorted(const int *arr, const size_t size)
 {
 	size_t	i;
 
@@ -61,7 +61,31 @@ int	array_sorted(int *arr, size_t size)
 	return (1);
 }
 
-void	print_n_times(const char *str, size_t n)
+void	array_copy(int *arr_dst, const int *arr_src, const size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		arr_dst[i] = arr_src[i];
+		++i;
+	}
+}
+
+void	array_copy_atoi(int *arr_dst, char **arr_src, const size_t src_spos, const size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		arr_dst[i] = ft_atoi(arr_src[src_spos + i]);
+		++i;
+	}
+}
+
+void	print_n_times(const char *str, const size_t n)
 {
 	size_t	i;
 
@@ -72,3 +96,4 @@ void	print_n_times(const char *str, size_t n)
 		++i;
 	}
 }
+

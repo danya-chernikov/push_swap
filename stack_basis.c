@@ -8,9 +8,11 @@ int	stack_init(t_stack *stack, const size_t capacity)
 	stack->elems = (int *)malloc(capacity * sizeof (int));
 	if (!stack->elems)
 		return (0);
+	stack->sorted = (int *)malloc(capacity * sizeof (int));
+	if (!stack->sorted)
+		return (0);
 	stack->capacity = capacity;
 	stack->size = 0;
-	stack->bottom = NULL;
 	stack->top = NULL;
 	return (1);
 }
@@ -18,10 +20,11 @@ int	stack_init(t_stack *stack, const size_t capacity)
 void	stack_free(t_stack *stack)
 {
 	free(stack->elems);
+	free(stack->sorted);
 	stack->elems = NULL;
+	stack->sorted = NULL;
 	stack->capacity = 0;
 	stack->size = 0;
-	stack->bottom = NULL;
 	stack->top = NULL;
 }
 
@@ -43,6 +46,7 @@ void	stack_print(t_stack *stack)
 void	stack_push(t_stack *stack, const int elem)
 {
 	stack->elems[stack->size] = elem;
+	stack->top = &stack->elems[stack->size];
 	++stack->size;
 }
 
@@ -54,6 +58,7 @@ int	*stack_pop(t_stack *stack)
 	int	*elem;
 	
 	elem = &stack->elems[stack->size - 1];
+	stack->top = &stack->elems[stack->size - 1];
 	--stack->size;
 	return (elem);
 }
@@ -77,4 +82,18 @@ int	stack_sorted(t_stack *stack)
 		--i;
 	}
 	return (1);
+}
+
+int	stack_contains(t_stack *stack, int elem)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < stack->size)
+	{
+		if (stack->elems[i] == elem)
+			return (1);
+		++i;
+	}
+	return (0);
 }
