@@ -31,7 +31,7 @@ void	sort_three(t_stack *stack)
 		stack->elems[1] < stack->elems[2] &&
 		stack->elems[0] < stack->elems[2])
 	{
-		stack_reverse(stack);
+		stack_rotate(stack);
 		ft_printf("ra\n");
 	}
 
@@ -80,24 +80,27 @@ void	sort_three(t_stack *stack)
  * rra stack A until it is sorted */
 void	sort_four(t_stack *a, t_stack *b)
 {
-	int	ops_num;
+	int	r_ops_num;
+	int	rr_ops_num;
 
-	ops_num = r_til_sorted(a);
-	if (ops_num)
+	r_ops_num = 0;
+	rr_ops_num = 0;
+	r_ops_num = r_til_sorted(*a);
+	rr_ops_num = rr_til_sorted(*a);
+	if (r_ops_num > 0) 
 	{
-		print_n_times("ra", ops_num);
+		print_n_times("ra\n", r_ops_num);
+	}
+	else if (rr_ops_num > 0)
+	{
+		print_n_times("rra\n", rr_ops_num);
 	}
 	else
 	{
-		ops_num = rr_til_sorted(a);
-		if (ops_num)
-			print_n_times("rra", ops_num);
-	}
-	if (!ops_num)
-	{
 		ft_printf("pb\n");
 		stack_push_b(a, b);
-		sort_three(a);
+		if (!stack_sorted(a))
+			sort_three(a);
 		
 		/* Let's find the next maximum element
 		 * in A after the element from B that

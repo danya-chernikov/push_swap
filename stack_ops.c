@@ -1,5 +1,6 @@
 #include "stack_basis.h"
 #include "stack_ops.h"
+#include "libft.h"
 
 /* If the stack contains N elements,
  * it swaps the elements at indexes
@@ -14,7 +15,7 @@ void	stack_swap(t_stack *stack)
 	stack->top = &stack->elems[stack->size - 1];
 }
 
-void	stack_reverse(t_stack *stack)
+void	stack_rotate(t_stack *stack)
 {
 	int		tmp;
 	size_t	i;
@@ -28,6 +29,10 @@ void	stack_reverse(t_stack *stack)
 	}
 	stack->elems[0] = tmp;
 	stack->top = &stack->elems[stack->size - 1];
+#ifdef DEBUG
+	ft_printf("stack_rotate(): | ");
+	stack_print(stack);
+#endif
 }
 
 void	stack_reverse_rotate(t_stack *stack)
@@ -44,6 +49,10 @@ void	stack_reverse_rotate(t_stack *stack)
 	}
 	stack->elems[stack->size - 1] = tmp;
 	stack->top = &stack->elems[stack->size - 1];
+#ifdef DEBUG
+	ft_printf("stack_reverse_rotate(): | ");
+	stack_print(stack);
+#endif
 }
 
 /* Takes the top element of stack `b`
