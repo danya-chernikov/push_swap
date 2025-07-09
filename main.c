@@ -64,14 +64,6 @@ int	main(int argc, char **argv)
 
 	/* Copy input elements into stack A */
 	args_to_stack(&a, argc, argv);
-
-	ft_printf("%u\n", stack_get_elem_index(&a, 6));
-	ft_printf("%u\n", stack_get_elem_index(&a, 5));
-	ft_printf("%u\n", stack_get_elem_index(&a, 4));
-	ft_printf("%u\n", stack_get_elem_index(&a, 3));
-	ft_printf("%u\n", stack_get_elem_index(&a, 2));
-	ft_printf("%u\n", stack_get_elem_index(&a, 1));
-
 	/* Check if the input element sequence was initially sorted */
 	if (stack_sorted(&a))
 	{

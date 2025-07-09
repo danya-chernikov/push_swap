@@ -84,80 +84,115 @@ int	sort_four(t_stack *a, t_stack *b)
 	int	r_ops_num;
 	int	rr_ops_num;
 
-	r_ops_num = 0;
-	rr_ops_num = 0;
-	r_ops_num = r_til_sorted(a);
-	rr_ops_num = rr_til_sorted(a);
-	if (r_ops_num == -1 || rr_ops_num == -1)
-		return (0);
 	swap_res = check_swap(a);
 	if (swap_res == -1)
 		return (0);
 	if (swap_res)
 	{
 		ft_printf("sa\n");
+		stack_swap(a);
 	}
-	else if (r_ops_num > 0 || rr_ops_num > 0) 
+
+	r_ops_num = 0;
+	rr_ops_num = 0;
+	r_ops_num = r_til_sorted(a);
+	rr_ops_num = rr_til_sorted(a);
+	if (r_ops_num == -1 || rr_ops_num == -1)
+		return (0);
+
+	if (r_ops_num > 0 || rr_ops_num > 0)
 	{
-		ft_printf("YES! WE CAN!\n");
 		if (r_ops_num <= rr_ops_num)
+		{
+			stack_rotate_n_times(a, r_ops_num);
 			print_n_times("ra\n", r_ops_num);
+		}
 		else
+		{
+			stack_reverse_rotate_n_times(a, rr_ops_num);
 			print_n_times("rra\n", rr_ops_num);
+		}
 	}
 	else if (r_ops_num == 0 && rr_ops_num == 0)
 	{
-		ft_printf("NO! CONTINUE WITH MAIN ALGO\n");
 		ft_printf("pb\n");
 		stack_push_b(a, b);
-		if (!stack_sorted(a)) /* In this case it's not obligatory, but in common case yes */
+
+		if (!stack_sorted(a))
 			sort_three(a);
 		
-		/* Let's find the next maximum element
-		 * in A after the element from B that
-		 * exists in A */
 		size_t i = 0;
-		ft_printf("b->top = %d\n", *b->top);
-		while (i < a->capacity) /* Going through stack a */
+		while (i < a->capacity)
 		{
-			ft_printf("a->sorted[%u] = %d\n", i, a->sorted[i]);
-			if (a->sorted[i] == *b->top) /* Found the position of the b->top */
+			if (a->sorted[i] == *b->top)
 			{
-				/* Now we want to find the next element that is bigger than b->top and exists in stack A */
-				ft_printf("%d == *b->top; i = %u\n", a->sorted[i], i);
-				// We don't need to check if b->top exists in A in this case cause it's currently in B
-				if (i == a->capacity - 1) // b->top is the biggest element amoung all in both stacks
+				if (i == a->capacity - 1)
 				{
-					ft_printf("You should put %d on the bottom of stack A\n", *b->top);
-					break ;
+					ft_printf("pa\n");
+					stack_push_a(a, b);
+
+					ft_printf("rra\n");
+					stack_reverse_rotate(a);
 				}
-				// All elements to the right will be bigger than b->top
-				// Obviously now i < a->capacity - 1
-				++i;
-				while ((!stack_contains(a, a->sorted[i])) && (i < a->capacity))
+				else
 				{
-					ft_printf("Stack A does not contain %d\n", a->sorted[i]);
 					++i;
+					while ((!stack_contains(a, a->sorted[i])) && (i < a->capacity))
+						++i;
+
+					if (i < a->capacity)
+					{
+						int	bottom_elem;
+
+						bottom_elem = a->sorted[i];
+						move_elem_to_top(a, bottom_elem);
+
+						ft_printf("pa\n");
+						stack_push_a(a, b);
+					}
+					else
+					{
+						ft_printf("pa\n");
+						stack_push_a(a, b);
+
+						ft_printf("rra\n");
+						stack_reverse_rotate(a);
+					}
 				}
-				if (i < a->capacity)
+
+				if (!stack_sorted(a))
 				{
-					//int	bottom_elem = a->sorted[i];
-					ft_printf("Stack A does contain %d !\n", a->sorted[i]);
-					ft_printf("You should put %d above the %d\n", *b->top, a->sorted[i]);
-					// Now we need to move  bottom_elem on top of stack A
-					// Let's to determine the element's index
+					r_ops_num = 0;
+					rr_ops_num = 0;
+					r_ops_num = r_til_sorted(a);
+					rr_ops_num = rr_til_sorted(a);
+					if (r_ops_num == -1 || rr_ops_num == -1)
+						return (0);
+					if (r_ops_num > 0 || rr_ops_num > 0)
+					{
+						if (r_ops_num <= rr_ops_num)
+						{
+							stack_rotate_n_times(a, r_ops_num);
+							print_n_times("ra\n", r_ops_num);
+						}
+						else
+						{
+							stack_reverse_rotate_n_times(a, rr_ops_num);
+							print_n_times("rra\n", rr_ops_num);
+						}
+					}
 				}
-				else // i == a->capacity
-				{
-					ft_printf("You should put %d on the bottom of stack A\n", *b->top);
-					// But what if b->top will be the biggest element when putted into A? In this case we should put b->top on the bottom of stack A!
-					// just execute `pa` -> `rra`
-				}
-				break ; // the element match was already found so there is no need to go further
-			}
+
+				break ;
+
+			} // if (a->sorted[i] == *b->top)
+
 			++i;
-		}
-	}
+
+		} // while (i < a->capacity)
+
+	} // else if (r_ops_num == 0 && rr_ops_num == 0)
+
 	return (1);
 }
 

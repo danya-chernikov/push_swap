@@ -35,6 +35,18 @@ void	stack_rotate(t_stack *stack)
 #endif
 }
 
+void	stack_rotate_n_times(t_stack *stack, const size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		stack_rotate(stack);
+		++i;
+	}
+}
+
 void	stack_reverse_rotate(t_stack *stack)
 {
 	int		tmp;
@@ -53,6 +65,18 @@ void	stack_reverse_rotate(t_stack *stack)
 	ft_printf("stack_reverse_rotate(): | ");
 	stack_print(stack);
 #endif
+}
+
+void	stack_reverse_rotate_n_times(t_stack *stack, const size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		stack_reverse_rotate(stack);
+		++i;
+	}
 }
 
 /* Takes the top element of stack `b`

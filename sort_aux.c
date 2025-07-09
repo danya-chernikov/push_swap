@@ -1,5 +1,6 @@
 #include "sort_aux.h"
 #include "stack_ops.h"
+#include "auxiliary.h"
 #include "libft.h"
 
 #include <stdlib.h>
@@ -7,7 +8,7 @@
 /* Checks whether applying a
  * swap operation leads to the
  * stack being sorted */
-int	check_swap(t_stack *stack)
+int		check_swap(t_stack *stack)
 {
 	t_stack	cstack;
 
@@ -32,8 +33,9 @@ int	check_swap(t_stack *stack)
  * the original stack — we are just
  * performing a kind of test. If an
  * error during stack copying occured
- * returns -1 */
-int	r_til_sorted(t_stack *stack)
+ * returns -1. This function does not
+ * check if the stack is sorted or not */
+int		r_til_sorted(t_stack *stack)
 {
 	int		sorted_f;
 	size_t	ops_cnt;
@@ -53,7 +55,6 @@ int	r_til_sorted(t_stack *stack)
 			break ;
 		}
 	}
-	ft_printf("r_til_sorted(): ops_cnt = %u\n", ops_cnt);
 	if (sorted_f)
 	{
 		free(cstack.elems);
@@ -63,7 +64,7 @@ int	r_til_sorted(t_stack *stack)
 	return (0);
 }
 
-int	rr_til_sorted(t_stack *stack)
+int		rr_til_sorted(t_stack *stack)
 {
 	int		sorted_f;
 	size_t	ops_cnt;
@@ -83,7 +84,6 @@ int	rr_til_sorted(t_stack *stack)
 			break ;
 		}
 	}
-	ft_printf("rr_til_sorted(): ops_cnt = %u\n", ops_cnt);
 	if (sorted_f)
 	{
 		free(cstack.elems);
@@ -91,4 +91,27 @@ int	rr_til_sorted(t_stack *stack)
 	}
 	free(cstack.elems);
 	return (0);
+}
+
+/* Moves the element to the top of the stack by
+ * executing either ra or rra consecutively in the
+ * most efficient way */
+void	move_elem_to_top(t_stack *stack, int elem)
+{
+	size_t	elem_ind;
+
+	elem_ind = stack_get_elem_index(stack, elem);
+	if (elem_ind > 0) /* elem_ind == 0 means element is already on top */
+	{
+		if (elem_ind <= stack->size / 2)
+		{
+			stack_rotate_n_times(stack, elem_ind);
+			print_n_times("ra\n", elem_ind);
+		}
+		else
+		{
+			stack_reverse_rotate_n_times(stack, stack->size - elem_ind);
+			print_n_times("rra\n", stack->size - elem_ind);
+		}
+	}
 }
