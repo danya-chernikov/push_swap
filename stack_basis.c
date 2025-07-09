@@ -97,3 +97,22 @@ int	stack_contains(t_stack *stack, int elem)
 	}
 	return (0);
 }
+
+int	stack_copy(t_stack *dst, t_stack *src)
+{
+	size_t	i;
+
+	dst->size = src->size;
+	dst->capacity = src->capacity;
+	dst->elems = (int *)malloc(dst->capacity * sizeof (int));
+	if (!dst->elems)
+		return (0);
+	i = 0;
+	while (i < src->size)
+	{
+		dst->elems[i] = src->elems[i];
+		++i;
+	}
+	dst->top = &dst->elems[dst->size - 1];
+	return (1);
+}

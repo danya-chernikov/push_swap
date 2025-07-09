@@ -3,7 +3,7 @@
 
 #include "stack_basis.h"
 
-int	r_til_sorted(t_stack stack);
-int	rr_til_sorted(t_stack stack);
+int	r_til_sorted(t_stack *stack);
+int	rr_til_sorted(t_stack *stack);
 
 #endif

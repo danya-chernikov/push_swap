@@ -27,5 +27,6 @@ int		*stack_pop(t_stack *stack);
 int		stack_empty(t_stack *stack);
 int		stack_sorted(t_stack *stack);
 int		stack_contains(t_stack *stack, int elem);
+int		stack_copy(t_stack *dst, t_stack *src);
 
 #endif

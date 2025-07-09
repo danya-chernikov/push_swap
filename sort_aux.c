@@ -9,19 +9,24 @@
  * n; otherwise, it returns 0. Of
  * course, we don’t want to change
  * the original stack — we are just
- * performing a kind of test */
-int	r_til_sorted(t_stack stack)
+ * performing a kind of test. If an
+ * error during stack copying occured
+ * returns -1 */
+int	r_til_sorted(t_stack *stack)
 {
 	int		sorted_f;
 	size_t	ops_cnt;
+	t_stack	cstack;
 
-	sorted_f = 0;
 	ops_cnt = 0;
-	while (ops_cnt < stack.size - 1)
+	sorted_f = 0;
+	if (!stack_copy(&cstack, stack))
+		return (-1);
+	while (ops_cnt < cstack.size - 1)
 	{
-		stack_rotate(&stack);
+		stack_rotate(&cstack);
 		++ops_cnt;
-		if (stack_sorted(&stack))
+		if (stack_sorted(&cstack))
 		{
 			sorted_f = 1;
 			break ;
@@ -33,18 +38,21 @@ int	r_til_sorted(t_stack stack)
 	return (0);
 }
 
-int	rr_til_sorted(t_stack stack)
+int	rr_til_sorted(t_stack *stack)
 {
 	int		sorted_f;
 	size_t	ops_cnt;
+	t_stack	cstack;
 
-	sorted_f = 0;
 	ops_cnt = 0;
-	while (ops_cnt < stack.size - 1)
+	sorted_f = 0;
+	if (!stack_copy(&cstack, stack))
+		return (-1);
+	while (ops_cnt < cstack.size - 1)
 	{
-		stack_reverse_rotate(&stack);
+		stack_reverse_rotate(&cstack);
 		++ops_cnt;
-		if (stack_sorted(&stack))
+		if (stack_sorted(&cstack))
 		{
 			sorted_f = 1;
 			break ;
