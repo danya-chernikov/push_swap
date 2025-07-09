@@ -78,8 +78,9 @@ void	sort_three(t_stack *stack)
  * way, of course), push the element from B
  * back onto the top of A, and finally ra or
  * rra stack A until it is sorted */
-void	sort_four(t_stack *a, t_stack *b)
+int	sort_four(t_stack *a, t_stack *b)
 {
+	int	swap_res;
 	int	r_ops_num;
 	int	rr_ops_num;
 
@@ -87,18 +88,29 @@ void	sort_four(t_stack *a, t_stack *b)
 	rr_ops_num = 0;
 	r_ops_num = r_til_sorted(a);
 	rr_ops_num = rr_til_sorted(a);
-	if (r_ops_num > 0 || rr_ops_num > 0) 
+	if (r_ops_num == -1 || rr_ops_num == -1)
+		return (0);
+	swap_res = check_swap(a);
+	if (swap_res == -1)
+		return (0);
+	if (swap_res)
 	{
+		ft_printf("sa\n");
+	}
+	else if (r_ops_num > 0 || rr_ops_num > 0) 
+	{
+		ft_printf("YES! WE CAN!\n");
 		if (r_ops_num <= rr_ops_num)
 			print_n_times("ra\n", r_ops_num);
 		else
 			print_n_times("rra\n", rr_ops_num);
 	}
-	else
+	else if (r_ops_num == 0 && rr_ops_num == 0)
 	{
+		ft_printf("NO! CONTINUE WITH MAIN ALGO\n");
 		ft_printf("pb\n");
 		stack_push_b(a, b);
-		if (!stack_sorted(a))
+		if (!stack_sorted(a)) /* In this case it's not obligatory, but in common case yes */
 			sort_three(a);
 		
 		/* Let's find the next maximum element
@@ -129,8 +141,11 @@ void	sort_four(t_stack *a, t_stack *b)
 				}
 				if (i < a->capacity)
 				{
+					//int	bottom_elem = a->sorted[i];
 					ft_printf("Stack A does contain %d !\n", a->sorted[i]);
 					ft_printf("You should put %d above the %d\n", *b->top, a->sorted[i]);
+					// Now we need to move  bottom_elem on top of stack A
+					// Let's to determine the element's index
 				}
 				else // i == a->capacity
 				{
@@ -143,10 +158,13 @@ void	sort_four(t_stack *a, t_stack *b)
 			++i;
 		}
 	}
+	return (1);
 }
 
-void	sort_common(t_stack *a, t_stack *b)
+int	sort_common(t_stack *a, t_stack *b)
 {
 	(void)a;
 	(void)b;
+
+	return (1);
 }

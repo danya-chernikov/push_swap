@@ -2,6 +2,27 @@
 #include "stack_ops.h"
 #include "libft.h"
 
+#include <stdlib.h>
+
+/* Checks whether applying a
+ * swap operation leads to the
+ * stack being sorted */
+int	check_swap(t_stack *stack)
+{
+	t_stack	cstack;
+
+	if (!stack_copy(&cstack, stack))
+		return (-1);
+	stack_swap(&cstack);
+	if (stack_sorted(&cstack))
+	{
+		free(cstack.elems);
+		return (1);
+	}
+	free(cstack.elems);
+	return (0);
+}
+
 /* Performs the rotate operation
  * on the stack until it is sorted.
  * If the stack becomes sorted after
@@ -34,7 +55,11 @@ int	r_til_sorted(t_stack *stack)
 	}
 	ft_printf("r_til_sorted(): ops_cnt = %u\n", ops_cnt);
 	if (sorted_f)
+	{
+		free(cstack.elems);
 		return (ops_cnt);
+	}
+	free(cstack.elems);
 	return (0);
 }
 
@@ -60,6 +85,10 @@ int	rr_til_sorted(t_stack *stack)
 	}
 	ft_printf("rr_til_sorted(): ops_cnt = %u\n", ops_cnt);
 	if (sorted_f)
+	{
+		free(cstack.elems);
 		return (ops_cnt);
+	}
+	free(cstack.elems);
 	return (0);
 }

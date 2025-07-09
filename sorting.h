@@ -5,7 +5,7 @@
 
 void	sort_two(t_stack *stack);
 void	sort_three(t_stack *stack);
-void	sort_four(t_stack *a, t_stack *b);
-void	sort_common(t_stack *a, t_stack *b);
+int		sort_four(t_stack *a, t_stack *b);
+int		sort_common(t_stack *a, t_stack *b);
 
 #endif

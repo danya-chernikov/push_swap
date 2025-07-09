@@ -28,5 +28,6 @@ int		stack_empty(t_stack *stack);
 int		stack_sorted(t_stack *stack);
 int		stack_contains(t_stack *stack, int elem);
 int		stack_copy(t_stack *dst, t_stack *src);
+size_t	stack_get_elem_index(t_stack *stack, int elem);
 
 #endif

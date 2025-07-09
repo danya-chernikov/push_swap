@@ -40,6 +40,7 @@ int	main(int argc, char **argv)
 	if (!check_duplicates(arr, elems_num))
 	{
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+		free(arr);
 		exit(4);
 	}
 
@@ -47,6 +48,7 @@ int	main(int argc, char **argv)
 	if (!stack_init(&a, elems_num))
 	{
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+		free(arr);
 		exit(5);
 	}
 	/* Copy sorted array of input elements into A */
@@ -55,15 +57,28 @@ int	main(int argc, char **argv)
 	if (!stack_init(&b, elems_num))
 	{
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+		stack_free(&a);
+		free(arr);
 		exit(6);
 	}
 
 	/* Copy input elements into stack A */
 	args_to_stack(&a, argc, argv);
+
+	ft_printf("%u\n", stack_get_elem_index(&a, 6));
+	ft_printf("%u\n", stack_get_elem_index(&a, 5));
+	ft_printf("%u\n", stack_get_elem_index(&a, 4));
+	ft_printf("%u\n", stack_get_elem_index(&a, 3));
+	ft_printf("%u\n", stack_get_elem_index(&a, 2));
+	ft_printf("%u\n", stack_get_elem_index(&a, 1));
+
 	/* Check if the input element sequence was initially sorted */
 	if (stack_sorted(&a))
 	{
 		ft_printf("Already sorted. Do nothing\n");
+		stack_free(&a);
+		stack_free(&b);
+		free(arr);
 		exit(7);
 	}
 
@@ -81,9 +96,27 @@ int	main(int argc, char **argv)
 	else if (elems_num == 3)
 		sort_three(&a);
 	else if (elems_num == 4)
-		sort_four(&a, &b);
-	else
-		sort_common(&a, &b);
+	{
+		if (!sort_four(&a, &b))
+		{
+			write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+			stack_free(&a);
+			stack_free(&b);
+			free(arr);
+			exit(8);
+		}
+	}
+	else if (elems_num > 4)
+	{
+		if (!sort_common(&a, &b))
+		{
+			write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+			stack_free(&a);
+			stack_free(&b);
+			free(arr);
+			exit(9);
+		}
+	}
 
 	/* Print sorted stacks */
 	ft_printf("\nAfter sorting\n\n");

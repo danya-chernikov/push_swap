@@ -108,11 +108,26 @@ int	stack_copy(t_stack *dst, t_stack *src)
 	if (!dst->elems)
 		return (0);
 	i = 0;
-	while (i < src->size)
+	while (i < dst->size)
 	{
 		dst->elems[i] = src->elems[i];
 		++i;
 	}
 	dst->top = &dst->elems[dst->size - 1];
 	return (1);
+}
+
+/* If there is no element in the stack returns 0 */
+size_t	stack_get_elem_index(t_stack *stack, int elem)
+{	
+	size_t	i;
+
+	i = 0;
+	while (i < stack->size)
+	{
+		if (stack->elems[stack->size - i - 1] == elem)
+			return (i);
+		++i;
+	}
+	return (0);
 }
