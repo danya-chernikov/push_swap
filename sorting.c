@@ -91,6 +91,7 @@ int	sort_four(t_stack *a, t_stack *b)
 	{
 		ft_printf("sa\n");
 		stack_swap(a);
+		return (1);
 	}
 
 	r_ops_num = 0;
@@ -131,8 +132,8 @@ int	sort_four(t_stack *a, t_stack *b)
 					ft_printf("pa\n");
 					stack_push_a(a, b);
 
-					ft_printf("rra\n");
-					stack_reverse_rotate(a);
+					ft_printf("ra\n");
+					stack_rotate(a);
 				}
 				else
 				{
@@ -155,8 +156,8 @@ int	sort_four(t_stack *a, t_stack *b)
 						ft_printf("pa\n");
 						stack_push_a(a, b);
 
-						ft_printf("rra\n");
-						stack_reverse_rotate(a);
+						ft_printf("ra\n");
+						stack_rotate(a);
 					}
 				}
 
