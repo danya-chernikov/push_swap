@@ -12,31 +12,50 @@
  * ops_list array will be increased during
  * each subsequent memory reallocation */
 #define OPS_LIST_INC_CHUNK_SIZE	8192
+#define SA_OP_STR				"sa"
+#define SB_OP_STR				"sb"
+#define SS_OP_STR				"ss"
+#define PA_OP_STR				"pa"
+#define PB_OP_STR				"pb"
+#define RA_OP_STR				"ra"
+#define RB_OP_STR				"rb"
+#define RR_OP_STR				"rr"
+#define RRA_OP_STR				"rra"
+#define RRB_OP_STR				"rrb"
+#define RRR_OP_STR				"rrr"
 
-typedef enum { SA, SB, PA, PB, RA, RB, RRA, RRB } ops;
+typedef enum { SA, SB, SS, PA, PB, RA, RB, RR, RRA, RRB, RRR } ops_type;
+
+/* NOP means "no operation" */
+typedef enum { A, B, NOP } stack_type;
 
 typedef struct s_operations
 {
-	size_t	arr_size;
-	size_t	cnt;
-	ops		*arr;
+	size_t		capacity;
+	size_t		size;
+	ops_type	*arr;
 }	t_operations;
 
-
-int		operaitons_init(t_operations *ops);
-int		operaitons_free(t_operations *ops);
+int		ops_init(t_operations *ops);
+void	ops_free(t_operations *ops);
+void	ops_add(t_operations *ops, ops_type op);
+void	ops_remove(t_operations *ops, size_t index);
+void	ops_print(t_operations *ops);
+void	print_op_by_type(ops_type op);
 
 /* Operations from task's announcement */
-void	stack_swap(t_operations *ops, t_stack *stack);
-void	stack_rotate(t_operations *ops, t_stack *stack);
-void	stack_reverse_rotate(t_operations *ops, t_stack *stack);
+void	stack_swap(t_operations *ops, t_stack *stack, const stack_type stype);
+void	stack_rotate(t_operations *ops, t_stack *stack, const stack_type stype);
+void	stack_reverse_rotate(t_operations *ops, t_stack *stack, const stack_type stype);
 void	stack_push_a(t_operations *ops, t_stack *a, t_stack *b);
 void	stack_push_b(t_operations *ops, t_stack *a, t_stack *b);
 
 void	stack_rotate_n_times(t_operations *ops,
-			t_stack *stack, const size_t n);
+			t_stack *stack, const stack_type stype,
+			const size_t n);
 
 void	stack_reverse_rotate_n_times(t_operations *ops,
-			t_stack *stack, const size_t n);
+			t_stack *stack, const stack_type stype,
+			const size_t n);
 
 #endif

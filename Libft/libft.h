@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:40:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/07 23:30:12 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:37:49 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ char		*ft_strrchr(const char *s, int c);
 void		*ft_memchr(const void *s, int c, size_t n);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 void		*ft_calloc(size_t nmemb, size_t size);
+void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		*ft_strdup(const char *s);
 
 /* Second part */

@@ -1,20 +1,20 @@
 #include "sort_aux.h"
-#include "stack_ops.h"
 #include "auxiliary.h"
 #include "libft.h"
 
 #include <stdlib.h>
 
-/* Checks whether applying a
- * swap operation leads to the
- * stack being sorted */
-int		check_swap(t_stack *stack)
+/* Checks whether applying a swap operation results
+ * in the stack being sorted. This function does not
+ * modify the stack, so we pass `NOP` as the operation
+ * to perform */
+int		check_swap(t_operations *ops, t_stack *stack)
 {
 	t_stack	cstack;
 
 	if (!stack_copy(&cstack, stack))
 		return (-1);
-	stack_swap(&cstack);
+	stack_swap(ops, &cstack, NOP);
 	if (stack_sorted(&cstack))
 	{
 		free(cstack.elems);
@@ -24,18 +24,14 @@ int		check_swap(t_stack *stack)
 	return (0);
 }
 
-/* Performs the rotate operation
- * on the stack until it is sorted.
- * If the stack becomes sorted after
- * applying n operations, it returns
- * n; otherwise, it returns 0. Of
- * course, we don’t want to change
- * the original stack — we are just
- * performing a kind of test. If an
- * error during stack copying occured
- * returns -1. This function does not
- * check if the stack is sorted or not */
-size_t	r_til_sorted(t_stack *stack)
+/* Performs the rotate operation on the stack until it is
+ * sorted. If the stack becomes sorted after applying `n`
+ * operations, it returns `n`; otherwise, it returns 0. Of
+ * course, we don’t want to change the original stack — we
+ * are just performing a kind of test. If an error during
+ * stack copying occured returns -1. This function does
+ * not check if the stack is sorted or not */
+size_t	r_til_sorted(t_operations *ops, t_stack *stack)
 {
 	int		sorted_f;
 	size_t	ops_cnt;
@@ -47,7 +43,7 @@ size_t	r_til_sorted(t_stack *stack)
 		return (-1);
 	while (ops_cnt < cstack.size - 1)
 	{
-		stack_rotate(&cstack);
+		stack_rotate(ops, &cstack, NOP);
 		++ops_cnt;
 		if (stack_sorted(&cstack))
 		{
@@ -64,7 +60,8 @@ size_t	r_til_sorted(t_stack *stack)
 	return (0);
 }
 
-size_t	rr_til_sorted(t_stack *stack)
+/* This function does not change the stack */
+size_t	rr_til_sorted(t_operations *ops, t_stack *stack)
 {
 	int		sorted_f;
 	size_t	ops_cnt;
@@ -76,7 +73,7 @@ size_t	rr_til_sorted(t_stack *stack)
 		return (-1);
 	while (ops_cnt < cstack.size - 1)
 	{
-		stack_reverse_rotate(&cstack);
+		stack_reverse_rotate(ops, &cstack, NOP);
 		++ops_cnt;
 		if (stack_sorted(&cstack))
 		{
@@ -93,10 +90,10 @@ size_t	rr_til_sorted(t_stack *stack)
 	return (0);
 }
 
-/* Moves the element to the top of the stack by
- * executing either ra or rra consecutively in the
- * most efficient way */
-void	move_elem_to_top(t_stack *stack, int elem)
+/* Moves the element to the top of the stack by executing either `ra`
+ * or `rra` consecutively in the most efficient way. This function
+ * does change the stack */
+void	move_elem_to_top(t_operations *ops, t_stack *stack, stack_type stype, int elem)
 {
 	size_t	elem_ind;
 
@@ -105,12 +102,12 @@ void	move_elem_to_top(t_stack *stack, int elem)
 	{
 		if (elem_ind <= stack->size / 2)
 		{
-			stack_rotate_n_times(stack, elem_ind);
+			stack_rotate_n_times(ops, stack, stype, elem_ind);
 			print_n_times("ra\n", elem_ind);
 		}
 		else
 		{
-			stack_reverse_rotate_n_times(stack, stack->size - elem_ind);
+			stack_reverse_rotate_n_times(ops, stack, stype, stack->size - elem_ind);
 			print_n_times("rra\n", stack->size - elem_ind);
 		}
 	}

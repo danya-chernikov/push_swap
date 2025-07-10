@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "libft.h"
 #include "auxiliary.h"
@@ -21,6 +22,24 @@ int	main(int argc, char **argv)
 	if (argc == 1)
 		exit(1);
 
+/*#ifdef DEBUG	
+	FILE	*fp_tests;
+	char	file_path[256];
+
+	ft_printf("Enter the path to the file with tests: ");
+	if (fgets(file_path, sizeof (file_path), stdin) != NULL)
+	{
+		file_path[strcspn(file_path, "\n")] = '\0';
+		fp_tests = fopen(file_path, "r");
+		if (!fp_tests)
+			exit(1);
+
+	}
+	else
+		exit(1);
+
+#endif*/
+
 	/* Check input elements for validity */
 	elems_num = argc - 1;
 	if (!check_ints_validity(argc, argv))
@@ -29,6 +48,7 @@ int	main(int argc, char **argv)
 		exit(2);
 	}
 
+	/* Allocate the array for input data of stack A */
 	arr = (int *)malloc(elems_num * sizeof (int));
 	if (!arr)
 	{
@@ -75,9 +95,15 @@ int	main(int argc, char **argv)
 		exit(7);
 	}
 
-	operations_init(&ops);
-	if (!ops)
-		return (0);
+	/* Inititialize the array of operations */
+	if (!ops_init(&ops))
+	{
+		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+		stack_free(&a);
+		stack_free(&b);
+		free(arr);
+		exit(8);
+	}
 
 	/* Print unsorted stacks */
 	ft_printf("\nBefore sorting\n\n");
@@ -89,29 +115,35 @@ int	main(int argc, char **argv)
 	/* Perform sorting */
 	ft_printf("\nOperations:\n");
 	if (elems_num == 2)
-		sort_two(&a);
+	{
+		sort_two(&ops, &a);
+	}
 	else if (elems_num == 3)
-		sort_three(&a);
+	{
+		sort_three(&ops, &a);
+	}
 	else if (elems_num == 4)
 	{
-		if (!sort_four(&a, &b))
+		if (!sort_four(&ops, &a, &b))
 		{
 			write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-			stack_free(&a);
-			stack_free(&b);
-			free(arr);
-			exit(8);
-		}
-	}
-	else if (elems_num > 4)
-	{
-		if (!sort_common(&a, &b))
-		{
-			write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+			ops_free(&ops);
 			stack_free(&a);
 			stack_free(&b);
 			free(arr);
 			exit(9);
+		}
+	}
+	else if (elems_num > 4)
+	{
+		if (!sort_common(&ops, &a, &b))
+		{
+			write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+			ops_free(&ops);
+			stack_free(&a);
+			stack_free(&b);
+			free(arr);
+			exit(10);
 		}
 	}
 
@@ -122,8 +154,12 @@ int	main(int argc, char **argv)
 	ft_printf("b | ");
 	stack_print(&b);
 
+	/* Print the operations performed to sort the stacks */
+	ft_printf("\nOperations:\n");
+	ops_print(&ops);
+
 	/* Free all the staff */
-	operations_free(&ops);
+	ops_free(&ops);
 	stack_free(&a);
 	stack_free(&b);
 	free(arr);
