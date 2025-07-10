@@ -15,14 +15,14 @@ void	sort_two(t_stack *stack)
  * amount of operations. If the
  * stack is already sorted does
  * nothing */
-void	sort_three(t_stack *stack)
+void	sort_three(t_operations *ops, t_stack *stack)
 {
 	// | 2 10 5 <-top
 	if (stack->elems[0] < stack->elems[1] &&
 		stack->elems[1] > stack->elems[2] &&
 		stack->elems[0] < stack->elems[2])
 	{
-		stack_reverse_rotate(stack);
+		stack_reverse_rotate(ops, stack);
 		ft_printf("rra\n");
 	}
 
@@ -31,7 +31,7 @@ void	sort_three(t_stack *stack)
 		stack->elems[1] < stack->elems[2] &&
 		stack->elems[0] < stack->elems[2])
 	{
-		stack_rotate(stack);
+		stack_rotate(ops, stack);
 		ft_printf("ra\n");
 	}
 
@@ -40,8 +40,8 @@ void	sort_three(t_stack *stack)
 		stack->elems[1] > stack->elems[2] &&
 		stack->elems[0] > stack->elems[2])
 	{
-		stack_reverse_rotate(stack);
-		stack_swap(stack);
+		stack_reverse_rotate(ops, stack);
+		stack_swap(ops, stack);
 		ft_printf("rra\n");
 		ft_printf("sa\n");
 	}
@@ -51,7 +51,7 @@ void	sort_three(t_stack *stack)
 		stack->elems[1] < stack->elems[2] &&
 		stack->elems[0] > stack->elems[2])
 	{
-		stack_swap(stack);
+		stack_swap(ops, stack);
 		ft_printf("sa\n");
 	}
 
@@ -60,8 +60,8 @@ void	sort_three(t_stack *stack)
 		stack->elems[1] < stack->elems[2] &&
 		stack->elems[0] < stack->elems[2])
 	{
-		stack_swap(stack);
-		stack_reverse_rotate(stack);
+		stack_swap(ops, stack);
+		stack_reverse_rotate(ops, stack);
 		ft_printf("sa\n");
 		ft_printf("rra\n");
 	}
@@ -78,11 +78,11 @@ void	sort_three(t_stack *stack)
  * way, of course), push the element from B
  * back onto the top of A, and finally ra or
  * rra stack A until it is sorted */
-int	sort_four(t_stack *a, t_stack *b)
+int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
 {
-	int	swap_res;
-	int	r_ops_num;
-	int	rr_ops_num;
+	size_t	rr_ops_num;
+	size_t	r_ops_num;
+	int		swap_res;
 
 	swap_res = check_swap(a);
 	if (swap_res == -1)
@@ -90,7 +90,7 @@ int	sort_four(t_stack *a, t_stack *b)
 	if (swap_res)
 	{
 		ft_printf("sa\n");
-		stack_swap(a);
+		stack_swap(ops, a);
 		return (1);
 	}
 
@@ -105,19 +105,19 @@ int	sort_four(t_stack *a, t_stack *b)
 	{
 		if (r_ops_num <= rr_ops_num)
 		{
-			stack_rotate_n_times(a, r_ops_num);
+			stack_rotate_n_times(ops, a, r_ops_num);
 			print_n_times("ra\n", r_ops_num);
 		}
 		else
 		{
-			stack_reverse_rotate_n_times(a, rr_ops_num);
+			stack_reverse_rotate_n_times(ops, a, rr_ops_num);
 			print_n_times("rra\n", rr_ops_num);
 		}
 	}
 	else if (r_ops_num == 0 && rr_ops_num == 0)
 	{
 		ft_printf("pb\n");
-		stack_push_b(a, b);
+		stack_push_b(ops, a, b);
 
 		if (!stack_sorted(a))
 			sort_three(a);
@@ -197,7 +197,7 @@ int	sort_four(t_stack *a, t_stack *b)
 	return (1);
 }
 
-int	sort_common(t_stack *a, t_stack *b)
+int		sort_common(t_stack *a, t_stack *b)
 {
 	(void)a;
 	(void)b;

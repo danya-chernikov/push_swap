@@ -12,10 +12,11 @@
 
 int	main(int argc, char **argv)
 {
-	int		*arr;
-	size_t	elems_num;
-	t_stack	a;
-	t_stack	b;
+	size_t			elems_num;
+	int				*arr;
+	t_stack			a;
+	t_stack			b;
+	t_operations	ops;
 
 	if (argc == 1)
 		exit(1);
@@ -74,6 +75,10 @@ int	main(int argc, char **argv)
 		exit(7);
 	}
 
+	operations_init(&ops);
+	if (!ops)
+		return (0);
+
 	/* Print unsorted stacks */
 	ft_printf("\nBefore sorting\n\n");
 	ft_printf("a | ");
@@ -118,8 +123,9 @@ int	main(int argc, char **argv)
 	stack_print(&b);
 
 	/* Free all the staff */
-	free(arr);
+	operations_free(&ops);
 	stack_free(&a);
 	stack_free(&b);
+	free(arr);
 	return (0);
 }

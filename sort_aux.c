@@ -35,7 +35,7 @@ int		check_swap(t_stack *stack)
  * error during stack copying occured
  * returns -1. This function does not
  * check if the stack is sorted or not */
-int		r_til_sorted(t_stack *stack)
+size_t	r_til_sorted(t_stack *stack)
 {
 	int		sorted_f;
 	size_t	ops_cnt;
@@ -64,7 +64,7 @@ int		r_til_sorted(t_stack *stack)
 	return (0);
 }
 
-int		rr_til_sorted(t_stack *stack)
+size_t	rr_til_sorted(t_stack *stack)
 {
 	int		sorted_f;
 	size_t	ops_cnt;

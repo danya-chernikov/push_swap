@@ -2,6 +2,44 @@
 #include "stack_ops.h"
 #include "libft.h"
 
+int		operations_init(t_operations *ops)
+{
+	cnt = 0;
+	arr_size = OPS_LIST_INC_CHUNK_SIZE;
+	arr = (ops *)malloc(arr_size);
+	if (!arr)
+		return (0);
+	return (1);
+}
+
+int		operations_free(t_operations *ops)
+{
+	arr_size = 0;
+	cnt = 0;
+	free(arr);
+	arr = NULL;
+}
+
+int		operations_add(t_operations *ops, ops operation)
+{
+	ops->arr[cnt] = operation;
+	++cnt;
+}
+
+int		operations_remove(t_operations *ops, size_t index)
+{
+	int	i;
+
+	// add optimization
+	i = index;
+	while (i < cnt - 1)
+	{
+		
+		++i;
+	}
+	--cnt;
+}
+
 /* If the stack contains N elements,
  * it swaps the elements at indexes
  * [N - 1] and [N - 2] */
@@ -29,10 +67,6 @@ void	stack_rotate(t_stack *stack)
 	}
 	stack->elems[0] = tmp;
 	stack->top = &stack->elems[stack->size - 1];
-#ifdef DEBUG
-	ft_printf("stack_rotate(): | ");
-	stack_print(stack);
-#endif
 }
 
 void	stack_rotate_n_times(t_stack *stack, const size_t n)
@@ -61,10 +95,6 @@ void	stack_reverse_rotate(t_stack *stack)
 	}
 	stack->elems[stack->size - 1] = tmp;
 	stack->top = &stack->elems[stack->size - 1];
-#ifdef DEBUG
-	ft_printf("stack_reverse_rotate(): | ");
-	stack_print(stack);
-#endif
 }
 
 void	stack_reverse_rotate_n_times(t_stack *stack, const size_t n)
