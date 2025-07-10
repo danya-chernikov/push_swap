@@ -112,3 +112,16 @@ void	move_elem_to_top(t_operations *ops, t_stack *stack, stack_type stype, int e
 		}
 	}
 }
+
+/* Removes all chains that do not make sense of the form
+ * `ra`/`rb`/`rr` [1 or more] -> `rra`/`rrb`/`rrr` [1 or more] */
+void	remove_paired_r_rr(t_operations *ops)
+{
+
+}
+
+/* Subsitutes `sa`/`sb` -> `sb`/`sa` by `ss` */
+void	substitute_sa_sb_by_ss(t_operations *pps)
+{
+
+}

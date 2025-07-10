@@ -38,10 +38,10 @@ typedef struct s_operations
 
 int		ops_init(t_operations *ops);
 void	ops_free(t_operations *ops);
-void	ops_add(t_operations *ops, ops_type op);
-void	ops_remove(t_operations *ops, size_t index);
-void	ops_print(t_operations *ops);
-void	print_op_by_type(ops_type op);
+void	ops_add(t_operations *ops, const ops_type op);
+void	ops_remove(t_operations *ops, const size_t index);
+void	ops_print(const t_operations *ops);
+void	print_op_by_type(const ops_type op);
 
 /* Operations from task's announcement */
 void	stack_swap(t_operations *ops, t_stack *stack, const stack_type stype);

@@ -22,13 +22,13 @@ void	ops_free(t_operations *ops)
 	ops->arr = NULL;
 }
 
-void	ops_add(t_operations *ops, ops_type op)
+void	ops_add(t_operations *ops, const ops_type op)
 {
 	ops->arr[ops->size] = op;
 	++(ops->size);
 }
 
-void	ops_remove(t_operations *ops, size_t index)
+void	ops_remove(t_operations *ops, const size_t index)
 {
 	size_t	i;
 
@@ -42,7 +42,7 @@ void	ops_remove(t_operations *ops, size_t index)
 	--(ops->size);
 }
 
-void	print_op_by_type(ops_type op)
+void	print_op_by_type(const ops_type op)
 {
 	if (op == SA)
 		ft_printf("%s\n", SA_OP_STR);
@@ -68,7 +68,7 @@ void	print_op_by_type(ops_type op)
 		ft_printf("%s\n", RRR_OP_STR);
 }
 
-void	ops_print(t_operations *ops)
+void	ops_print(const t_operations *ops)
 {
 	size_t	i;
 
