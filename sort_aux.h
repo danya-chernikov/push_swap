@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:30 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 01:22:01 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 01:27:13 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int				remove_paired_r_rr(t_operations *ops);
 
 /* sort_common() */
 int				move_a_into_b(t_operations *ops, t_stack *a, t_stack *b);
-//int				calc_mov_all_a_elems_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, size_t sai);
-//int				calc_mov_sai_elem_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, int below_a_num, int sai);
+int				calc_mov_all_a_elems_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, size_t sai);
 int				calc_mov_sai_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, int cur_a_num_ind, int below_a_num_ind);
 
 t_operations	**alloc_mov_ops(t_stack *a, t_stack *b);

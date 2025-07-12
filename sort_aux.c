@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 01:23:14 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 01:27:00 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,17 +291,8 @@ int		move_a_into_b(t_operations *ops, t_stack *a, t_stack *b)
 		sai = a->size - 1;
 		while (sai >= 0)
 		{
-			int				cur_a_num;
-			size_t			cur_a_num_ind;
-			int				below_a_num;
-			size_t			below_a_num_ind;
-
-			cur_a_num = a->elems[sai];
-			if (!find_elem_below(&below_a_num, cur_a_num, b))
+			if (!calc_mov_all_a_elems_into_b(mov_ops, mov_ops_cnt, a, b, sai))
 				return (0);
-			cur_a_num_ind = a->size - sai - 1;
-			below_a_num_ind = stack_get_elem_index(b, below_a_num);
-			calc_mov_sai_into_b(mov_ops, mov_ops_cnt, a, b, cur_a_num_ind, below_a_num_ind);
 			++mov_ops_cnt;
 			--sai;
 		}
@@ -309,6 +300,23 @@ int		move_a_into_b(t_operations *ops, t_stack *a, t_stack *b)
 		ops_exec(ops, short_op_seq, a, b);
 		free_mov_ops(mov_ops, a, b);
 	}
+	return (1);
+}
+
+int		calc_mov_all_a_elems_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, size_t sai)
+{
+
+	int				cur_a_num;
+	size_t			cur_a_num_ind;
+	int				below_a_num;
+	size_t			below_a_num_ind;
+
+	cur_a_num = a->elems[sai];
+	if (!find_elem_below(&below_a_num, cur_a_num, b))
+		return (0);
+	cur_a_num_ind = a->size - sai - 1;
+	below_a_num_ind = stack_get_elem_index(b, below_a_num);
+	calc_mov_sai_into_b(mov_ops, mov_ops_cnt, a, b, cur_a_num_ind, below_a_num_ind);
 	return (1);
 }
 
