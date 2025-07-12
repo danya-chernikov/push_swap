@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/12 17:05:32 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 00:27:14 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,215 @@ int	remove_paired_r_rr(t_operations *ops)
 
 /* sort_common() */
 
+int		calc_mov_a_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, int below_a_num, int sai)
+{
+	size_t			below_a_num_ind;
+	size_t			cur_a_num_ind;
+	t_operations	tmp_ops_a;
+	t_operations	tmp_ops_b;
+
+	cur_a_num_ind = a->size - sai - 1;
+	below_a_num_ind = stack_get_elem_index(b, below_a_num);
+	if (!ops_init(&tmp_ops_a) || !ops_init(&tmp_ops_b))
+		return (0);
+	calc_mov_top_cost_stack_a(&tmp_ops_a, a, cur_a_num_ind);
+	calc_mov_top_cost_stack_b(&tmp_ops_b, b, below_a_num_ind);
+	optimize_r_rr(mov_ops, &tmp_ops_a, &tmp_ops_b, mov_ops_cnt);
+	ops_add(mov_ops[mov_ops_cnt], PB);
+	ops_free(&tmp_ops_a);
+	ops_free(&tmp_ops_b);
+	return (1);
+}
+
+t_operations	**alloc_mov_ops(t_stack *a, t_stack *b)
+{
+	t_operations	**mov_ops;
+	size_t			i;
+
+	mov_ops = (t_operations **)malloc((a->size + b->size) * sizeof (t_operations *));
+	if (!mov_ops)
+		return (NULL);
+	i = 0;
+	while (i < a->size + b->size)
+	{
+		mov_ops[i] = (t_operations *)malloc(1 * sizeof (t_operations));
+		if (!mov_ops[i])
+			return (NULL);
+		if (!ops_init(mov_ops[i]))
+			return (NULL);
+		++i;
+	}
+	return (mov_ops);
+}
+
+void	free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < a->size + b->size)
+	{
+		ops_free(mov_ops[i]);
+		free(mov_ops[i]);
+		++i;
+	}
+	free(mov_ops);
+}
+
+/* Finds find the element in stack B on top of which `cur_a_num`
+ * should be placed.
+ *     tmp_num_ind - Index of the number `cur_a_num` in the
+ *					 temporary sorted array formed from the
+ *					 elements of stack B plus `cur_a_num` */
+int		find_elem_below(int *below, int num, t_stack *stack)
+{
+	int		*tmp_arr;
+	size_t	tmp_num_ind;
+	size_t	i;
+
+	tmp_arr = (int *)malloc((stack->size + 1) * sizeof (int));
+	if (!tmp_arr)
+		return (0);
+	i = 0;
+	while(i < stack->size)
+	{
+		tmp_arr[i] = stack->elems[i];
+		++i;
+	}
+	tmp_arr[i] = num;
+	quick_sort(tmp_arr, 0, stack->size);
+	tmp_num_ind = array_get_elem_index(tmp_arr, stack->size + 1, num);
+	if (tmp_num_ind == 0)
+		*below = tmp_arr[stack->size];
+	else if (tmp_num_ind == stack->size)
+		*below = tmp_arr[stack->size - 1];
+	else
+		*below = tmp_arr[tmp_num_ind - 1];
+	free(tmp_arr);
+	return (1);
+}
+
+/* Calculates the minimum moving cost of the element with index `cur_a_num_ind` at the top of
+ * stack `a`, storing the corresponding operations in `tmp_ops_a` */
+void	calc_mov_top_cost_stack_a(t_operations *tmp_ops_a, t_stack *a, size_t cur_a_num_ind)
+{
+	size_t	ri;
+	size_t	rri;
+
+	if (cur_a_num_ind > 0)
+	{
+		if (cur_a_num_ind <= a->size / 2)
+		{
+			ri = 0;
+			while (ri < cur_a_num_ind)
+			{
+				ops_add(tmp_ops_a, RA);
+				++ri;
+			}
+		}
+		else
+		{
+			rri = 0;
+			while (rri < a->size - cur_a_num_ind)
+			{
+				ops_add(tmp_ops_a, RRA);
+				++rri;
+			}
+		}
+	}
+}
+
+/* Calculates the minimum moving cost of the element with index `below_a_num_ind` at the top of
+ * stack `b`, storing the corresponding operations in `tmp_ops_b` */
+void	calc_mov_top_cost_stack_b(t_operations *tmp_ops_b, t_stack *b, size_t below_a_num_ind)
+{
+	size_t	ri;
+	size_t	rri;
+
+	if (below_a_num_ind > 0)
+	{
+		if (below_a_num_ind <= b->size / 2)
+		{
+			ri = 0;
+			while (ri < below_a_num_ind)
+			{
+				ops_add(tmp_ops_b, RB);
+				++ri;
+			}
+		}
+		else
+		{
+			rri = 0;
+			while (rri < b->size - below_a_num_ind)
+			{
+				ops_add(tmp_ops_b, RRB);
+				++rri;
+			}
+		}
+	}
+}
+
+void	optimize_r_rr(t_operations **mov_ops, t_operations *tmp_ops_a,
+			t_operations *tmp_ops_b, size_t mov_ops_cnt)
+{
+	size_t	cont_ind;
+
+	cont_ind = optimize_r_rr_part1(mov_ops, tmp_ops_a, tmp_ops_b, mov_ops_cnt);
+	optimize_r_rr_part2(mov_ops, tmp_ops_a, tmp_ops_b, mov_ops_cnt, cont_ind);
+}
+
+/* Now we need to perform optimizations such as `rra` -> `rrb` => `rrr` and `ra` -> `rb` => `rr` */
+size_t	optimize_r_rr_part1(t_operations **mov_ops, t_operations *tmp_ops_a,
+			t_operations *tmp_ops_b, size_t mov_ops_cnt)
+{
+	size_t	i;
+
+	i = 0;
+	if (tmp_ops_a->size > 0 && tmp_ops_b->size > 0)
+	{
+		while (i < min(tmp_ops_a->size, tmp_ops_b->size))
+		{
+			if ((tmp_ops_a->arr[i] == RRA && tmp_ops_b->arr[i] == RRB) ||
+				(tmp_ops_a->arr[i] == RRB && tmp_ops_b->arr[i] == RRA))
+			{
+				ops_add(mov_ops[mov_ops_cnt], RRR);
+			}
+			else if ((tmp_ops_a->arr[i] == RA && tmp_ops_b->arr[i] == RB) ||
+					(tmp_ops_a->arr[i] == RB && tmp_ops_b->arr[i] == RA))
+			{
+				ops_add(mov_ops[mov_ops_cnt], RR);
+			}
+			else
+			{
+				ops_add(mov_ops[mov_ops_cnt], tmp_ops_a->arr[i]);
+				ops_add(mov_ops[mov_ops_cnt], tmp_ops_b->arr[i]);
+			}
+			++i;
+		}
+	}
+	return (i);
+}
+
+void	optimize_r_rr_part2(t_operations **mov_ops, t_operations *tmp_ops_a,
+			t_operations *tmp_ops_b, size_t mov_ops_cnt, size_t cont_ind)
+{
+	if (tmp_ops_a->size < tmp_ops_b->size)
+	{
+		while (cont_ind < tmp_ops_b->size)
+		{
+			ops_add(mov_ops[mov_ops_cnt], tmp_ops_b->arr[cont_ind]);
+			++cont_ind;
+		}
+	}
+	else if (tmp_ops_a->size > tmp_ops_b->size)
+	{
+		while (cont_ind < tmp_ops_a->size)
+		{
+			ops_add(mov_ops[mov_ops_cnt], tmp_ops_a->arr[cont_ind]);
+			++cont_ind;
+		}
+	}
+}
 
 /* Executes the operation sequence from `ops_to_exec` on stacks `a` and `b`. All executed
  * operations will be automatically added to the final list of operations `full_ops_list` */
