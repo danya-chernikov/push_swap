@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:23 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 00:33:06 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 00:52:53 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,51 +265,11 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
  * */
 int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 {
-	long long		sai;
-	int				cur_a_num;
-	size_t			cur_a_num_ind;
-	int				below_a_num;
-	size_t			below_a_num_ind;
-	size_t			mov_ops_cnt;
-	t_operations	**mov_ops;
-	t_operations	tmp_ops_a;
-	t_operations	tmp_ops_b;
-	t_operations	*short_op_seq;
-
-	size_t			cont_ind;
-
 	stack_push_b(ops, a, b);
 	stack_push_b(ops, a, b);
-	while (a->size > 3)
-	{
-		mov_ops = alloc_mov_ops(a, b);
-		if (!mov_ops)
-			return (0);
-		mov_ops_cnt = 0;
-		sai = a->size - 1;
-		while (sai >= 0)
-		{
-			cur_a_num = a->elems[sai];
-			if (!find_elem_below(&below_a_num, cur_a_num, b))
-				return (0);
-			cur_a_num_ind = a->size - sai - 1;
-			below_a_num_ind = stack_get_elem_index(b, below_a_num);
-			if (!ops_init(&tmp_ops_a) || !ops_init(&tmp_ops_b))
-				return (0);
-			calc_mov_top_cost_stack_a(&tmp_ops_a, a, cur_a_num_ind);
-			calc_mov_top_cost_stack_b(&tmp_ops_b, b, below_a_num_ind);
-			cont_ind = optimize_r_rr_part1(mov_ops, &tmp_ops_a, &tmp_ops_b, mov_ops_cnt);
-			optimize_r_rr_part2(mov_ops, &tmp_ops_a, &tmp_ops_b, mov_ops_cnt, cont_ind);
-			ops_add(mov_ops[mov_ops_cnt], PB);
-			ops_free(&tmp_ops_a);
-			ops_free(&tmp_ops_b);
-			++mov_ops_cnt;
-			--sai;
-		}
-		short_op_seq = find_shortest_op_seq(mov_ops, mov_ops_cnt);
-		ops_exec(ops, short_op_seq, a, b);
-		free_mov_ops(mov_ops, a, b);
-	}
+
+	if (!move_a_into_b(ops, a, b))
+		return (0);
 
 	sort_three(ops, a);
 

@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:30 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 00:28:33 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 01:22:01 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int				ops_reciprocal(ops_type op1, ops_type op2);
 int				remove_paired_r_rr(t_operations *ops);
 
 /* sort_common() */
-int				calc_mov_a_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, int below_a_num, int sai);
+int				move_a_into_b(t_operations *ops, t_stack *a, t_stack *b);
+//int				calc_mov_all_a_elems_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, size_t sai);
+//int				calc_mov_sai_elem_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, int below_a_num, int sai);
+int				calc_mov_sai_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, int cur_a_num_ind, int below_a_num_ind);
+
 t_operations	**alloc_mov_ops(t_stack *a, t_stack *b);
 void			free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b);
 int				find_elem_below(int *below, int num, t_stack *stack);
