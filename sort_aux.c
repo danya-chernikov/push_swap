@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/12 14:51:07 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:05:32 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,10 +328,10 @@ t_operations	*find_shortest_op_seq(t_operations **ops_arr, size_t size)
 	size_t			i;
 
 	i = 1;
-	min_ind = ops_arr[0]->size;
+	min_ind = 0;
 	while (i < size)
 	{
-		if (ops_arr[i]->size < min_ind)
+		if (ops_arr[i]->size < ops_arr[min_ind]->size)
 			min_ind = i;
 		++i;
 	}

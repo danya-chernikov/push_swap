@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:23 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/12 15:00:44 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:55:26 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 	t_operations	tmp_ops_a;
 	t_operations	tmp_ops_b;
 	t_operations	*short_op_seq;
-	int				mov_ops_cnt;
+	size_t			mov_ops_cnt;
 
 	mov_ops = (t_operations **)malloc((a->size + b->size) * sizeof (t_operations *));
 	if (!mov_ops)
@@ -282,9 +282,12 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 		mov_ops[i] = (t_operations *)malloc(1 * sizeof (t_operations));
 		if (!mov_ops[i])
 			return (0);
-		ops_init(mov_ops[i]);
+		if (!ops_init(mov_ops[i]))
+			return (0);
 		++i;
 	}
+
+	mov_ops_cnt = 0;
 
 	sai = a->size - 1; // Top stack index
 	/* Going from top to bottom */
@@ -357,8 +360,10 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 		 * execute the `pb` command, and voilà — `cur_a_num` is in the correct position */
 
 
-		ops_init(&tmp_ops_a);
-		ops_init(&tmp_ops_b);
+		if (!ops_init(&tmp_ops_a))
+			return (0);
+		if (!ops_init(&tmp_ops_b))
+			return (0);
 
 		/* If `cur_a_num` or `big_b_num` are already on top of their stacks do nothing */
 
@@ -397,25 +402,28 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 		ft_printf("\n\n");
 
 		/* Now we need to perform optimizations such as `rra` -> `rrb` => `rrr` and `ra` -> `rb` => `rr` */
-		i = 0;		
-		while (i < min(tmp_ops_a.size, tmp_ops_b.size))
+		i = 0;
+		if (tmp_ops_a.size > 0 && tmp_ops_b.size > 0)
 		{
-			if ((tmp_ops_a.arr[i] == RRA && tmp_ops_b.arr[i] == RRB) ||
-				(tmp_ops_a.arr[i] == RRB && tmp_ops_b.arr[i] == RRA))
+			while (i < min(tmp_ops_a.size, tmp_ops_b.size))
 			{
-				ops_add(mov_ops[mov_ops_cnt], RRR);
+				if ((tmp_ops_a.arr[i] == RRA && tmp_ops_b.arr[i] == RRB) ||
+					(tmp_ops_a.arr[i] == RRB && tmp_ops_b.arr[i] == RRA))
+				{
+					ops_add(mov_ops[mov_ops_cnt], RRR);
+				}
+				else if ((tmp_ops_a.arr[i] == RA && tmp_ops_b.arr[i] == RB) ||
+						(tmp_ops_a.arr[i] == RB && tmp_ops_b.arr[i] == RA))
+				{
+					ops_add(mov_ops[mov_ops_cnt], RR);
+				}
+				else
+				{
+					ops_add(mov_ops[mov_ops_cnt], tmp_ops_a.arr[i]);
+					ops_add(mov_ops[mov_ops_cnt], tmp_ops_b.arr[i]);
+				}
+				++i;
 			}
-			else if ((tmp_ops_a.arr[i] == RA && tmp_ops_b.arr[i] == RB) ||
-					(tmp_ops_a.arr[i] == RB && tmp_ops_b.arr[i] == RA))
-			{
-				ops_add(mov_ops[mov_ops_cnt], RR);
-			}
-			else
-			{
-				ops_add(mov_ops[mov_ops_cnt], tmp_ops_a.arr[i]);
-				ops_add(mov_ops[mov_ops_cnt], tmp_ops_b.arr[i]);
-			}
-			++i;
 		}
 
 		size_t	j;
@@ -455,15 +463,48 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 
 		++mov_ops_cnt;
 
+		ft_printf("\n\n############################################################\n\n");
+
 		--sai;
 	} // while (sai >= 0)
+	
+	/* Let's print our stacks */
+	ft_printf("\n");
+	ft_printf("a | ");
+	stack_print(a);
+	ft_printf("b | ");
+	stack_print(b);
+	ft_printf("\n");
+
+	/* Let's print mov_ops */
+	ft_printf("\nmov_ops:\n");
+	i = 0;
+	while (i < mov_ops_cnt)
+	{
+		ft_printf("%d:\n", a->elems[a->size - i - 1]);
+		ops_print(mov_ops[i]);
+		ft_printf("\n");
+		++i;
+	}
+	ft_printf("\n");
 
 	/* Now we have to choose the shortest sequence of operations from mov_ops[] and execute it */
-	ft_printf("Let's execute the shortest sequence of operations\n");
+	ft_printf("Let's execute the shortest sequence of operations:\n");
 	short_op_seq = find_shortest_op_seq(mov_ops, mov_ops_cnt);
+
+	ft_printf("\n");
+	ops_print(short_op_seq);
+	ft_printf("\n");
+
 	ops_exec(ops, short_op_seq, a, b);
 
 	/* Let's print our stacks */
+	ft_printf("\n");
+	ft_printf("a | ");
+	stack_print(a);
+	ft_printf("b | ");
+	stack_print(b);
+	ft_printf("\n");
 
 	i = 0;
 	while (i < a->size + b->size)
