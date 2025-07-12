@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_ops.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 12:17:20 by dchernik          #+#    #+#             */
+/*   Updated: 2025/07/12 12:17:21 by dchernik         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #if !defined(STACK_OPS_H)
 # define STACK_OPS_H
 
@@ -27,7 +39,7 @@
 typedef enum { SA, SB, SS, PA, PB, RA, RB, RR, RRA, RRB, RRR } ops_type;
 
 /* NOP means "no operation" */
-typedef enum { A, B, NOP } stack_type;
+typedef enum { STACK_A, STACK_B, NOP } stack_type;
 
 typedef struct s_operations
 {

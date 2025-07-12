@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 12:16:50 by dchernik          #+#    #+#             */
+/*   Updated: 2025/07/12 12:16:51 by dchernik         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -155,8 +167,32 @@ int	main(int argc, char **argv)
 	stack_print(&b);
 
 	/* Print the operations performed to sort the stacks */
-	ft_printf("\nOperations:\n");
+	ft_printf("\nFull operations list:\n");
 	ops_print(&ops);
+
+	/* Remove all unnecessary rotate repetitions */
+	int	res;
+	res = remove_paired_r_rr(&ops); // if there is no error occured the `ops` doesn't change
+	if (!res)
+	{
+		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+		ops_free(&ops);
+		stack_free(&a);
+		stack_free(&b);
+		free(arr);
+		exit(11);
+	}
+
+	/* Print the operations performed to sort the stacks */
+	ft_printf("\nReduced operations list:\n");
+	ops_print(&ops);
+
+	/* Let's do some extra checking. We'll determine if it's
+	 * possible to sort the array using the reduced list of
+	 * operations. If it's not, we'll know that an error
+	 * occurred during the optimization process, and we'll
+	 * simply print the original (non-reduced) list */
+	
 
 	/* Free all the staff */
 	ops_free(&ops);

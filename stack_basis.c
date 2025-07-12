@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_basis.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 12:16:59 by dchernik          #+#    #+#             */
+/*   Updated: 2025/07/12 12:17:00 by dchernik         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "stack_basis.h"
 
@@ -117,8 +129,8 @@ int	stack_copy(t_stack *dst, t_stack *src)
 	return (1);
 }
 
-/* If there is no element in the stack returns 0 */
-size_t	stack_get_elem_index(t_stack *stack, int elem)
+/* If there is no element in the stack returns -1 */
+long long	stack_get_elem_index(t_stack *stack, int elem)
 {	
 	size_t	i;
 
@@ -129,5 +141,5 @@ size_t	stack_get_elem_index(t_stack *stack, int elem)
 			return (i);
 		++i;
 	}
-	return (0);
+	return (-1);
 }

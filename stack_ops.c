@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_ops.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 12:17:15 by dchernik          #+#    #+#             */
+/*   Updated: 2025/07/12 12:17:16 by dchernik         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "stack_basis.h"
 #include "stack_ops.h"
 #include "libft.h"
@@ -91,9 +103,9 @@ void	stack_swap(t_operations *ops, t_stack *stack, const stack_type stype)
 	stack->elems[stack->size - 1] = stack->elems[stack->size - 2];
 	stack->elems[stack->size - 2] = tmp;
 	stack->top = &stack->elems[stack->size - 1];
-	if (stype == A)
+	if (stype == STACK_A)
 		ops_add(ops, SA);
-	else if (stype == B)
+	else if (stype == STACK_B)
 		ops_add(ops, SB);
 }
 
@@ -111,9 +123,9 @@ void	stack_rotate(t_operations *ops, t_stack *stack, const stack_type stype)
 	}
 	stack->elems[0] = tmp;
 	stack->top = &stack->elems[stack->size - 1];
-	if (stype == A)
+	if (stype == STACK_A)
 		ops_add(ops, RA);
-	else if (stype == B)
+	else if (stype == STACK_B)
 		ops_add(ops, RB);
 }
 
@@ -131,9 +143,9 @@ void	stack_reverse_rotate(t_operations *ops, t_stack *stack, const stack_type st
 	}
 	stack->elems[stack->size - 1] = tmp;
 	stack->top = &stack->elems[stack->size - 1];
-	if (stype == A)
+	if (stype == STACK_A)
 		ops_add(ops, RRA);
-	else if (stype == B)
+	else if (stype == STACK_B)
 		ops_add(ops, RRB);
 }
 

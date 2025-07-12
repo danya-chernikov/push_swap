@@ -40,7 +40,7 @@ stack_basis.o : stack_basis.c stack_basis.h libft.h
 stack_ops.o : stack_ops.c stack_ops.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c stack_ops.c
 
-sorting.o : sorting.c sorting.h sort_aux.h auxiliary.h libft.h
+sorting.o : sorting.c sorting.h quick_sort.h auxiliary.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c sorting.c
 
 args_parser.o : args_parser.c args_parser.h stack_basis.h auxiliary.h libft.h
