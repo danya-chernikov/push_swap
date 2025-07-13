@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:20 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:44:43 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 21:02:57 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * the amount by which the size of the
  * `ops_list` array will be increased during
  * each subsequent memory reallocation */
-# define OPS_LIST_INC_CHUNK_SIZE	8192
+# define OPS_LIST_INC_CHUNK_SIZE	100000
 # define SA_OP_STR				"sa"
 # define SB_OP_STR				"sb"
 # define SS_OP_STR				"ss"

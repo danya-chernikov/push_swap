@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:32 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 20:04:21 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 22:33:00 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ size_t	get_str_args_size(char **args)
 
 char	**split_string_arg(char **argv)
 {
-	size_t	i;
+	size_t	j;
 	size_t	arg_i;
 	size_t	num_i;
 	size_t	num_cnt;
@@ -112,17 +112,9 @@ char	**split_string_arg(char **argv)
 	char	**nums_to_sort;
 
 	args_arr_capacity = ARGS_INC_CHUNK_SIZE;
-	nums_to_sort = (char **)malloc((args_arr_capacity + 1) * sizeof (char *));
+	nums_to_sort = (char **)malloc(args_arr_capacity * sizeof (char *));
 	if (!nums_to_sort)
 		return (NULL);
-	i = 0;
-	while (i < args_arr_capacity + 1)
-	{
-		nums_to_sort[i] = (char *)malloc(MAX_INT_STR_LEN * sizeof (char));
-		if (!nums_to_sort[i])
-			return (NULL);
-		++i;
-	}
 
 	arg_i = 0;
 	num_cnt = 0;
@@ -130,11 +122,28 @@ char	**split_string_arg(char **argv)
 	{
 		if (argv[1][arg_i] != ' ')
 		{
+			nums_to_sort[num_cnt] = (char *)malloc(MAX_INT_STR_LEN * sizeof (char));
+			if (!nums_to_sort[num_cnt])
+			{
+				j = 0;
+				while (j < num_cnt)
+				{
+					free(nums_to_sort[j]);
+					nums_to_sort[j] = NULL;
+					++j;
+				}
+				free(nums_to_sort);
+				nums_to_sort = NULL;
+				return (NULL);
+			}
 			num_i = 0;
 			while ((arg_i < ft_strlen(argv[1])) && (argv[1][arg_i] != ' '))
 			{
 				if (num_i > MAX_INT_STR_LEN)
+				{
+					string_args_free(nums_to_sort);
 					return (NULL);
+				}
 				nums_to_sort[num_cnt][num_i] = argv[1][arg_i];
 				++arg_i;
 				++num_i;
@@ -164,8 +173,13 @@ void	string_args_free(char **str_args)
 	i = 0;
 	while (str_args[i] != NULL)
 	{
-		free(str_args[i]);
+		if (str_args[i])
+		{
+			free(str_args[i]);
+			str_args[i] = NULL;
+		}
 		++i;
 	}
 	free(str_args);
+	str_args = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:34 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:23:10 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 21:02:35 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
  * the size of the `nums_to_sort` array
  * will be increased during each subsequent
  * memory reallocation */
-#define ARGS_INC_CHUNK_SIZE	8192
+#define ARGS_INC_CHUNK_SIZE	100000
 
 #include "stack_basis.h"
 

@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 20:03:39 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 20:53:05 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,7 +379,10 @@ int		move_a_into_b(t_operations *ops, t_stack *a, t_stack *b)
 		while (sai >= 0)
 		{
 			if (!calc_mov_all_a_elems_into_b(mov_ops, mov_ops_cnt, a, b, sai))
+			{
+				free_mov_ops(mov_ops, a, b);
 				return (0);
+			}
 			++mov_ops_cnt;
 			--sai;
 		}
@@ -427,6 +430,7 @@ t_operations	**alloc_mov_ops(t_stack *a, t_stack *b)
 {
 	t_operations	**mov_ops;
 	size_t			i;
+	size_t			j;
 
 	mov_ops = (t_operations **)malloc((a->size + b->size) * sizeof (t_operations *));
 	if (!mov_ops)
@@ -435,10 +439,19 @@ t_operations	**alloc_mov_ops(t_stack *a, t_stack *b)
 	while (i < a->size + b->size)
 	{
 		mov_ops[i] = (t_operations *)malloc(1 * sizeof (t_operations));
-		if (!mov_ops[i])
+		if (!mov_ops[i] || !ops_init(mov_ops[i]))
+		{
+			j = 0;
+			while (j < i)
+			{
+				free(mov_ops[j]);
+				mov_ops[j] = NULL;
+				++j;
+			}
+			free(mov_ops);
+			mov_ops = NULL;
 			return (NULL);
-		if (!ops_init(mov_ops[i]))
-			return (NULL);
+		}
 		++i;
 	}
 	return (mov_ops);
@@ -451,11 +464,16 @@ void	free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b)
 	i = 0;
 	while (i < a->size + b->size)
 	{
-		ops_free(mov_ops[i]);
-		free(mov_ops[i]);
+		if (mov_ops[i])
+		{
+			ops_free(mov_ops[i]);
+			free(mov_ops[i]);
+			mov_ops[i] = NULL;
+		}
 		++i;
 	}
 	free(mov_ops);
+	mov_ops = NULL;
 }
 
 /* Finds find the element in stack B on top of which `cur_a_num`

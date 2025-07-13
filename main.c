@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:16:50 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:39:05 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 22:16:32 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ int	main(int argc, char **argv)
 			f_string_arg = 1;
 			nums_to_sort = split_string_arg(argv);
 			if (!nums_to_sort)
-				return (0);
+			{
+				write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+				exit(2);
+			}
 		}
 	}
 
@@ -122,9 +125,6 @@ int	main(int argc, char **argv)
 	/* Copy input elements into stack A */
 	args_to_stack(&a, elems_num, args, f_string_arg);
 
-	/* Free string args */
-	if (f_string_arg)
-		string_args_free(nums_to_sort);
 
 	/* Check if the input element sequence was initially sorted */
 	if (stack_sorted(&a))
@@ -132,6 +132,8 @@ int	main(int argc, char **argv)
 		stack_free(&a);
 		stack_free(&b);
 		free(arr);
+		if (f_string_arg)
+			string_args_free(nums_to_sort);
 		exit(7);
 	}
 
@@ -142,6 +144,8 @@ int	main(int argc, char **argv)
 		stack_free(&a);
 		stack_free(&b);
 		free(arr);
+		if (f_string_arg)
+			string_args_free(nums_to_sort);
 		exit(8);
 	}
 
@@ -163,6 +167,8 @@ int	main(int argc, char **argv)
 			stack_free(&a);
 			stack_free(&b);
 			free(arr);
+			if (f_string_arg)
+				string_args_free(nums_to_sort);
 			exit(9);
 		}
 	}
@@ -175,6 +181,8 @@ int	main(int argc, char **argv)
 			stack_free(&a);
 			stack_free(&b);
 			free(arr);
+			if (f_string_arg)
+				string_args_free(nums_to_sort);
 			exit(10);
 		}
 	}
@@ -194,6 +202,8 @@ int	main(int argc, char **argv)
 		stack_free(&a);
 		stack_free(&b);
 		free(arr);
+		if (f_string_arg)
+			string_args_free(nums_to_sort);
 		exit(11);
 	}
 
@@ -215,6 +225,8 @@ int	main(int argc, char **argv)
 	
 
 	/* Free all the staff */
+	if (f_string_arg)
+		string_args_free(nums_to_sort);
 	ops_free(&ops);
 	stack_free(&a);
 	stack_free(&b);
