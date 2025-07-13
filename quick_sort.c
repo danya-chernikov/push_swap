@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:16:56 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/12 12:16:56 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:53:10 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	quick_sort(int *arr, int low, int high)
 
 static void	swap(int *a, int *b)
 {
-    int	tmp;
+	int	tmp;
 
 	tmp = *a;
 	*a = *b;

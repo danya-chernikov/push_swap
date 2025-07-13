@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:20 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/12 12:17:21 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:51:40 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * is not enough memory to accommodate
  * new operations. In other words, it is
  * the amount by which the size of the
- * ops_list array will be increased during
+ * `ops_list` array will be increased during
  * each subsequent memory reallocation */
 #define OPS_LIST_INC_CHUNK_SIZE	8192
 #define SA_OP_STR				"sa"

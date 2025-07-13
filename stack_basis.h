@@ -6,23 +6,21 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:34 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/12 17:55:34 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:54:22 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(STACK_BASIS_H)
 # define STACK_BASIS_H
 
-#include <stddef.h>
-
-#define MAX_STACK_SIZE	1024
+# include <stddef.h>
 
 /*  [0]   [1]   [2]   [3]   [4]   [5]  <-- array indexes
  * [150] [355] [-42] [ 0 ] [124] [813] <-- elements
  *   | 							   |
  *	 v							   v
  * bottom						  top */
-typedef struct	s_stack
+typedef struct s_stack
 {
 	int		*elems;
 	int		*sorted;
