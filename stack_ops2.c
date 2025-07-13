@@ -47,7 +47,7 @@ void	stack_reverse_rotate(t_operations *ops, t_stack *stack,
 
 	i = 0;
 	tmp = stack->elems[0];
-	while (i < stack->size)
+	while (i < stack->size - 1)
 	{
 		stack->elems[i] = stack->elems[i + 1];
 		++i;

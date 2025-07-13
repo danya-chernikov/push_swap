@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:46:12 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 20:03:39 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,11 +145,11 @@ int	remove_paired_r_rr(t_operations *ops)
     size_t      i;          /* Array counter */
 	size_t		di;			/* Index of operations being deleted */
     
-    t_ops_type    fnd_op;     /* The first operation found */
+    t_ops_type	fnd_op;     /* The first operation found */
     size_t      fnd_op_cnt; /* Counts how many operations of this type were found */
     size_t      fnd_op_ind; /* Index of the first found operation */
      
-    t_ops_type    rev_op;     /* The reversed operation of the found operation fnd_op */
+    t_ops_type	rev_op;     /* The reversed operation of the found operation fnd_op */
     size_t      rev_op_cnt; /* Counts how many reversed operations of the fnd_op were found */
     size_t      rev_op_ind; /* Index of the first reversed operation found after the last operation of the fnd_op type */
 
@@ -166,6 +166,8 @@ int	remove_paired_r_rr(t_operations *ops)
 		return (0);
     
     i = 0;
+	fnd_op = 0;
+	rev_op = 0;
     fnd_op_cnt = 0;
 	rev_op_cnt = 0;
 	del_ops_cnt = 0;
@@ -177,7 +179,7 @@ int	remove_paired_r_rr(t_operations *ops)
         {
             fnd_op = arr[i];
             fnd_op_ind = i;
-            while ((arr[i] == fnd_op) && (i < ops->size))
+            while ((i < ops->size) && (arr[i] == fnd_op))
             {
                 ++fnd_op_cnt;
                 ++i;

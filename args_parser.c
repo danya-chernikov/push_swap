@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:32 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:24:33 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 20:04:21 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char	**split_string_arg(char **argv)
 		if (argv[1][arg_i] != ' ')
 		{
 			num_i = 0;
-			while ((argv[1][arg_i] != ' ') && (arg_i < ft_strlen(argv[1])))
+			while ((arg_i < ft_strlen(argv[1])) && (argv[1][arg_i] != ' '))
 			{
 				if (num_i > MAX_INT_STR_LEN)
 					return (NULL);
