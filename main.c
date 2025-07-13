@@ -6,22 +6,18 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:16:50 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 22:16:32 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 00:43:04 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdlib.h>
 #include <stdio.h>
 
+#include "main_aux.h"
 #include "libft.h"
 #include "auxiliary.h"
-#include "args_parser.h"
-#include "stack_basis.h"
 #include "quick_sort.h"
 #include "sorting.h"
-
-#define ERROR_MSG	"Error\n"
 
 int	main(int argc, char **argv)
 {
@@ -35,39 +31,19 @@ int	main(int argc, char **argv)
 	char			**nums_to_sort;
 	char			**args;
 
+	/* PARSING PART */
 	f_string_arg = 0;
 	args = NULL;
 	nums_to_sort = NULL;
 	if (argc == 1)
 		exit(1);
 
-	/* Parse argv[1] if it contains the string with all the arguments to sort */
-	if (argc == 2)
-	{
-		if (!is_number(argv[1]))
-		{
-			f_string_arg = 1;
-			nums_to_sort = split_string_arg(argv);
-			if (!nums_to_sort)
-			{
-				write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-				exit(2);
-			}
-		}
-	}
+	if (!check_string_arg(&nums_to_sort, argv, argc, &f_string_arg))
+		return (0);
+	args = det_args_source(nums_to_sort, &elems_num, argv,
+				pack_args(2, (void *)&argc, (void *)&f_string_arg));
 
 	/* Check input elements for validity */
-	if (f_string_arg)
-	{
-		elems_num = get_str_args_size(nums_to_sort);
-		args = nums_to_sort;
-	}
-	else
-	{
-		elems_num = argc - 1;
-		args = argv;
-	}
-
 	if (!check_ints_validity(argc, args))
 	{
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
@@ -100,40 +76,30 @@ int	main(int argc, char **argv)
 		exit(4);
 	}
 
-	/* Init stack A */
-	if (!stack_init(&a, elems_num))
+	if (!init_stacks(&a, &b, arr, elems_num))
 	{
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-		free(arr);
-		if (f_string_arg)
-			string_args_free(nums_to_sort);
-		exit(5);
-	}
-	/* Copy sorted array of input elements into A */
-	array_copy(a.sorted, arr, elems_num);
-	/* Init stack B */
-	if (!stack_init(&b, elems_num))
-	{
-		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-		stack_free(&a);
 		free(arr);
 		if (f_string_arg)
 			string_args_free(nums_to_sort);
 		exit(6);
 	}
 
+	free(arr);
+
 	/* Copy input elements into stack A */
 	args_to_stack(&a, elems_num, args, f_string_arg);
 
+	if (f_string_arg)
+		string_args_free(nums_to_sort);
+
+	/* SORTING PART */
 
 	/* Check if the input element sequence was initially sorted */
 	if (stack_sorted(&a))
 	{
 		stack_free(&a);
 		stack_free(&b);
-		free(arr);
-		if (f_string_arg)
-			string_args_free(nums_to_sort);
 		exit(7);
 	}
 
@@ -143,56 +109,17 @@ int	main(int argc, char **argv)
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
 		stack_free(&a);
 		stack_free(&b);
-		free(arr);
-		if (f_string_arg)
-			string_args_free(nums_to_sort);
 		exit(8);
 	}
 
-	/* Perform sorting */
-	if (elems_num == 2)
+	if (!launch_sort(&ops, &a, &b, elems_num))
 	{
-		sort_two(&ops, &a);
+		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
+		ops_free(&ops);
+		stack_free(&a);
+		stack_free(&b);
+		exit(9);
 	}
-	else if (elems_num == 3)
-	{
-		sort_three(&ops, &a);
-	}
-	else if (elems_num == 4)
-	{
-		if (!sort_four(&ops, &a, &b))
-		{
-			write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-			ops_free(&ops);
-			stack_free(&a);
-			stack_free(&b);
-			free(arr);
-			if (f_string_arg)
-				string_args_free(nums_to_sort);
-			exit(9);
-		}
-	}
-	else if (elems_num > 4)
-	{
-		if (!sort_common(&ops, &a, &b))
-		{
-			write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-			ops_free(&ops);
-			stack_free(&a);
-			stack_free(&b);
-			free(arr);
-			if (f_string_arg)
-				string_args_free(nums_to_sort);
-			exit(10);
-		}
-	}
-
-	/*
-	ft_printf("\nAfter sorting\n\n");
-	ft_printf("a | ");
-	stack_print(&a);
-	ft_printf("b | ");
-	stack_print(&b);*/
 
 	/* Optimize */
 	if (!remove_paired_r_rr(&ops) || !substitute_r_rr(&ops) || !substitute_s_ss(&ops))
@@ -201,35 +128,14 @@ int	main(int argc, char **argv)
 		ops_free(&ops);
 		stack_free(&a);
 		stack_free(&b);
-		free(arr);
-		if (f_string_arg)
-			string_args_free(nums_to_sort);
 		exit(11);
 	}
 
-	/*ft_printf("\nFINAL:\n");
-	ft_printf("\n");
-	ft_printf("a | ");
-	stack_print(&a);
-	ft_printf("b | ");
-	stack_print(&b);
-	ft_printf("\n");*/
-
 	ops_print(&ops);
 
-	/* Let's do some extra checking. We'll determine if it's
-	 * possible to sort the array using the reduced list of
-	 * operations. If it's not, we'll know that an error
-	 * occurred during the optimization process, and we'll
-	 * simply print the original (non-reduced) list */
-	
-
 	/* Free all the staff */
-	if (f_string_arg)
-		string_args_free(nums_to_sort);
 	ops_free(&ops);
 	stack_free(&a);
 	stack_free(&b);
-	free(arr);
 	return (0);
 }
