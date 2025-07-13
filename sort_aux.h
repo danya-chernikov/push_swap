@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:30 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 01:27:13 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:50:17 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void			move_elem_to_top(t_operations *ops,
 
 int				ops_reciprocal(ops_type op1, ops_type op2);
 int				remove_paired_r_rr(t_operations *ops);
+int				substitute_r_rr(t_operations *ops);
+int				substitute_s_ss(t_operations *ops);
 
 /* sort_common() */
 int				move_a_into_b(t_operations *ops, t_stack *a, t_stack *b);

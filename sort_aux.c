@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 01:27:00 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 05:18:41 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,91 @@ int	remove_paired_r_rr(t_operations *ops)
 
 	free(new_arr);
 	free(ops_inds);
+	return (1);
+}
+
+int		substitute_r_rr(t_operations *ops)
+{
+	ops_type        *arr;
+	ops_type        *new_arr;
+	size_t          new_arr_ind;
+	size_t          i;
+
+	new_arr = (ops_type *)malloc(ops->size * sizeof (ops_type));
+	if (!new_arr)
+			return (0);
+	i = 0;
+	new_arr_ind = 0;
+	arr = ops->arr;
+	while (i < ops->size - 1)
+	{
+		if ((arr[i] == RA && arr[i + 1] == RB) || (arr[i] == RB && arr[i + 1] == RA))
+		{
+			new_arr[new_arr_ind] = RR;
+			++i;
+		}
+		else if ((arr[i] == RRA && arr[i + 1] == RRB) || (arr[i] == RRB && arr[i + 1] == RRA))
+		{
+			new_arr[new_arr_ind] = RRR;
+			++i;
+		}
+		else
+		{
+			new_arr[new_arr_ind] = arr[i];
+		}
+		++new_arr_ind;
+		++i;
+	}
+	new_arr[new_arr_ind] = arr[i];
+	++new_arr_ind;
+	ops->size = new_arr_ind;
+	i = 0;
+	while (i < ops->size)
+	{
+		arr[i] = new_arr[i];
+		++i;
+	}
+	free(new_arr);
+	return (1);
+}
+
+int		substitute_s_ss(t_operations *ops)
+{
+	ops_type        *arr;
+	ops_type        *new_arr;
+	size_t          new_arr_ind;
+	size_t          i;
+
+	new_arr = (ops_type *)malloc(ops->size * sizeof (ops_type));
+	if (!new_arr)
+			return (0);
+	i = 0;
+	new_arr_ind = 0;
+	arr = ops->arr;
+	while (i < ops->size - 1)
+	{
+		if ((arr[i] == SA && arr[i + 1] == SB) || (arr[i] == SB && arr[i + 1] == SA))
+		{
+			new_arr[new_arr_ind] = SS;
+			++i;
+		}
+		else
+		{
+			new_arr[new_arr_ind] = arr[i];
+		}
+		++new_arr_ind;
+		++i;
+	}
+	new_arr[new_arr_ind] = arr[i];
+	++new_arr_ind;
+	ops->size = new_arr_ind;
+	i = 0;
+	while (i < ops->size)
+	{
+		arr[i] = new_arr[i];
+		++i;
+	}
+	free(new_arr);
 	return (1);
 }
 
