@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:16:50 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 16:06:22 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:02:57 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,14 @@ int	main(int argc, char **argv)
 		free(arr);
 		exit(11);
 	}
+
+	ft_printf("\nFINAL:\n");
+	ft_printf("\n");
+	ft_printf("a | ");
+	stack_print(&a);
+	ft_printf("b | ");
+	stack_print(&b);
+	ft_printf("\n");
 
 	ops_print(&ops);
 

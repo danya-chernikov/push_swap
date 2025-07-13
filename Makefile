@@ -5,9 +5,9 @@ NAME=push_swap
 
 CFLAGS=-Wall -Werror -Wextra -pedantic-errors -O0 -g3
 
-SRCS=main.c quick_sort.c auxiliary.c stack_basis.c stack_basis2.c stack_ops.c sorting.c sort_aux.c args_parser.c
+SRCS=main.c quick_sort.c auxiliary.c stack_basis.c stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c sorting.c sort_aux.c args_parser.c
 
-OBJS=main.o quick_sort.o auxiliary.o stack_basis.o stack_basis2.o stack_ops.o sorting.o sort_aux.o args_parser.o
+OBJS=main.o quick_sort.o auxiliary.o stack_basis.o stack_basis2.o stack_ops.o stack_ops2.o stack_ops3.o sorting.o sort_aux.o args_parser.o
 
 all : libft $(NAME)
 
@@ -40,8 +40,14 @@ stack_basis.o : stack_basis.c stack_basis.h libft.h
 stack_basis2.o : stack_basis2.c stack_basis.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c stack_basis2.c
 
-stack_ops.o : stack_ops.c stack_ops.h
+stack_ops.o : stack_ops.c stack_ops.h stack_basis.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c stack_ops.c
+
+stack_ops2.o : stack_ops2.c stack_ops.h stack_basis.h
+	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c stack_ops2.c
+
+stack_ops3.o : stack_ops3.c stack_ops.h stack_basis.h
+	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c stack_ops3.c
 
 sorting.o : sorting.c sorting.h quick_sort.h auxiliary.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c sorting.c

@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:20 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 14:51:40 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:52:36 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,25 @@ typedef struct s_operations
 	ops_type	*arr;
 }	t_operations;
 
+/* stack_ops.c */
 int		ops_init(t_operations *ops);
 void	ops_free(t_operations *ops);
 void	ops_add(t_operations *ops, const ops_type op);
-void	ops_remove(t_operations *ops, const size_t index);
 void	ops_print(const t_operations *ops);
 void	print_op_by_type(const ops_type op);
 
 /* Operations from task's announcement */
+/* stack_ops2.c */
 void	stack_swap(t_operations *ops, t_stack *stack, const stack_type stype);
 void	stack_rotate(t_operations *ops, t_stack *stack, const stack_type stype);
-void	stack_reverse_rotate(t_operations *ops, t_stack *stack, const stack_type stype);
+
+void	stack_reverse_rotate(t_operations *ops, t_stack *stack,
+			const stack_type stype);
+
 void	stack_push_a(t_operations *ops, t_stack *a, t_stack *b);
 void	stack_push_b(t_operations *ops, t_stack *a, t_stack *b);
 
+/* stack_ops3.c */
 void	stack_rotate_n_times(t_operations *ops,
 			t_stack *stack, const stack_type stype,
 			const size_t n);

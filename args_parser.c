@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:32 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 16:11:54 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:24:33 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,25 @@ int		check_duplicates(const int *arr, const size_t size)
 	return (1);
 }
 
-void	args_to_stack(t_stack *stack, size_t elems_num, char **argv, int f_string_arg)
+void	args_to_stack(t_stack *stack, size_t elems_num,
+			char **args, int f_string_arg)
 {
 	long long	i;
 	long long	beg_ind;
 
 	if (f_string_arg)
+	{
 		beg_ind = 0;
+		i = elems_num - 1;
+	}
 	else
+	{
 		beg_ind = 1;
-	i = elems_num - 1;
+		i = elems_num;
+	}
 	while (i >= beg_ind)
 	{
-		stack_push(stack, ft_atoi(argv[i]));
+		stack_push(stack, ft_atoi(args[i]));
 		--i;
 	}
 }

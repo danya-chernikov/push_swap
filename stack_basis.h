@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:34 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 13:54:22 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:50:28 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ typedef struct s_stack
 	size_t	capacity;
 }	t_stack;
 
+/* stack_basis.c */
 int			stack_init(t_stack *stack, const size_t capacity);
 void		stack_free(t_stack *stack);
 void		stack_print(t_stack *stack);
 void		stack_push(t_stack *stack, const int elem);
 int			*stack_pop(t_stack *stack);
+
+/* stack_basis2.c */
 int			stack_empty(t_stack *stack);
 int			stack_sorted(t_stack *stack);
 int			stack_contains(t_stack *stack, int elem);
