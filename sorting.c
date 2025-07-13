@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:23 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 17:11:53 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:27:40 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,15 +223,6 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
  *						  stack B) to the top of their respective stacks. */
 int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 {
-
-	ft_printf("\nBefore sorting:\n");
-	ft_printf("\n");
-	ft_printf("a | ");
-	stack_print(a);
-	ft_printf("b | ");
-	stack_print(b);
-	ft_printf("\n");
-
 	stack_push_b(ops, a, b);
 	stack_push_b(ops, a, b);
 
@@ -239,14 +230,6 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 		return (0);
 
 	sort_three(ops, a);
-
-	ft_printf("\nAfter first part of algo:\n");
-	ft_printf("\n");
-	ft_printf("a | ");
-	stack_print(a);
-	ft_printf("b | ");
-	stack_print(b);
-	ft_printf("\n");
 
 	/* Now let's put all elements back from stack B into stack A in correct positions.
 	 * Going from top to bottom of stack B we take the each element and looking */

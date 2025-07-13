@@ -4,7 +4,7 @@
 /* If the stack contains N elements,
  * it swaps the elements at indexes
  * [N - 1] and [N - 2] */
-void	stack_swap(t_operations *ops, t_stack *stack, const stack_type stype)
+void	stack_swap(t_operations *ops, t_stack *stack, const t_stack_type stype)
 {
 	int	tmp;
 
@@ -18,7 +18,8 @@ void	stack_swap(t_operations *ops, t_stack *stack, const stack_type stype)
 		ops_add(ops, SB);
 }
 
-void	stack_rotate(t_operations *ops, t_stack *stack, const stack_type stype)
+void	stack_rotate(t_operations *ops, t_stack *stack,
+			const t_stack_type stype)
 {
 	int		tmp;
 	size_t	i;
@@ -39,7 +40,7 @@ void	stack_rotate(t_operations *ops, t_stack *stack, const stack_type stype)
 }
 
 void	stack_reverse_rotate(t_operations *ops, t_stack *stack,
-			const stack_type stype)
+			const t_stack_type stype)
 {
 	int		tmp;
 	size_t	i;
@@ -64,7 +65,7 @@ void	stack_reverse_rotate(t_operations *ops, t_stack *stack,
 void	stack_push_a(t_operations *ops, t_stack *a, t_stack *b)
 {
 	int	*top_b;
-	
+
 	top_b = stack_pop(b);
 	stack_push(a, *top_b);
 	ops_add(ops, PA);

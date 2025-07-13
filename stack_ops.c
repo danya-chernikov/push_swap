@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:15 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 16:55:10 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:46:44 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 #include <stdlib.h>
 
-int		ops_init(t_operations *ops)
+int	ops_init(t_operations *ops)
 {
 	ops->size = 0;
 	ops->capacity = OPS_LIST_INC_CHUNK_SIZE;
-	ops->arr = (ops_type *)malloc(ops->capacity * sizeof (ops_type));
+	ops->arr = (t_ops_type *)malloc(ops->capacity * sizeof (t_ops_type));
 	if (!ops->arr)
 		return (0);
 	return (1);
@@ -34,13 +34,13 @@ void	ops_free(t_operations *ops)
 	ops->arr = NULL;
 }
 
-void	ops_add(t_operations *ops, const ops_type op)
+void	ops_add(t_operations *ops, const t_ops_type op)
 {
 	ops->arr[ops->size] = op;
 	++(ops->size);
 }
 
-void	print_op_by_type(const ops_type op)
+void	print_op_by_type(const t_ops_type op)
 {
 	if (op == SA)
 		ft_printf("%s\n", SA_OP_STR);

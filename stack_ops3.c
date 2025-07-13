@@ -2,7 +2,7 @@
 #include "stack_ops.h"
 
 void	stack_rotate_n_times(t_operations *ops, t_stack *stack,
-			const stack_type stype, const size_t n)
+			const t_stack_type stype, const size_t n)
 {
 	size_t	i;
 
@@ -15,7 +15,7 @@ void	stack_rotate_n_times(t_operations *ops, t_stack *stack,
 }
 
 void	stack_reverse_rotate_n_times(t_operations *ops, t_stack *stack,
-			const stack_type stype, const size_t n)
+			const t_stack_type stype, const size_t n)
 {
 	size_t	i;
 

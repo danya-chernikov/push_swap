@@ -5,9 +5,9 @@ NAME=push_swap
 
 CFLAGS=-Wall -Werror -Wextra -pedantic-errors -O0 -g3
 
-SRCS=main.c quick_sort.c auxiliary.c stack_basis.c stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c sorting.c sort_aux.c args_parser.c
+SRCS=main.c quick_sort.c auxiliary.c auxiliary2.c stack_basis.c stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c sorting.c sort_aux.c args_parser.c
 
-OBJS=main.o quick_sort.o auxiliary.o stack_basis.o stack_basis2.o stack_ops.o stack_ops2.o stack_ops3.o sorting.o sort_aux.o args_parser.o
+OBJS=main.o quick_sort.o auxiliary.o auxiliary2.o stack_basis.o stack_basis2.o stack_ops.o stack_ops2.o stack_ops3.o sorting.o sort_aux.o args_parser.o
 
 all : libft $(NAME)
 
@@ -33,6 +33,9 @@ quick_sort.o : quick_sort.c quick_sort.h
 
 auxiliary.o : auxiliary.c auxiliary.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c auxiliary.c
+
+auxiliary2.o : auxiliary2.c auxiliary.h libft.h
+	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c auxiliary2.c
 
 stack_basis.o : stack_basis.c stack_basis.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c stack_basis.c

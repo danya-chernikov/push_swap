@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 13:23:35 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:46:12 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ size_t	rr_til_sorted(t_operations *ops, t_stack *stack)
 /* Moves the element to the top of the stack by executing either `ra` or `rra` consecutively
  * in the most efficient way. This function does change the stack. When elem_ind == 0 means
  * element is already on top */
-void	move_elem_to_top(t_operations *ops, t_stack *stack, stack_type stype, int elem)
+void	move_elem_to_top(t_operations *ops, t_stack *stack, t_stack_type stype, int elem)
 {
 	size_t	elem_ind;
 
@@ -125,7 +125,7 @@ void	move_elem_to_top(t_operations *ops, t_stack *stack, stack_type stype, int e
 }
 
 /* If op2 is reversed operation for op1 returns 1 */
-int		ops_reciprocal(ops_type op1, ops_type op2)
+int		ops_reciprocal(t_ops_type op1, t_ops_type op2)
 {
     if ((op1 == RA && op2 == RRA) || (op1 == RRA && op2 == RA))
         return (1);
@@ -145,11 +145,11 @@ int	remove_paired_r_rr(t_operations *ops)
     size_t      i;          /* Array counter */
 	size_t		di;			/* Index of operations being deleted */
     
-    ops_type    fnd_op;     /* The first operation found */
+    t_ops_type    fnd_op;     /* The first operation found */
     size_t      fnd_op_cnt; /* Counts how many operations of this type were found */
     size_t      fnd_op_ind; /* Index of the first found operation */
      
-    ops_type    rev_op;     /* The reversed operation of the found operation fnd_op */
+    t_ops_type    rev_op;     /* The reversed operation of the found operation fnd_op */
     size_t      rev_op_cnt; /* Counts how many reversed operations of the fnd_op were found */
     size_t      rev_op_ind; /* Index of the first reversed operation found after the last operation of the fnd_op type */
 
@@ -158,8 +158,8 @@ int	remove_paired_r_rr(t_operations *ops)
 
 	size_t		new_arr_size;
 	char		*ops_inds;
-	ops_type	*new_arr;
-	ops_type	*arr;
+	t_ops_type	*new_arr;
+	t_ops_type	*arr;
 
 	ops_inds = (char *)ft_calloc(ops->size, sizeof (char));
 	if (!ops_inds)
@@ -239,7 +239,7 @@ int	remove_paired_r_rr(t_operations *ops)
 
 	/* We just created a temporary array to store all operations except those that were deleted */
 	new_arr_size = ops->size - del_ops_cnt;
-	new_arr = (ops_type *)malloc(new_arr_size * sizeof (ops_type));
+	new_arr = (t_ops_type *)malloc(new_arr_size * sizeof (t_ops_type));
 	if (!new_arr)
 	{
 		free(ops_inds);
@@ -275,12 +275,12 @@ int	remove_paired_r_rr(t_operations *ops)
 
 int		substitute_r_rr(t_operations *ops)
 {
-	ops_type        *arr;
-	ops_type        *new_arr;
+	t_ops_type        *arr;
+	t_ops_type        *new_arr;
 	size_t          new_arr_ind;
 	size_t          i;
 
-	new_arr = (ops_type *)malloc(ops->size * sizeof (ops_type));
+	new_arr = (t_ops_type *)malloc(ops->size * sizeof (t_ops_type));
 	if (!new_arr)
 			return (0);
 	i = 0;
@@ -320,12 +320,12 @@ int		substitute_r_rr(t_operations *ops)
 
 int		substitute_s_ss(t_operations *ops)
 {
-	ops_type        *arr;
-	ops_type        *new_arr;
+	t_ops_type        *arr;
+	t_ops_type        *new_arr;
 	size_t          new_arr_ind;
 	size_t          i;
 
-	new_arr = (ops_type *)malloc(ops->size * sizeof (ops_type));
+	new_arr = (t_ops_type *)malloc(ops->size * sizeof (t_ops_type));
 	if (!new_arr)
 			return (0);
 	i = 0;
