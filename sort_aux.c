@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 05:18:41 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:23:35 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,23 +103,23 @@ size_t	rr_til_sorted(t_operations *ops, t_stack *stack)
 }
 
 /* Moves the element to the top of the stack by executing either `ra` or `rra` consecutively
- * in the most efficient way. This function does change the stack */
+ * in the most efficient way. This function does change the stack. When elem_ind == 0 means
+ * element is already on top */
 void	move_elem_to_top(t_operations *ops, t_stack *stack, stack_type stype, int elem)
 {
 	size_t	elem_ind;
 
 	elem_ind = stack_get_elem_index(stack, elem);
-	if (elem_ind > 0) /* elem_ind == 0 means element is already on top */
+	if (elem_ind > 0) 
 	{
 		if (elem_ind <= stack->size / 2)
 		{
 			stack_rotate_n_times(ops, stack, stype, elem_ind);
-			print_n_times("ra\n", elem_ind);
 		}
 		else
 		{
-			stack_reverse_rotate_n_times(ops, stack, stype, stack->size - elem_ind);
-			print_n_times("rra\n", stack->size - elem_ind);
+			stack_reverse_rotate_n_times(ops, stack, stype,
+				stack->size - elem_ind);
 		}
 	}
 }

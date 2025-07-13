@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:23 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 05:22:39 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:18:57 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,58 +26,30 @@ void	sort_two(t_operations *ops, t_stack *stack)
  * the stack is already sorted does nothing */
 void	sort_three(t_operations *ops, t_stack *stack)
 {
-	// | 2 10 5 <-top
-	if (stack->elems[0] < stack->elems[1] &&
-		stack->elems[1] > stack->elems[2] &&
-		stack->elems[0] < stack->elems[2])
-	{
-		stack_reverse_rotate(ops, stack, STACK_A);
-		ft_printf("rra\n");
-	}
+	int	*a;
 
-	// | 5 2 10
-	if (stack->elems[0] > stack->elems[1] &&
-		stack->elems[1] < stack->elems[2] &&
-		stack->elems[0] < stack->elems[2])
+	a = stack->elems;
+	if ((a[0] < a[1]) && (a[1] > a[2]) && (a[0] < a[2]))
+	{
+			stack_reverse_rotate(ops, stack, STACK_A);
+	}
+	if ((a[0] > a[1]) && (a[1] < a[2]) && (a[0] < a[2]))
 	{
 		stack_rotate(ops, stack, STACK_A);
-		ft_printf("ra\n");
 	}
-
-	// | 5 10 2
-	// also we could just `sa -> ra` here
-	// and in this case when sorting four elements
-	// we can acheive better optimization by
-	// removing rotating operations (see case 14
-	// on the paper)
-	if (stack->elems[0] < stack->elems[1] &&
-		stack->elems[1] > stack->elems[2] &&
-		stack->elems[0] > stack->elems[2])
+	if ((a[0] < a[1]) && (a[1] > a[2]) && (a[0] > a[2]))
 	{
 		stack_reverse_rotate(ops, stack, STACK_A);
 		stack_swap(ops, stack, STACK_A);
-		ft_printf("rra\n");
-		ft_printf("sa\n");
-	}
-	
-	// | 10 2 5
-	if (stack->elems[0] > stack->elems[1] &&
-		stack->elems[1] < stack->elems[2] &&
-		stack->elems[0] > stack->elems[2])
+	}	
+	if ((a[0] > a[1]) && (a[1] < a[2]) && (a[0] > a[2]))
 	{
 		stack_swap(ops, stack, STACK_A);
-		ft_printf("sa\n");
 	}
-
-	// | 2 5 10	worst case
-	if (stack->elems[0] < stack->elems[1] &&
-		stack->elems[1] < stack->elems[2] &&
-		stack->elems[0] < stack->elems[2])
+	if ((a[0] < a[1]) && (a[1] < a[2]) && (a[0] < a[2]))
 	{
 		stack_swap(ops, stack, STACK_A);
 		stack_reverse_rotate(ops, stack, STACK_A);
-		ft_printf("sa\n");
-		ft_printf("rra\n");
 	}
 }
 
@@ -103,7 +75,6 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
 		return (0);
 	if (swap_res)
 	{
-		ft_printf("sa\n");
 		stack_swap(ops, a, STACK_A);
 		return (1);
 	}
@@ -120,17 +91,14 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
 		if (r_ops_num <= rr_ops_num)
 		{
 			stack_rotate_n_times(ops, a, STACK_A, r_ops_num);
-			print_n_times("ra\n", r_ops_num);
 		}
 		else
 		{
 			stack_reverse_rotate_n_times(ops, a, STACK_A, rr_ops_num);
-			print_n_times("rra\n", rr_ops_num);
 		}
 	}
 	else if (r_ops_num == 0 && rr_ops_num == 0)
 	{
-		ft_printf("pb\n");
 		stack_push_b(ops, a, b);
 
 		if (!stack_sorted(a))
@@ -143,10 +111,7 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
 			{
 				if (i == a->capacity - 1)
 				{
-					ft_printf("pa\n");
 					stack_push_a(ops, a, b);
-
-					ft_printf("ra\n");
 					stack_rotate(ops, a, STACK_A);
 				}
 				else
@@ -162,15 +127,11 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
 						bottom_elem = a->sorted[i];
 						move_elem_to_top(ops, a, STACK_A, bottom_elem);
 
-						ft_printf("pa\n");
 						stack_push_a(ops, a, b);
 					}
 					else
 					{
-						ft_printf("pa\n");
 						stack_push_a(ops, a, b);
-
-						ft_printf("ra\n");
 						stack_rotate(ops, a, STACK_A);
 					}
 				}
@@ -188,12 +149,10 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
 						if (r_ops_num <= rr_ops_num)
 						{
 							stack_rotate_n_times(ops, a, STACK_A, r_ops_num);
-							print_n_times("ra\n", r_ops_num);
 						}
 						else
 						{
 							stack_reverse_rotate_n_times(ops, a, STACK_A, rr_ops_num);
-							print_n_times("rra\n", rr_ops_num);
 						}
 					}
 				}

@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:16:50 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 05:24:12 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:07:22 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,13 +166,7 @@ int	main(int argc, char **argv)
 	ft_printf("b | ");
 	stack_print(&b);
 
-	/* Print the operations performed to sort the stacks */
-	ft_printf("\nFull operations list:\n");
-	ops_print(&ops);
-	ft_printf("\nFull operations list size: %u\n", ops.size);
-
-	/* Remove all unnecessary rotate repetitions */
-
+	/* Optimize */
 	if (!remove_paired_r_rr(&ops) || !substitute_r_rr(&ops) || !substitute_s_ss(&ops))
 	{
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
