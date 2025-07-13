@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:34 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 21:02:35 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/13 23:18:57 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * requires 20 characters to represent.
  * Therefore, 21 characters should be
  * sufficient for most non-exotic cases */
-#define MAX_INT_STR_LEN	21
+# define MAX_INT_STR_LEN	21
 
 /* This is the number that will be added
  * to each newly allocated memory size
@@ -31,10 +31,11 @@
  * the size of the `nums_to_sort` array
  * will be increased during each subsequent
  * memory reallocation */
-#define ARGS_INC_CHUNK_SIZE	100000
+# define ARGS_INC_CHUNK_SIZE	100000
 
-#include "stack_basis.h"
+# include "stack_basis.h"
 
+/* args_parser.c */
 int		check_ints_validity(int argc, char **argv);
 int		is_number(const char *num);
 int		check_duplicates(const int *arr, const size_t size);
@@ -43,7 +44,12 @@ void	args_to_stack(t_stack *stack, size_t elems_num,
 			char **args, int f_string_arg);
 
 size_t	get_str_args_size(char **args);
+
+/* args_parser2.c */
 char	**split_string_arg(char **argv);
+char	*alloc_found_num(char **nums_to_sort, size_t num_cnt);
+int		copy_found_num(char **nums_to_sort, char **argv,
+			size_t num_cnt, size_t *arg_i);
 void	string_args_free(char **str_args);
 
 #endif

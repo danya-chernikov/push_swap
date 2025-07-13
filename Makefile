@@ -5,9 +5,13 @@ NAME=push_swap
 
 CFLAGS=-Wall -Werror -Wextra -pedantic-errors -O0 -g3
 
-SRCS=main.c quick_sort.c auxiliary.c auxiliary2.c stack_basis.c stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c sorting.c sort_aux.c args_parser.c
+SRCS=main.c quick_sort.c auxiliary.c packer.c auxiliary2.c stack_basis.c \
+	 stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c sorting.c sort_aux.c \
+	 args_parser.c args_parser2.c
 
-OBJS=main.o quick_sort.o auxiliary.o auxiliary2.o stack_basis.o stack_basis2.o stack_ops.o stack_ops2.o stack_ops3.o sorting.o sort_aux.o args_parser.o
+OBJS=main.o quick_sort.o auxiliary.o packer.o auxiliary2.o stack_basis.o \
+	 stack_basis2.o stack_ops.o stack_ops2.o stack_ops3.o sorting.o sort_aux.o \
+	 args_parser.o args_parser2.o
 
 all : libft $(NAME)
 
@@ -24,7 +28,6 @@ fclean : clean
 	rm -rf $(NAME)
 
 re : fclean all
-
 main.o : main.c args_parser.h stack_basis.h sorting.h quick_sort.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c main.c
 
@@ -58,7 +61,13 @@ sorting.o : sorting.c sorting.h quick_sort.h auxiliary.h libft.h
 args_parser.o : args_parser.c args_parser.h stack_basis.h auxiliary.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c args_parser.c
 
+args_parser2.o : args_parser2.c args_parser.h stack_basis.h auxiliary.h libft.h
+	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c args_parser2.c
+
 sort_aux.o : sort_aux.c sort_aux.h stack_basis.h auxiliary.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c sort_aux.c
+
+packer.o : packer.c packer.h libft.h
+	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c packer.c
 
 .PHONY: all clean fclean re libft
