@@ -3,7 +3,7 @@ LIBFT_NAME=ft
 LIBFT_PATH=Libft/
 NAME=push_swap
 
-CFLAGS=-Wall -Werror -Wextra -pedantic-errors -O0 -g3
+CFLAGS=-Wall -Werror -Wextra -O0 -g3
 
 SRCS=main.c main_aux.c quick_sort.c auxiliary.c packer.c auxiliary2.c stack_basis.c \
 	 stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c sorting.c sort_aux.c \

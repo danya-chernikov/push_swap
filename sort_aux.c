@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 20:53:05 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:18:09 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,36 @@
 #include "libft.h"
 
 #include <stdlib.h>
+
+/* sort_four() */
+
+int	sort_four_alg(t_operations *ops, t_stack *a, t_stack *b)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < a->capacity)
+	{
+		if (a->sorted[i] == *b->top)
+		{
+			if (i == a->capacity - 1)
+			{
+				stack_push_a(ops, a, b);
+				stack_rotate(ops, a, STACK_A);
+			}
+			else
+				bring_back_to_a(ops, a, b, &i);
+			if (!stack_sorted(a))
+			{
+				if (rotate_stack_until_sorted(ops, a, STACK_A) < 0)
+					return (0);
+			}
+			break ;
+		}
+		++i;
+	}
+	return (1);
+}
 
 /* Checks whether applying a swap operation results
  * in the stack being sorted. This function does not
@@ -100,6 +130,47 @@ size_t	rr_til_sorted(t_operations *ops, t_stack *stack)
 	}
 	free(cstack.elems);
 	return (0);
+}
+
+/* Returns -1 in case of an error and 0 if it's impossible sort the stack by rotating it */
+int	rotate_stack_until_sorted(t_operations *ops, t_stack *stack, t_stack_type stype)
+{
+	long long	rr_ops_num;
+	long long	r_ops_num;
+
+	r_ops_num = 0;
+	rr_ops_num = 0;
+	r_ops_num = r_til_sorted(ops, stack);
+	rr_ops_num = rr_til_sorted(ops, stack);
+	if (r_ops_num == -1 || rr_ops_num == -1)
+		return (-1);
+	if (r_ops_num > 0 || rr_ops_num > 0)
+	{
+		if (r_ops_num <= rr_ops_num)
+			stack_rotate_n_times(ops, stack, stype, r_ops_num);
+		else
+			stack_reverse_rotate_n_times(ops, stack, stype, rr_ops_num);
+	}
+	else if (r_ops_num == 0 && rr_ops_num == 0)
+		return (0);
+	return (1);
+}
+
+void	bring_back_to_a(t_operations *ops, t_stack *a, t_stack *b, size_t *i)
+{
+	++(*i);
+	while ((*i < a->capacity) && (!stack_contains(a, a->sorted[*i])))
+		++(*i);
+	if (*i < a->capacity)
+	{
+		move_elem_to_top(ops, a, STACK_A, a->sorted[*i]);
+		stack_push_a(ops, a, b);
+	}
+	else
+	{
+		stack_push_a(ops, a, b);
+		stack_rotate(ops, a, STACK_A);
+	}
 }
 
 /* Moves the element to the top of the stack by executing either `ra` or `rra` consecutively

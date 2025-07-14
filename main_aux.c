@@ -1,7 +1,7 @@
 #include "main_aux.h"
 
 /* We don't have nums_to_sort here */
-int	parsing(char **args, t_stack *a, t_stack *b, void *pack)
+int	parsing(char **args, t_stack *a, t_stack *b, void **pack)
 {
 	int		*arr;
 	size_t	elems_num;
@@ -43,6 +43,7 @@ int	sorting(t_operations *ops, t_stack *a, t_stack *b, size_t elems_num)
 			ops_free(ops);
 			return (0);
 		}
+		ops_print(ops);
 	}
 	return (1);
 }

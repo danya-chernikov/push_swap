@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:23 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:27:40 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:18:09 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,107 +66,27 @@ void	sort_three(t_operations *ops, t_stack *stack)
  * also be capable of holding -1 to signal an error */
 int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
 {
-	long long	rr_ops_num;
-	long long	r_ops_num;
-	int			swap_res;
+	int		res;
 
-	swap_res = check_swap(ops, a);
-	if (swap_res == -1)
+	res = check_swap(ops, a);
+	if (res == -1)
 		return (0);
-	if (swap_res)
+	if (res)
 	{
 		stack_swap(ops, a, STACK_A);
 		return (1);
 	}
-
-	r_ops_num = 0;
-	rr_ops_num = 0;
-	r_ops_num = r_til_sorted(ops, a);
-	rr_ops_num = rr_til_sorted(ops, a);
-	if (r_ops_num == -1 || rr_ops_num == -1)
+	res = rotate_stack_until_sorted(ops, a, STACK_A);
+	if (res < 0)
 		return (0);
-
-	if (r_ops_num > 0 || rr_ops_num > 0)
-	{
-		if (r_ops_num <= rr_ops_num)
-		{
-			stack_rotate_n_times(ops, a, STACK_A, r_ops_num);
-		}
-		else
-		{
-			stack_reverse_rotate_n_times(ops, a, STACK_A, rr_ops_num);
-		}
-	}
-	else if (r_ops_num == 0 && rr_ops_num == 0)
+	else if (!res)
 	{
 		stack_push_b(ops, a, b);
-
 		if (!stack_sorted(a))
-			sort_three(ops, a);
-		
-		size_t i = 0;
-		while (i < a->capacity)
-		{
-			if (a->sorted[i] == *b->top)
-			{
-				if (i == a->capacity - 1)
-				{
-					stack_push_a(ops, a, b);
-					stack_rotate(ops, a, STACK_A);
-				}
-				else
-				{
-					++i;
-					while ((!stack_contains(a, a->sorted[i])) && (i < a->capacity))
-						++i;
-
-					if (i < a->capacity)
-					{
-						int	bottom_elem;
-
-						bottom_elem = a->sorted[i];
-						move_elem_to_top(ops, a, STACK_A, bottom_elem);
-
-						stack_push_a(ops, a, b);
-					}
-					else
-					{
-						stack_push_a(ops, a, b);
-						stack_rotate(ops, a, STACK_A);
-					}
-				}
-
-				if (!stack_sorted(a))
-				{
-					r_ops_num = 0;
-					rr_ops_num = 0;
-					r_ops_num = r_til_sorted(ops, a);
-					rr_ops_num = rr_til_sorted(ops, a);
-					if (r_ops_num == -1 || rr_ops_num == -1)
-						return (0);
-					if (r_ops_num > 0 || rr_ops_num > 0)
-					{
-						if (r_ops_num <= rr_ops_num)
-						{
-							stack_rotate_n_times(ops, a, STACK_A, r_ops_num);
-						}
-						else
-						{
-							stack_reverse_rotate_n_times(ops, a, STACK_A, rr_ops_num);
-						}
-					}
-				}
-
-				break ;
-
-			} // if (a->sorted[i] == *b->top)
-
-			++i;
-
-		} // while (i < a->capacity)
-
-	} // else if (r_ops_num == 0 && rr_ops_num == 0)
-
+			sort_three(ops, a);	
+		if (!sort_four_alg(ops, a, b))
+			return (0);
+	}
 	return (1);
 }
 
@@ -301,27 +221,3 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 
 	return (1);
 }
-
-/*
-		ft_printf("\n");
-		ft_printf("a | ");
-		stack_print(a);
-		ft_printf("b | ");
-		stack_print(b);
-		ft_printf("\n");
-
-		ft_printf("\nmov_ops:\n");
-		i = 0;
-		while (i < mov_ops_cnt)
-		{
-			ft_printf("%d:\n", a->elems[a->size - i - 1]);
-			ops_print(mov_ops[i]);
-			ft_printf("\n");
-			++i;
-		}
-		ft_printf("\n");
-
-		ft_printf("\nWE EXECUTE:\n");
-		ops_print(short_op_seq);
-		ft_printf("\n");
- */

@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:30 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:46:00 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:18:09 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,15 @@
 #include "stack_ops.h"
 #include "quick_sort.h"
 
+/* sort_four() */
+int				sort_four_alg(t_operations *ops, t_stack *a, t_stack *b);
 int				check_swap(t_operations *ops, t_stack *stack);
 size_t			r_til_sorted(t_operations *ops, t_stack *stack);
 size_t			rr_til_sorted(t_operations *ops, t_stack *stack);
-
+int				rotate_stack_until_sorted(t_operations *ops, t_stack *stack,
+					t_stack_type stype);
+void			bring_back_to_a(t_operations *ops, t_stack *a, t_stack *b,
+					size_t *i);
 void			move_elem_to_top(t_operations *ops,
 				t_stack *stack, t_stack_type stype, int elem);
 
