@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:23:11 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 19:38:31 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:52:22 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
  * c[0] = argv
  * c[1] = nums_to_sort
  * */
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_stack			s[2];
 	size_t			v[5];

@@ -5,11 +5,11 @@ NAME=push_swap
 
 CFLAGS=-Wall -Werror -Wextra -O0 -g3
 
-SRCS=main.c main_aux.c quick_sort.c auxiliary.c packer.c auxiliary2.c stack_basis.c \
+SRCS=main.c main_aux.c main_aux2.c quick_sort.c auxiliary.c packer.c auxiliary2.c stack_basis.c \
 	 stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c args_parser.c args_parser2.c \
 	 sorting.c sort_aux.c sort_aux2.c sort_aux3.c sort_aux4.c sort_aux5.c sort_aux6.c
 	 
-OBJS=main.o main_aux.o quick_sort.o auxiliary.o packer.o auxiliary2.o stack_basis.o \
+OBJS=main.o main_aux.o main_aux2.o quick_sort.o auxiliary.o packer.o auxiliary2.o stack_basis.o \
 	 stack_basis2.o stack_ops.o stack_ops2.o stack_ops3.o args_parser.o args_parser2.o \
 	 sorting.o sort_aux.o sort_aux2.o sort_aux3.o sort_aux4.o sort_aux5.o sort_aux6.o
 
@@ -33,6 +33,9 @@ main.o : main.c args_parser.h stack_basis.h sorting.h quick_sort.h libft.h
 
 main_aux.o : main_aux.c main_aux.h stack_basis.h auxiliary.h args_parser.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c main_aux.c
+
+main_aux2.o : main_aux2.c main_aux.h stack_basis.h auxiliary.h args_parser.h
+	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c main_aux2.c
 
 quick_sort.o : quick_sort.c quick_sort.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c quick_sort.c
