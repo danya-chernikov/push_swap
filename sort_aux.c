@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 13:35:26 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:17:11 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 /* sort_four() */
 
+/* +++ */
 int	sort_four_alg(t_operations *ops, t_stack *a, t_stack *b)
 {
 	size_t	i;
@@ -46,6 +47,7 @@ int	sort_four_alg(t_operations *ops, t_stack *a, t_stack *b)
 	return (1);
 }
 
+/* +++ */
 void	sort_four_bring_back_to_a(t_operations *ops, t_stack *a, t_stack *b, size_t *i)
 {
 	++(*i);
@@ -67,6 +69,7 @@ void	sort_four_bring_back_to_a(t_operations *ops, t_stack *a, t_stack *b, size_t
  * in the stack being sorted. This function does not
  * modify the stack, so we pass `NOP` as the operation
  * to perform */
+/* +++ */
 int		check_swap(t_operations *ops, t_stack *stack)
 {
 	t_stack	cstack;
@@ -90,6 +93,7 @@ int		check_swap(t_operations *ops, t_stack *stack)
  * are just performing a kind of test. If an error during
  * stack copying occured returns -1. This function does
  * not check if the stack is sorted or not */
+/* +++ */
 size_t	r_til_sorted(t_operations *ops, t_stack *stack)
 {
 	int		sorted_f;
@@ -120,6 +124,7 @@ size_t	r_til_sorted(t_operations *ops, t_stack *stack)
 }
 
 /* This function does not change the stack */
+/* +++ */
 size_t	rr_til_sorted(t_operations *ops, t_stack *stack)
 {
 	int		sorted_f;
@@ -150,6 +155,7 @@ size_t	rr_til_sorted(t_operations *ops, t_stack *stack)
 }
 
 /* Returns -1 in case of an error and 0 if it's impossible sort the stack by rotating it */
+/* +++ */
 int	rotate_stack_until_sorted(t_operations *ops, t_stack *stack, t_stack_type stype)
 {
 	long long	rr_ops_num;
@@ -176,6 +182,7 @@ int	rotate_stack_until_sorted(t_operations *ops, t_stack *stack, t_stack_type st
 /* Moves the element to the top of the stack by executing either `ra` or `rra` consecutively
  * in the most efficient way. This function does change the stack. When elem_ind == 0 means
  * element is already on top */
+/* +++ */
 void	move_elem_to_top(t_operations *ops, t_stack *stack, t_stack_type stype, int elem)
 {
 	size_t	elem_ind;
@@ -195,41 +202,71 @@ void	move_elem_to_top(t_operations *ops, t_stack *stack, t_stack_type stype, int
 	}
 }
  
-int		substitute_r_rr(t_operations *ops)
+/* +++ */
+int	substitute_r_rr(t_operations *ops)
 {
-	t_ops_type        *arr;
-	t_ops_type        *new_arr;
-	size_t          new_arr_ind;
-	size_t          i;
+	t_ops_type	*new_arr;
+	t_ops_type	*arr;
+	size_t		i;
 
 	new_arr = (t_ops_type *)malloc(ops->size * sizeof (t_ops_type));
 	if (!new_arr)
-			return (0);
+		return (0);
+	arr = ops->arr;
+	substitute_r_rr_alg(ops, arr, new_arr);
+	i = 0;
+	while (i < ops->size)
+	{
+		ops->arr[i] = new_arr[i];
+		++i;
+	}
+	free(new_arr);
+	return (1);
+}
+
+/* +++ */
+void	substitute_r_rr_alg(t_operations *ops, t_ops_type *a, t_ops_type *new_arr)
+{
+	size_t		i;
+	size_t		new_arr_ind;
+
 	i = 0;
 	new_arr_ind = 0;
-	arr = ops->arr;
 	while (i < ops->size - 1)
 	{
-		if ((arr[i] == RA && arr[i + 1] == RB) || (arr[i] == RB && arr[i + 1] == RA))
+		if ((a[i] == RA && a[i + 1] == RB) || (a[i] == RB && a[i + 1] == RA))
 		{
 			new_arr[new_arr_ind] = RR;
 			++i;
 		}
-		else if ((arr[i] == RRA && arr[i + 1] == RRB) || (arr[i] == RRB && arr[i + 1] == RRA))
+		else if ((a[i] == RRA && a[i + 1] == RRB) ||
+				(a[i] == RRB && a[i + 1] == RRA))
 		{
 			new_arr[new_arr_ind] = RRR;
 			++i;
 		}
 		else
-		{
-			new_arr[new_arr_ind] = arr[i];
-		}
+			new_arr[new_arr_ind] = a[i];
 		++new_arr_ind;
 		++i;
 	}
-	new_arr[new_arr_ind] = arr[i];
-	++new_arr_ind;
-	ops->size = new_arr_ind;
+	new_arr[new_arr_ind] = a[i];
+	ops->size = new_arr_ind + 1;
+}
+
+/* +++ */
+int		substitute_s_ss(t_operations *ops)
+{
+	t_ops_type	*arr;
+	t_ops_type	*new_arr;
+	size_t		i;
+
+	new_arr = (t_ops_type *)malloc(ops->size * sizeof (t_ops_type));
+	if (!new_arr)
+			return (0);
+	arr = ops->arr;	
+	substitute_s_ss_alg(ops, arr, new_arr);
+
 	i = 0;
 	while (i < ops->size)
 	{
@@ -240,44 +277,29 @@ int		substitute_r_rr(t_operations *ops)
 	return (1);
 }
 
-int		substitute_s_ss(t_operations *ops)
+/* +++ */
+void	substitute_s_ss_alg(t_operations *ops, t_ops_type *arr, t_ops_type *new_arr)
 {
-	t_ops_type        *arr;
-	t_ops_type        *new_arr;
-	size_t          new_arr_ind;
-	size_t          i;
+	size_t	i;
+	size_t	new_arr_ind;
 
-	new_arr = (t_ops_type *)malloc(ops->size * sizeof (t_ops_type));
-	if (!new_arr)
-			return (0);
 	i = 0;
 	new_arr_ind = 0;
-	arr = ops->arr;
 	while (i < ops->size - 1)
 	{
-		if ((arr[i] == SA && arr[i + 1] == SB) || (arr[i] == SB && arr[i + 1] == SA))
+		if ((arr[i] == SA && arr[i + 1] == SB) ||
+				(arr[i] == SB && arr[i + 1] == SA))
 		{
 			new_arr[new_arr_ind] = SS;
 			++i;
 		}
 		else
-		{
 			new_arr[new_arr_ind] = arr[i];
-		}
 		++new_arr_ind;
 		++i;
 	}
 	new_arr[new_arr_ind] = arr[i];
-	++new_arr_ind;
-	ops->size = new_arr_ind;
-	i = 0;
-	while (i < ops->size)
-	{
-		arr[i] = new_arr[i];
-		++i;
-	}
-	free(new_arr);
-	return (1);
+	ops->size = new_arr_ind + 1;
 }
 
 /* sort_common() */
@@ -314,6 +336,7 @@ int		sort_common_move_a_into_b(t_operations *ops, t_stack *a, t_stack *b)
 	return (1);
 }
 
+/* +++ */
 int	sort_common_move_b_into_a(t_operations *ops, t_stack *a, t_stack *b, long long sbi)
 {
 	int		cur_b_num;
@@ -340,6 +363,7 @@ int	sort_common_move_b_into_a(t_operations *ops, t_stack *a, t_stack *b, long lo
 	return (1);
 }
 
+/* +++ */
 void	sort_common_bring_back_to_a(t_operations *ops, t_stack *a,
 			t_stack *b, void **pack)
 {
@@ -366,6 +390,7 @@ void	sort_common_bring_back_to_a(t_operations *ops, t_stack *a,
 	free(pack);
 }
 
+/* +++ */
 int		calc_mov_all_a_elems_into_b(t_operations **mov_ops, t_stack *a, t_stack *b, void **pack)
 {
 
@@ -385,6 +410,7 @@ int		calc_mov_all_a_elems_into_b(t_operations **mov_ops, t_stack *a, t_stack *b,
 	return (1);
 }
 
+/* +++ */
 int		calc_mov_sai_into_b(void **pack, size_t mov_ops_cnt,
 			int cur_a_num_ind, int below_a_num_ind)
 {
@@ -439,6 +465,7 @@ t_operations	**alloc_mov_ops(t_stack *a, t_stack *b)
 	return (mov_ops);
 }
 
+/* +++ */
 void	free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b)
 {
 	size_t	i;
@@ -463,6 +490,7 @@ void	free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b)
  *     tmp_num_ind - Index of the number `cur_a_num` in the
  *					 temporary sorted array formed from the
  *					 elements of stack B plus `cur_a_num` */
+/* +++ */
 int		find_elem_below(int *below, int num, t_stack *stack)
 {
 	int		*tmp_arr;
@@ -493,6 +521,7 @@ int		find_elem_below(int *below, int num, t_stack *stack)
 
 /* Calculates the minimum moving cost of the element with index `cur_a_num_ind` at the top of
  * stack `a`, storing the corresponding operations in `tmp_ops_a` */
+/* +++ */
 void	calc_mov_top_cost_stack_a(t_operations *tmp_ops_a, t_stack *a, size_t cur_a_num_ind)
 {
 	size_t	ri;
@@ -523,6 +552,7 @@ void	calc_mov_top_cost_stack_a(t_operations *tmp_ops_a, t_stack *a, size_t cur_a
 
 /* Calculates the minimum moving cost of the element with index `below_a_num_ind` at the top of
  * stack `b`, storing the corresponding operations in `tmp_ops_b` */
+/* +++ */
 void	calc_mov_top_cost_stack_b(t_operations *tmp_ops_b, t_stack *b, size_t below_a_num_ind)
 {
 	size_t	ri;
@@ -551,6 +581,7 @@ void	calc_mov_top_cost_stack_b(t_operations *tmp_ops_b, t_stack *b, size_t below
 	}
 }
 
+/* +++ */
 void	optimize_r_rr(t_operations **mov_ops, t_operations *tmp_ops_a,
 			t_operations *tmp_ops_b, size_t mov_ops_cnt)
 {
@@ -561,6 +592,7 @@ void	optimize_r_rr(t_operations **mov_ops, t_operations *tmp_ops_a,
 }
 
 /* Now we need to perform optimizations such as `rra` -> `rrb` => `rrr` and `ra` -> `rb` => `rr` */
+/* +++ */
 size_t	optimize_r_rr_part1(t_operations **mov_ops, t_operations *tmp_ops_a,
 			t_operations *tmp_ops_b, size_t mov_ops_cnt)
 {
@@ -573,14 +605,10 @@ size_t	optimize_r_rr_part1(t_operations **mov_ops, t_operations *tmp_ops_a,
 		{
 			if ((tmp_ops_a->arr[i] == RRA && tmp_ops_b->arr[i] == RRB) ||
 				(tmp_ops_a->arr[i] == RRB && tmp_ops_b->arr[i] == RRA))
-			{
 				ops_add(mov_ops[mov_ops_cnt], RRR);
-			}
 			else if ((tmp_ops_a->arr[i] == RA && tmp_ops_b->arr[i] == RB) ||
 					(tmp_ops_a->arr[i] == RB && tmp_ops_b->arr[i] == RA))
-			{
 				ops_add(mov_ops[mov_ops_cnt], RR);
-			}
 			else
 			{
 				ops_add(mov_ops[mov_ops_cnt], tmp_ops_a->arr[i]);
@@ -592,6 +620,7 @@ size_t	optimize_r_rr_part1(t_operations **mov_ops, t_operations *tmp_ops_a,
 	return (i);
 }
 
+/* +++ */
 void	optimize_r_rr_part2(t_operations **mov_ops, t_operations *tmp_ops_a,
 			t_operations *tmp_ops_b, size_t mov_ops_cnt, size_t cont_ind)
 {
@@ -637,27 +666,42 @@ void	ops_exec(t_operations *full_ops_list, t_operations *ops_to_exec, t_stack *a
 			stack_push_b(full_ops_list, a, b);
 		if (ops_to_exec->arr[i] == RA)
 			stack_rotate(full_ops_list, a, STACK_A);
-		if (ops_to_exec->arr[i] == RB)
-			stack_rotate(full_ops_list, b, STACK_B);
-		if (ops_to_exec->arr[i] == RR)
-		{
-			stack_rotate(full_ops_list, a, STACK_A);
-			stack_rotate(full_ops_list, b, STACK_B);
-		}
-		if (ops_to_exec->arr[i] == RRA)
-			stack_reverse_rotate(full_ops_list, a, STACK_A);
-		if (ops_to_exec->arr[i] == RRB)
-			stack_reverse_rotate(full_ops_list, b, STACK_B);
-		if (ops_to_exec->arr[i] == RRR)
-		{
-			stack_reverse_rotate(full_ops_list, a, STACK_A);
-			stack_reverse_rotate(full_ops_list, b, STACK_B);
-		}
-		++i;
+		ops_exec_rest(full_ops_list, ops_to_exec,
+			pack_args(3, (void *)a, (void *)b, (void *)&i));
+			++i;
 	}
 }
 
+void	ops_exec_rest(t_operations *full_ops_list, t_operations *ops_to_exec, void **pack)
+{
+	t_stack *a;
+	t_stack *b;
+	size_t	i;
+
+	a = (void *)pack[0];
+	b = (void *)pack[1];
+	i = *(size_t *)pack[2];
+	if (ops_to_exec->arr[i] == RB)
+		stack_rotate(full_ops_list, b, STACK_B);
+	if (ops_to_exec->arr[i] == RR)
+	{
+		stack_rotate(full_ops_list, a, STACK_A);
+		stack_rotate(full_ops_list, b, STACK_B);
+	}
+	if (ops_to_exec->arr[i] == RRA)
+		stack_reverse_rotate(full_ops_list, a, STACK_A);
+	if (ops_to_exec->arr[i] == RRB)
+		stack_reverse_rotate(full_ops_list, b, STACK_B);
+	if (ops_to_exec->arr[i] == RRR)
+	{
+		stack_reverse_rotate(full_ops_list, a, STACK_A);
+		stack_reverse_rotate(full_ops_list, b, STACK_B);
+	}
+	free(pack);
+}
+
 /* Finds and returns the shortest sequence from an array of operation sequences */
+/* +++ */
 t_operations	*find_shortest_op_seq(t_operations **ops_arr, size_t size)
 {
 	t_operations	*ptr;

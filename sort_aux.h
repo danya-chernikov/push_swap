@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:30 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 13:35:26 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:16:33 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ void			move_elem_to_top(t_operations *ops,
 				t_stack *stack, t_stack_type stype, int elem);
 
 int				substitute_r_rr(t_operations *ops);
+void			substitute_r_rr_alg(t_operations *ops,t_ops_type *a,
+					t_ops_type *new_arr);
 int				substitute_s_ss(t_operations *ops);
+void			substitute_s_ss_alg(t_operations *ops, t_ops_type *arr,
+					t_ops_type *new_arr);
 
 /* sort_common() */
 int				sort_common_move_a_into_b(t_operations *ops, t_stack *a, t_stack *b);
@@ -51,6 +55,8 @@ void			calc_mov_top_cost_stack_b(t_operations *tmp_ops_b,
 					t_stack *b, size_t below_a_num_ind);
 void			ops_exec(t_operations *full_ops_list,
 					t_operations *ops_to_exec, t_stack *a, t_stack *b);
+void			ops_exec_rest(t_operations *full_ops_list,
+					t_operations *ops_to_exec, void **pack);
 
 void			optimize_r_rr(t_operations **mov_ops, t_operations *tmp_ops_a,
 					t_operations *tmp_ops_b, size_t mov_ops_cnt);
