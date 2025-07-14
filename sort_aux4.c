@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:24:08 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:24:09 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:55:12 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 #include <stdlib.h>
 
 /* +++ */
-int		calc_mov_all_a_elems_into_b(t_operations **mov_ops, t_stack *a, t_stack *b, void **pack)
+int	calc_mov_all_a_elems_into_b(t_operations **mov_ops, t_stack *a,
+		t_stack *b, void **pack)
 {
-
 	int			cur_a_num;
 	int			below_a_num;
 	size_t		mov_ops_cnt;	
@@ -37,7 +37,7 @@ int		calc_mov_all_a_elems_into_b(t_operations **mov_ops, t_stack *a, t_stack *b,
 }
 
 /* +++ */
-int		calc_mov_sai_into_b(void **pack, size_t mov_ops_cnt,
+int	calc_mov_sai_into_b(void **pack, size_t mov_ops_cnt,
 			int cur_a_num_ind, int below_a_num_ind)
 {
 	t_operations	tmp_ops[2];
@@ -67,7 +67,7 @@ t_operations	**alloc_mov_ops(t_stack *a, t_stack *b)
 	size_t			i;
 	size_t			j;
 
-	mov_ops = (t_operations **)malloc((a->size + b->size) * sizeof (t_operations *));
+	mov_ops = malloc((a->size + b->size) * sizeof (t_operations *));
 	if (!mov_ops)
 		return (NULL);
 	i = 0;
@@ -116,7 +116,7 @@ void	free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b)
  *					 temporary sorted array formed from the
  *					 elements of stack B plus `cur_a_num` */
 /* +++ */
-int		find_elem_below(int *below, int num, t_stack *stack)
+int	find_elem_below(int *below, int num, t_stack *stack)
 {
 	int		*tmp_arr;
 	size_t	tmp_num_ind;
@@ -126,7 +126,7 @@ int		find_elem_below(int *below, int num, t_stack *stack)
 	if (!tmp_arr)
 		return (0);
 	i = 0;
-	while(i < stack->size)
+	while (i < stack->size)
 	{
 		tmp_arr[i] = stack->elems[i];
 		++i;

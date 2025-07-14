@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:24:02 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:24:03 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:52:22 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include <stdlib.h>
 
 /* +++ */
-void	substitute_s_ss_alg(t_operations *ops, t_ops_type *arr, t_ops_type *new_arr)
+void	substitute_s_ss_alg(t_operations *ops, t_ops_type *arr,
+			t_ops_type *new_arr)
 {
 	size_t	i;
 	size_t	new_arr_ind;
@@ -26,8 +27,8 @@ void	substitute_s_ss_alg(t_operations *ops, t_ops_type *arr, t_ops_type *new_arr
 	new_arr_ind = 0;
 	while (i < ops->size - 1)
 	{
-		if ((arr[i] == SA && arr[i + 1] == SB) ||
-				(arr[i] == SB && arr[i + 1] == SA))
+		if ((arr[i] == SA && arr[i + 1] == SB)
+			|| (arr[i] == SB && arr[i + 1] == SA))
 		{
 			new_arr[new_arr_ind] = SS;
 			++i;
@@ -44,7 +45,7 @@ void	substitute_s_ss_alg(t_operations *ops, t_ops_type *arr, t_ops_type *new_arr
 /* sort_common() */
 
 /* +++ */
-int		sort_common_move_a_into_b(t_operations *ops, t_stack *a, t_stack *b)
+int	sort_common_move_a_into_b(t_operations *ops, t_stack *a, t_stack *b)
 {
 	t_operations	**mov_ops;
 	size_t			mov_ops_cnt;
@@ -82,7 +83,8 @@ void	sort_common_move_a_into_b_init_vars(size_t *mov_ops_cnt,
 }
 
 /* +++ */
-int	sort_common_move_b_into_a(t_operations *ops, t_stack *a, t_stack *b, long long sbi)
+int	sort_common_move_b_into_a(t_operations *ops, t_stack *a,
+		t_stack *b, long long sbi)
 {
 	int		cur_b_num;
 	int		below_b_num;
@@ -94,7 +96,7 @@ int	sort_common_move_b_into_a(t_operations *ops, t_stack *a, t_stack *b, long lo
 	if (!tmp_arr)
 		return (0);
 	i = 0;
-	while(i < a->size)
+	while (i < a->size)
 	{
 		tmp_arr[i] = a->elems[i];
 		++i;
@@ -103,7 +105,7 @@ int	sort_common_move_b_into_a(t_operations *ops, t_stack *a, t_stack *b, long lo
 	quick_sort(tmp_arr, 0, a->size);
 	sort_common_bring_back_to_a(ops, a, b,
 		pack_args(3, (void *)tmp_arr,
-			(void *)&cur_b_num,  (void *)&below_b_num));
+			(void *)&cur_b_num, (void *)&below_b_num));
 	free(tmp_arr);
 	return (1);
 }

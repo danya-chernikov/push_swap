@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:24:14 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:24:14 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:46:38 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 
 #include <stdlib.h>
 
-/* Calculates the minimum moving cost of the element with index `cur_a_num_ind` at the top of
- * stack `a`, storing the corresponding operations in `tmp_ops_a` */
+/* Calculates the minimum moving cost of the element with index
+ * `cur_a_num_ind` at the top of stack `a`, storing the corresponding
+ * operations in `tmp_ops_a` */
 /* +++ */
-void	calc_mov_top_cost_stack_a(t_operations *tmp_ops_a, t_stack *a, size_t cur_a_num_ind)
+void	calc_mov_top_cost_stack_a(t_operations *tmp_ops_a, t_stack *a,
+			size_t cur_a_num_ind)
 {
 	size_t	ri;
 	size_t	rri;
@@ -47,10 +49,12 @@ void	calc_mov_top_cost_stack_a(t_operations *tmp_ops_a, t_stack *a, size_t cur_a
 	}
 }
 
-/* Calculates the minimum moving cost of the element with index `below_a_num_ind` at the top of
- * stack `b`, storing the corresponding operations in `tmp_ops_b` */
+/* Calculates the minimum moving cost of the element with index
+ * `below_a_num_ind` at the top of stack `b`, storing the
+ * corresponding operations in `tmp_ops_b` */
 /* +++ */
-void	calc_mov_top_cost_stack_b(t_operations *tmp_ops_b, t_stack *b, size_t below_a_num_ind)
+void	calc_mov_top_cost_stack_b(t_operations *tmp_ops_b, t_stack *b,
+			size_t below_a_num_ind)
 {
 	size_t	ri;
 	size_t	rri;
@@ -85,10 +89,12 @@ void	optimize_r_rr(t_operations **mov_ops, t_operations *tmp_ops_a,
 	size_t	cont_ind;
 
 	cont_ind = optimize_r_rr_part1(mov_ops, tmp_ops_a, tmp_ops_b, mov_ops_cnt);
-	optimize_r_rr_part2(mov_ops, tmp_ops_a, tmp_ops_b, mov_ops_cnt, cont_ind);
+	optimize_r_rr_part2(mov_ops, tmp_ops_a, tmp_ops_b,
+		pack_args(2, (void *)&mov_ops_cnt, (void *)&cont_ind));
 }
 
-/* Now we need to perform optimizations such as `rra` -> `rrb` => `rrr` and `ra` -> `rb` => `rr` */
+/* Now we need to perform optimizations such as
+ * `rra` -> `rrb` => `rrr` and `ra` -> `rb` => `rr` */
 /* +++ */
 size_t	optimize_r_rr_part1(t_operations **mov_ops, t_operations *tmp_ops_a,
 			t_operations *tmp_ops_b, size_t mov_ops_cnt)
@@ -100,11 +106,11 @@ size_t	optimize_r_rr_part1(t_operations **mov_ops, t_operations *tmp_ops_a,
 	{
 		while (i < min(tmp_ops_a->size, tmp_ops_b->size))
 		{
-			if ((tmp_ops_a->arr[i] == RRA && tmp_ops_b->arr[i] == RRB) ||
-				(tmp_ops_a->arr[i] == RRB && tmp_ops_b->arr[i] == RRA))
+			if ((tmp_ops_a->arr[i] == RRA && tmp_ops_b->arr[i] == RRB)
+				|| (tmp_ops_a->arr[i] == RRB && tmp_ops_b->arr[i] == RRA))
 				ops_add(mov_ops[mov_ops_cnt], RRR);
-			else if ((tmp_ops_a->arr[i] == RA && tmp_ops_b->arr[i] == RB) ||
-					(tmp_ops_a->arr[i] == RB && tmp_ops_b->arr[i] == RA))
+			else if ((tmp_ops_a->arr[i] == RA && tmp_ops_b->arr[i] == RB)
+				|| (tmp_ops_a->arr[i] == RB && tmp_ops_b->arr[i] == RA))
 				ops_add(mov_ops[mov_ops_cnt], RR);
 			else
 			{
@@ -119,8 +125,13 @@ size_t	optimize_r_rr_part1(t_operations **mov_ops, t_operations *tmp_ops_a,
 
 /* +++ */
 void	optimize_r_rr_part2(t_operations **mov_ops, t_operations *tmp_ops_a,
-			t_operations *tmp_ops_b, size_t mov_ops_cnt, size_t cont_ind)
+			t_operations *tmp_ops_b, void **pack)
 {
+	size_t	mov_ops_cnt;
+	size_t	cont_ind;
+
+	mov_ops_cnt = *(size_t *)pack[0];
+	cont_ind = *(size_t *)pack[1];
 	if (tmp_ops_a->size < tmp_ops_b->size)
 	{
 		while (cont_ind < tmp_ops_b->size)

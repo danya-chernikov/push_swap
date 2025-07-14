@@ -6,12 +6,12 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:22:56 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:22:58 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:31:20 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#if !defined(PACKER_H)
-# define PACKER_H
+#if !defined(MAIN_AUX_H)
+# define MAIN_AUX_H
 
 # include "stack_basis.h"
 # include "auxiliary.h"

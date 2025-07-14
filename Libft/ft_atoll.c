@@ -6,13 +6,13 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 21:12:46 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/07 21:13:21 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:41:21 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long long ft_atoll(const char *s)
+long long	ft_atoll(const char *s)
 {
 	int			neg_flag;
 	long long	res;

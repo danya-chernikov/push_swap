@@ -6,14 +6,14 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:23:36 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:23:39 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:32:43 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(PACKER_H)
 # define PACKER_H
 
-#include <stdarg.h>
+# include <stdarg.h>
 
 /* I have the right to use functions
  * from <stdarg.h> since ft_printf()

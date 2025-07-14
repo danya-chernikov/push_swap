@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:24:31 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:24:32 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:50:08 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 
 #include <stdlib.h>
 
-/* Executes the operation sequence from `ops_to_exec` on stacks `a` and `b`. All executed
- * operations will be automatically added to the final list of operations `full_ops_list` */
+/* Executes the operation sequence from `ops_to_exec` on stacks `a` and `b`.
+ * All executed operations will be automatically added to the final list of
+ * operations `full_ops_list` */
 /* +++ */
-void	ops_exec(t_operations *full_ops_list, t_operations *ops_to_exec, t_stack *a, t_stack *b)
+void	ops_exec(t_operations *full_ops_list, t_operations *ops_to_exec,
+			t_stack *a, t_stack *b)
 {
 	size_t	i;
 
@@ -43,15 +45,16 @@ void	ops_exec(t_operations *full_ops_list, t_operations *ops_to_exec, t_stack *a
 			stack_rotate(full_ops_list, a, STACK_A);
 		ops_exec_rest(full_ops_list, ops_to_exec,
 			pack_args(3, (void *)a, (void *)b, (void *)&i));
-			++i;
+		++i;
 	}
 }
 
 /* +++ */
-void	ops_exec_rest(t_operations *full_ops_list, t_operations *ops_to_exec, void **pack)
+void	ops_exec_rest(t_operations *full_ops_list,
+			t_operations *ops_to_exec, void **pack)
 {
-	t_stack *a;
-	t_stack *b;
+	t_stack	*a;
+	t_stack	*b;
 	size_t	i;
 
 	a = (void *)pack[0];
@@ -76,7 +79,8 @@ void	ops_exec_rest(t_operations *full_ops_list, t_operations *ops_to_exec, void 
 	free(pack);
 }
 
-/* Finds and returns the shortest sequence from an array of operation sequences */
+/* Finds and returns the shortest sequence from an array of
+ * operation sequences */
 /* +++ */
 t_operations	*find_shortest_op_seq(t_operations **ops_arr, size_t size)
 {

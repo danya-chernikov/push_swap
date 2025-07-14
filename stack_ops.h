@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:20 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 02:00:37 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:55:43 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	print_op_by_type(const t_ops_type op);
 /* Operations from task's announcement */
 /* stack_ops2.c */
 void	stack_swap(t_operations *ops, t_stack *stack, const t_stack_type stype);
-void	stack_rotate(t_operations *ops, t_stack *stack, const t_stack_type stype);
+void	stack_rotate(t_operations *ops, t_stack *stack,
+			const t_stack_type stype);
 
 void	stack_reverse_rotate(t_operations *ops, t_stack *stack,
 			const t_stack_type stype);

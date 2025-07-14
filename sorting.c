@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:23 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 13:35:40 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:48:23 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	sort_three(t_operations *ops, t_stack *stack)
 	a = stack->elems;
 	if ((a[0] < a[1]) && (a[1] > a[2]) && (a[0] < a[2]))
 	{
-			stack_reverse_rotate(ops, stack, STACK_A);
+		stack_reverse_rotate(ops, stack, STACK_A);
 	}
 	if ((a[0] > a[1]) && (a[1] < a[2]) && (a[0] < a[2]))
 	{
@@ -41,7 +41,7 @@ void	sort_three(t_operations *ops, t_stack *stack)
 	{
 		stack_reverse_rotate(ops, stack, STACK_A);
 		stack_swap(ops, stack, STACK_A);
-	}	
+	}
 	if ((a[0] > a[1]) && (a[1] < a[2]) && (a[0] > a[2]))
 	{
 		stack_swap(ops, stack, STACK_A);
@@ -64,7 +64,7 @@ void	sort_three(t_operations *ops, t_stack *stack)
  * `r_ops_num` were declared as `long long` because, in addition
  * to being able to hold `size_t` values, these variables must
  * also be capable of holding -1 to signal an error */
-int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
+int	sort_four(t_operations *ops, t_stack *a, t_stack *b)
 {
 	int		res;
 
@@ -83,7 +83,7 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
 	{
 		stack_push_b(ops, a, b);
 		if (!stack_sorted(a))
-			sort_three(ops, a);	
+			sort_three(ops, a);
 		if (!sort_four_alg(ops, a, b))
 			return (0);
 	}
@@ -141,7 +141,7 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
  *						  These arrays store the operations needed to move
  *						  `cur_a_num` (for stack A) and `below_a_num` (for
  *						  stack B) to the top of their respective stacks. */
-int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
+int	sort_common(t_operations *ops, t_stack *a, t_stack *b)
 {
 	long long	sbi;
 

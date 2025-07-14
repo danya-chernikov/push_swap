@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:18:49 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:33:14 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	sort_four_alg(t_operations *ops, t_stack *a, t_stack *b)
 }
 
 /* +++ */
-void	sort_four_bring_back_to_a(t_operations *ops, t_stack *a, t_stack *b, size_t *i)
+void	sort_four_bring_back_to_a(t_operations *ops, t_stack *a,
+			t_stack *b, size_t *i)
 {
 	++(*i);
 	while ((*i < a->capacity) && (!stack_contains(a, a->sorted[*i])))
