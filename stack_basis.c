@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:16:59 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 14:05:51 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 02:52:05 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 int	stack_init(t_stack *stack, const size_t capacity)
 {
+	stack->f_exist = 1;
 	stack->elems = (int *)malloc(capacity * sizeof (int));
 	if (!stack->elems)
 		return (0);
@@ -31,6 +32,7 @@ int	stack_init(t_stack *stack, const size_t capacity)
 
 void	stack_free(t_stack *stack)
 {
+	stack->f_exist = 0;
 	free(stack->elems);
 	free(stack->sorted);
 	stack->elems = NULL;

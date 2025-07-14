@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:34 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 16:50:28 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 02:52:05 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
  * bottom						  top */
 typedef struct s_stack
 {
+	int		f_exist;
 	int		*elems;
 	int		*sorted;
 	int		*top;

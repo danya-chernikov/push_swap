@@ -1,5 +1,34 @@
 #include "main_aux.h"
 
+/* We don't have nums_to_sort here */
+int	parsing(char **args, t_stack *a, t_stack *b, void *pack)
+{
+	int		*arr;
+	size_t	elems_num;
+	int		f_string_arg;
+
+	elems_num = *(size_t *)pack[0];
+	f_string_arg = *(int *)pack[1];
+	if (!check_ints_validity(elems_num, args))
+		return (0);
+	arr = (int *)malloc(elems_num * sizeof (int));
+	if (!arr)
+		return (0);
+	if (f_string_arg)
+		array_copy_atoi(arr, args, 0, elems_num);
+	else
+		array_copy_atoi(arr, args, 1, elems_num);
+	quick_sort(arr, 0, elems_num - 1);
+	if (!check_duplicates(arr, elems_num) || !init_stacks(a, b, arr, elems_num))
+	{
+		free(arr);
+		return (0);
+	}
+	args_to_stack(a, elems_num, args, f_string_arg);
+	free(arr);
+	return (1);
+}
+
 int	sorting(t_operations *ops, t_stack *a, t_stack *b, size_t elems_num)
 {
 	/* Check if the input element sequence was initially sorted */
