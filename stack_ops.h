@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:20 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 21:02:57 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 02:00:37 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef enum stack_type
 
 typedef struct s_operations
 {
+	int			f_exist;
 	size_t		capacity;
 	size_t		size;
 	t_ops_type	*arr;

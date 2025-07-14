@@ -10,6 +10,7 @@
 
 # define ERROR_MSG	"Error\n"
 
+int		sorting(t_operations *ops, t_stack *a, t_stack *b, size_t elems_num);
 int		init_stacks(t_stack *a, t_stack *b, int *arr, size_t elems_num);
 int		check_string_arg(char ***nums_to_sort, char **argv,
 			int argc, int *f_string_arg);

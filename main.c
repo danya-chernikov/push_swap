@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:16:50 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 00:43:04 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 02:32:48 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ int	main(int argc, char **argv)
 	t_stack			b;
 	t_operations	ops;
 
+	int				exit_code;
 	size_t			elems_num;
 	int				f_string_arg;
 	char			**nums_to_sort;
 	char			**args;
 
+	exit_code = 0;
 	/* PARSING PART */
 	f_string_arg = 0;
 	args = NULL;
@@ -94,48 +96,18 @@ int	main(int argc, char **argv)
 		string_args_free(nums_to_sort);
 
 	/* SORTING PART */
-
-	/* Check if the input element sequence was initially sorted */
-	if (stack_sorted(&a))
-	{
-		stack_free(&a);
-		stack_free(&b);
-		exit(7);
-	}
-
-	/* Inititialize the array of operations */
-	if (!ops_init(&ops))
+	if (sorting(&ops, &a, &b, elems_num))
+		ops_print(&ops);
+	else
 	{
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-		stack_free(&a);
-		stack_free(&b);
-		exit(8);
+		exit_code = 1;
 	}
-
-	if (!launch_sort(&ops, &a, &b, elems_num))
-	{
-		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-		ops_free(&ops);
-		stack_free(&a);
-		stack_free(&b);
-		exit(9);
-	}
-
-	/* Optimize */
-	if (!remove_paired_r_rr(&ops) || !substitute_r_rr(&ops) || !substitute_s_ss(&ops))
-	{
-		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-		ops_free(&ops);
-		stack_free(&a);
-		stack_free(&b);
-		exit(11);
-	}
-
-	ops_print(&ops);
 
 	/* Free all the staff */
-	ops_free(&ops);
+	if (ops.f_exist)
+		ops_free(&ops);
 	stack_free(&a);
 	stack_free(&b);
-	return (0);
+	return (exit_code);
 }

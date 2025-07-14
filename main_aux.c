@@ -1,5 +1,23 @@
 #include "main_aux.h"
 
+int	sorting(t_operations *ops, t_stack *a, t_stack *b, size_t elems_num)
+{
+	/* Check if the input element sequence was initially sorted */
+	if (!stack_sorted(a))
+	{
+		/* Inititialize the array of operations */
+		if (!ops_init(ops))
+			return (0);	
+		if (!launch_sort(ops, a, b, elems_num) || !remove_paired_r_rr(ops) ||
+				!substitute_r_rr(ops) || !substitute_s_ss(ops))
+		{
+			ops_free(ops);
+			return (0);
+		}
+	}
+	return (1);
+}
+
 /* Inits both A and B stacks and copies input arguments into A */
 int	init_stacks(t_stack *a, t_stack *b, int *arr, size_t elems_num)
 {

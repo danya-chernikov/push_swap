@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:15 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:46:44 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 02:00:37 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 int	ops_init(t_operations *ops)
 {
+	ops->f_exist = 1;
 	ops->size = 0;
 	ops->capacity = OPS_LIST_INC_CHUNK_SIZE;
 	ops->arr = (t_ops_type *)malloc(ops->capacity * sizeof (t_ops_type));
@@ -28,6 +29,7 @@ int	ops_init(t_operations *ops)
 
 void	ops_free(t_operations *ops)
 {
+	ops->f_exist = 0;
 	ops->capacity = 0;
 	ops->size = 0;
 	free(ops->arr);
