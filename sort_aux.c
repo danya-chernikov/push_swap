@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:28 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 14:17:11 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:05:43 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	sort_four_bring_back_to_a(t_operations *ops, t_stack *a, t_stack *b, size_t
  * modify the stack, so we pass `NOP` as the operation
  * to perform */
 /* +++ */
-int		check_swap(t_operations *ops, t_stack *stack)
+int	check_swap(t_operations *ops, t_stack *stack)
 {
 	t_stack	cstack;
 
@@ -304,20 +304,19 @@ void	substitute_s_ss_alg(t_operations *ops, t_ops_type *arr, t_ops_type *new_arr
 
 /* sort_common() */
 
+/* +++ */
 int		sort_common_move_a_into_b(t_operations *ops, t_stack *a, t_stack *b)
 {
-	long long		sai;
-	size_t			mov_ops_cnt;
 	t_operations	**mov_ops;
-	t_operations	*short_op_seq;
+	size_t			mov_ops_cnt;
+	long long		sai;
 
 	while (a->size > 3)
 	{
 		mov_ops = alloc_mov_ops(a, b);
 		if (!mov_ops)
 			return (0);
-		mov_ops_cnt = 0;
-		sai = a->size - 1;
+		sort_common_move_a_into_b_init_vars(&mov_ops_cnt, &sai, a);
 		while (sai >= 0)
 		{
 			if (!calc_mov_all_a_elems_into_b(mov_ops, a, b,
@@ -329,11 +328,18 @@ int		sort_common_move_a_into_b(t_operations *ops, t_stack *a, t_stack *b)
 			++mov_ops_cnt;
 			--sai;
 		}
-		short_op_seq = find_shortest_op_seq(mov_ops, mov_ops_cnt);
-		ops_exec(ops, short_op_seq, a, b);
+		ops_exec(ops, find_shortest_op_seq(mov_ops, mov_ops_cnt), a, b);
 		free_mov_ops(mov_ops, a, b);
 	}
 	return (1);
+}
+
+/* +++ */
+void	sort_common_move_a_into_b_init_vars(size_t *mov_ops_cnt,
+			long long *sai, t_stack *a)
+{
+	*mov_ops_cnt = 0;
+	*sai = a->size - 1;
 }
 
 /* +++ */
@@ -434,6 +440,7 @@ int		calc_mov_sai_into_b(void **pack, size_t mov_ops_cnt,
 	return (1);
 }
 
+/* +++ */
 t_operations	**alloc_mov_ops(t_stack *a, t_stack *b)
 {
 	t_operations	**mov_ops;
@@ -453,11 +460,9 @@ t_operations	**alloc_mov_ops(t_stack *a, t_stack *b)
 			while (j < i)
 			{
 				free(mov_ops[j]);
-				mov_ops[j] = NULL;
 				++j;
 			}
 			free(mov_ops);
-			mov_ops = NULL;
 			return (NULL);
 		}
 		++i;
@@ -644,6 +649,7 @@ void	optimize_r_rr_part2(t_operations **mov_ops, t_operations *tmp_ops_a,
 
 /* Executes the operation sequence from `ops_to_exec` on stacks `a` and `b`. All executed
  * operations will be automatically added to the final list of operations `full_ops_list` */
+/* +++ */
 void	ops_exec(t_operations *full_ops_list, t_operations *ops_to_exec, t_stack *a, t_stack *b)
 {
 	size_t	i;
@@ -672,6 +678,7 @@ void	ops_exec(t_operations *full_ops_list, t_operations *ops_to_exec, t_stack *a
 	}
 }
 
+/* +++ */
 void	ops_exec_rest(t_operations *full_ops_list, t_operations *ops_to_exec, void **pack)
 {
 	t_stack *a;

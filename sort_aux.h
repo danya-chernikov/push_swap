@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:30 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 14:16:33 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:05:18 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,12 @@ void			substitute_s_ss_alg(t_operations *ops, t_ops_type *arr,
 
 /* sort_common() */
 int				sort_common_move_a_into_b(t_operations *ops, t_stack *a, t_stack *b);
-int				sort_common_move_b_into_a(t_operations *ops, t_stack *a, t_stack *b, long long sbi);
+int				sort_common_move_b_into_a(t_operations *ops,
+					t_stack *a, t_stack *b, long long sbi);
 void			sort_common_bring_back_to_a(t_operations *ops, t_stack *a,
 					t_stack *b, void **pack);
+void			sort_common_move_a_into_b_init_vars(size_t *mov_ops_cnt,
+					long long *sai, t_stack *a);
 int				calc_mov_all_a_elems_into_b(t_operations **mov_ops, 
 					t_stack *a, t_stack *b, void **pack);
 int				calc_mov_sai_into_b(void **pack, size_t mov_ops_cnt,
