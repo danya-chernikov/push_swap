@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:23:11 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 17:44:45 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:38:31 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,52 +19,35 @@
 #include "quick_sort.h"
 #include "sorting.h"
 
+/*
+ * s[0] - stack a
+ * s[1] - stack b
+ *
+ * v[0] - exit_code
+ * v[1] - elems_num
+ * v[2] - f_string_arg
+ * v[3] - i
+ * v[4] - argc
+ * 
+ * c[0] = argv
+ * c[1] = nums_to_sort
+ * */
 int main(int argc, char **argv)
 {
-	t_stack a;
-	t_stack b;
-	t_operations ops;
+	t_stack			s[2];
+	size_t			v[5];
+	char			**c[2];
+	t_operations	ops;
 
-	int exit_code;
-	size_t elems_num;
-	int f_string_arg;
-	char **nums_to_sort;
-	char **args;
-	int	i;
-
-	exit_code = 0;
-	f_string_arg = 0;
-	args = NULL;
-	nums_to_sort = NULL;
+	ft_memset(v, '\0', sizeof (v));
+	s[0].f_exist = 0;
+	s[1].f_exist = 0;
+	v[4] = (size_t)argc;
+	c[0] = argv;
+	c[1] = NULL;
 	if (argc == 1)
 		exit(1);
-	i = 0;
-	while (i < 1)
-	{
-		if (!check_string_arg(&nums_to_sort, argv, argc, &f_string_arg))
-		{
-			exit_code = 1;
-			break ;	
-		}
-		args = det_args_source(nums_to_sort, &elems_num, argv,
-			pack_args(2, (void *)&argc, (void *)&f_string_arg));
-		if (!parsing(args, &a, &b,
-			pack_args(2, (void *)&elems_num, (void *)&f_string_arg)))
-		{
-			exit_code = 1;
-			break ;
-		}
-		if (!sorting(&ops, &a, &b, elems_num))
-			exit_code = 1;
-		++i;
-	}
-	if (exit_code)
-		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
-	if (f_string_arg)
-			string_args_free(nums_to_sort);
-	if (ops.f_exist)
-		ops_free(&ops);
-	stack_free(&a);
-	stack_free(&b);
-	return (exit_code);
+	main_loop(&ops, s, v, c);
+	free_all(c[1], &ops, s, v);
+	return (v[0]);
 }

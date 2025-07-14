@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:22:56 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 16:54:10 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:38:57 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include <stdlib.h>
 
 # define ERROR_MSG	"Error\n"
+
+void	main_loop(t_operations *ops, t_stack *s, size_t *v, char ***c);
+
+void	free_all(char **nums_to_sort, t_operations *ops, t_stack *s, size_t *v);
 
 int		parsing(char **args, t_stack *a, t_stack *b, void **pack);
 
