@@ -37,7 +37,7 @@ int	sorting(t_operations *ops, t_stack *a, t_stack *b, size_t elems_num)
 		/* Inititialize the array of operations */
 		if (!ops_init(ops))
 			return (0);	
-		if (!launch_sort(ops, a, b, elems_num) || !remove_paired_r_rr(ops) ||
+		if (!launch_sort(ops, a, b, elems_num) ||
 				!substitute_r_rr(ops) || !substitute_s_ss(ops))
 		{
 			ops_free(ops);
