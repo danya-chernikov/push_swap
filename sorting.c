@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:23 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 12:47:58 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:35:40 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,33 +147,14 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 
 	stack_push_b(ops, a, b);
 	stack_push_b(ops, a, b);
-	if (!move_a_into_b(ops, a, b))
+	if (!sort_common_move_a_into_b(ops, a, b))
 		return (0);
 	sort_three(ops, a);
 	sbi = b->size - 1;
 	while (sbi >= 0)
 	{
-		int		cur_b_num;
-		int		below_b_num;
-		int		*tmp_arr;
-		size_t	i;
-
-		cur_b_num = b->elems[sbi];
-		tmp_arr = (int *)malloc((a->size + 1) * sizeof (int));
-		if (!tmp_arr)
+		if (!sort_common_move_b_into_a(ops, a, b, sbi))
 			return (0);
-		i = 0;
-		while(i < a->size)
-		{
-			tmp_arr[i] = a->elems[i];
-			++i;
-		}
-		tmp_arr[i] = cur_b_num;
-		quick_sort(tmp_arr, 0, a->size);
-		sort_common_bring_back_to_a(ops, a, b,
-			pack_args(3, (void *)tmp_arr,
-				(void *)&cur_b_num,  (void *)&below_b_num));
-		free(tmp_arr);
 		--sbi;
 	}
 	if (!stack_sorted(a))

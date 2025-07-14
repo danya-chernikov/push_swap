@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:30 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 13:08:05 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:35:26 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ int				substitute_r_rr(t_operations *ops);
 int				substitute_s_ss(t_operations *ops);
 
 /* sort_common() */
+int				sort_common_move_a_into_b(t_operations *ops, t_stack *a, t_stack *b);
+int				sort_common_move_b_into_a(t_operations *ops, t_stack *a, t_stack *b, long long sbi);
 void			sort_common_bring_back_to_a(t_operations *ops, t_stack *a,
 					t_stack *b, void **pack);
-int				move_a_into_b(t_operations *ops, t_stack *a, t_stack *b);
 int				calc_mov_all_a_elems_into_b(t_operations **mov_ops, 
 					t_stack *a, t_stack *b, void **pack);
 int				calc_mov_sai_into_b(void **pack, size_t mov_ops_cnt,
@@ -44,9 +45,12 @@ int				calc_mov_sai_into_b(void **pack, size_t mov_ops_cnt,
 t_operations	**alloc_mov_ops(t_stack *a, t_stack *b);
 void			free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b);
 int				find_elem_below(int *below, int num, t_stack *stack);
-void			calc_mov_top_cost_stack_a(t_operations *tmp_ops_a, t_stack *a, size_t cur_a_num_ind);
-void			calc_mov_top_cost_stack_b(t_operations *tmp_ops_b, t_stack *b, size_t below_a_num_ind);
-void			ops_exec(t_operations *full_ops_list, t_operations *ops_to_exec, t_stack *a, t_stack *b);
+void			calc_mov_top_cost_stack_a(t_operations *tmp_ops_a,
+					t_stack *a, size_t cur_a_num_ind);
+void			calc_mov_top_cost_stack_b(t_operations *tmp_ops_b,
+					t_stack *b, size_t below_a_num_ind);
+void			ops_exec(t_operations *full_ops_list,
+					t_operations *ops_to_exec, t_stack *a, t_stack *b);
 
 void			optimize_r_rr(t_operations **mov_ops, t_operations *tmp_ops_a,
 					t_operations *tmp_ops_b, size_t mov_ops_cnt);
