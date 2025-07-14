@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:23 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 11:18:09 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:47:58 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,30 +143,22 @@ int		sort_four(t_operations *ops, t_stack *a, t_stack *b)
  *						  stack B) to the top of their respective stacks. */
 int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 {
-	stack_push_b(ops, a, b);
-	stack_push_b(ops, a, b);
-
-	if (!move_a_into_b(ops, a, b))
-		return (0);
-
-	sort_three(ops, a);
-
-	/* Now let's put all elements back from stack B into stack A in correct positions.
-	 * Going from top to bottom of stack B we take the each element and looking */
 	long long	sbi;
 
+	stack_push_b(ops, a, b);
+	stack_push_b(ops, a, b);
+	if (!move_a_into_b(ops, a, b))
+		return (0);
+	sort_three(ops, a);
 	sbi = b->size - 1;
 	while (sbi >= 0)
 	{
-		int	cur_b_num;
-		int	below_b_num;
-
-		cur_b_num = b->elems[sbi];
-
+		int		cur_b_num;
+		int		below_b_num;
 		int		*tmp_arr;
-		size_t	tmp_num_ind;
 		size_t	i;
 
+		cur_b_num = b->elems[sbi];
 		tmp_arr = (int *)malloc((a->size + 1) * sizeof (int));
 		if (!tmp_arr)
 			return (0);
@@ -178,46 +170,14 @@ int		sort_common(t_operations *ops, t_stack *a, t_stack *b)
 		}
 		tmp_arr[i] = cur_b_num;
 		quick_sort(tmp_arr, 0, a->size);
-		tmp_num_ind = array_get_elem_index(tmp_arr, a->size + 1, cur_b_num);
-		if (tmp_num_ind == a->size) // The `cur_b_num` is the biggest number in stack A
-		{
-			// We should place `cur_b_num` on the bottom of stack A
-			stack_push_a(ops, a, b);
-			stack_rotate(ops, a, STACK_A);
-		}
-		else
-		{
-			below_b_num = tmp_arr[tmp_num_ind + 1];
-			/* We should place cur_b_num above below_b_num in stack A.
-			 * To achieve this, we first need to bring `below_b_num`
-			 * to the top of stack A, and then simply execute `pa` */		
-			move_elem_to_top(ops, a, STACK_A, below_b_num);
-			stack_push_a(ops, a, b);
-		}
+		sort_common_bring_back_to_a(ops, a, b,
+			pack_args(3, (void *)tmp_arr,
+				(void *)&cur_b_num,  (void *)&below_b_num));
 		free(tmp_arr);
-
 		--sbi;
 	}
-
-	long long	r_ops_num;
-	long long	rr_ops_num;
-	/* Now we just execute `ra` or `rra` until stack A will be sorted */
 	if (!stack_sorted(a))
-	{
-		r_ops_num = 0;
-		rr_ops_num = 0;
-		r_ops_num = r_til_sorted(ops, a);
-		rr_ops_num = rr_til_sorted(ops, a);
-		if (r_ops_num == -1 || rr_ops_num == -1)
+		if (rotate_stack_until_sorted(ops, a, STACK_A) < 0)
 			return (0);
-		if (r_ops_num > 0 || rr_ops_num > 0)
-		{
-			if (r_ops_num <= rr_ops_num)
-				stack_rotate_n_times(ops, a, STACK_A, r_ops_num);
-			else
-				stack_reverse_rotate_n_times(ops, a, STACK_A, rr_ops_num);
-		}
-	}
-
 	return (1);
 }

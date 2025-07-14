@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:30 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 11:36:01 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:08:05 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 
 /* sort_four() */
 int				sort_four_alg(t_operations *ops, t_stack *a, t_stack *b);
+void			sort_four_bring_back_to_a(t_operations *ops, t_stack *a,
+					t_stack *b, size_t *i);
 int				check_swap(t_operations *ops, t_stack *stack);
 size_t			r_til_sorted(t_operations *ops, t_stack *stack);
 size_t			rr_til_sorted(t_operations *ops, t_stack *stack);
 int				rotate_stack_until_sorted(t_operations *ops, t_stack *stack,
 					t_stack_type stype);
-void			bring_back_to_a(t_operations *ops, t_stack *a, t_stack *b,
-					size_t *i);
 void			move_elem_to_top(t_operations *ops,
 				t_stack *stack, t_stack_type stype, int elem);
 
@@ -33,9 +33,13 @@ int				substitute_r_rr(t_operations *ops);
 int				substitute_s_ss(t_operations *ops);
 
 /* sort_common() */
+void			sort_common_bring_back_to_a(t_operations *ops, t_stack *a,
+					t_stack *b, void **pack);
 int				move_a_into_b(t_operations *ops, t_stack *a, t_stack *b);
-int				calc_mov_all_a_elems_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, size_t sai);
-int				calc_mov_sai_into_b(t_operations **mov_ops, size_t mov_ops_cnt, t_stack *a, t_stack *b, int cur_a_num_ind, int below_a_num_ind);
+int				calc_mov_all_a_elems_into_b(t_operations **mov_ops, 
+					t_stack *a, t_stack *b, void **pack);
+int				calc_mov_sai_into_b(void **pack, size_t mov_ops_cnt,
+					int cur_a_num_ind, int below_a_num_ind);
 
 t_operations	**alloc_mov_ops(t_stack *a, t_stack *b);
 void			free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b);
