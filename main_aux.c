@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:22:52 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:22:52 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:43:20 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	parsing(char **args, t_stack *a, t_stack *b, void **pack)
 	}
 	args_to_stack(a, elems_num, args, f_string_arg);
 	free(arr);
+	free(pack);
 	return (1);
 }
 

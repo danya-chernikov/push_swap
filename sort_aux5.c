@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:24:14 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:46:38 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:45:18 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,4 +148,5 @@ void	optimize_r_rr_part2(t_operations **mov_ops, t_operations *tmp_ops_a,
 			++cont_ind;
 		}
 	}
+	free(pack);
 }
