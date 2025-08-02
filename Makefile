@@ -1,6 +1,6 @@
 CC=cc
 LIBFT_NAME=ft
-LIBFT_PATH=Libft/
+LIBFT_PATH=libft/
 NAME=push_swap
 
 CFLAGS=-Wall -Werror -Wextra -O0 -g3
