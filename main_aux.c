@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:22:52 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 19:51:53 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/21 12:25:05 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,44 +28,54 @@
  * c[0] = argv
  * c[1] = nums_to_sort
  * */
+# define STACK_A		0
+# define STACK_B		1
+# define EXIT_CODE		0
+# define ELEMS_NUM		1
+# define F_STRING_ARG	2
+# define J				3
+# define ARGC			4
+# define ARGV			0
+# define NUMS_TO_SORT	1
 void	main_loop(t_operations *ops, t_stack *s, size_t *v, char ***c)
 {
 	char	**args;
 
 	args = NULL;
-	while (v[3] < 1)
+	while (v[J] < 1)
 	{
-		if (!check_string_arg(&c[1], c[0], v[4], (int *)&v[2]))
+		if (!check_string_arg(&c[NUMS_TO_SORT], c[ARGV],
+			v[ARGC], (int *)&v[F_STRING_ARG]))
 		{
-			v[0] = 1;
+			v[EXIT_CODE] = 1;
 			break ;
 		}
-		args = det_args_source(c[1], &v[1], c[0],
-				pack_args(2, (void *)&v[4], (void *)&v[2]));
-		if (!parsing(args, &s[0], &s[1],
-				pack_args(2, (void *)&v[1], (void *)&v[2])))
+		args = det_args_source(c[NUMS_TO_SORT], &v[ELEMS_NUM], c[ARGV],
+				pack_args(2, (void *)&v[ARGC], (void *)&v[F_STRING_ARG]));
+		if (!parsing(args, &s[STACK_A], &s[STACK_B],
+				pack_args(2, (void *)&v[ELEMS_NUM], (void *)&v[F_STRING_ARG])))
 		{
-			v[0] = 1;
+			v[EXIT_CODE] = 1;
 			break ;
 		}
-		if (!sorting(ops, &s[0], &s[1], v[1]))
-			v[0] = 1;
-		++v[3];
+		if (!sorting(ops, &s[STACK_A], &s[STACK_B], v[ELEMS_NUM]))
+			v[EXIT_CODE] = 1;
+		++v[J];
 	}
-	if (v[0])
+	if (v[EXIT_CODE])
 		write(STDERR_FILENO, ERROR_MSG, ft_strlen(ERROR_MSG));
 }
 
 void	free_all(char **nums_to_sort, t_operations *ops, t_stack *s, size_t *v)
 {
-	if (v[2])
+	if (v[F_STRING_ARG])
 		string_args_free(nums_to_sort);
 	if (ops->f_exist)
 		ops_free(ops);
-	if (s[0].f_exist)
-		stack_free(&s[0]);
-	if (s[1].f_exist)
-		stack_free(&s[1]);
+	if (s[STACK_A].f_exist)
+		stack_free(&s[STACK_A]);
+	if (s[STACK_B].f_exist)
+		stack_free(&s[STACK_B]);
 }
 
 /* We don't have nums_to_sort here */

@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:23:11 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 19:52:22 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/21 12:24:28 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ int	main(int argc, char **argv)
 	t_operations	ops;
 
 	ft_memset(v, '\0', sizeof (v));
-	s[0].f_exist = 0;
-	s[1].f_exist = 0;
-	v[4] = (size_t)argc;
-	c[0] = argv;
-	c[1] = NULL;
+	s[STACK_A].f_exist = 0;
+	s[STACK_B].f_exist = 0;
+	v[ARGC] = (size_t)argc;
+	c[ARGV] = argv;
+	c[NUMS_TO_SORT] = NULL;
 	if (argc == 1)
 		exit(1);
 	main_loop(&ops, s, v, c);
-	free_all(c[1], &ops, s, v);
-	return (v[0]);
+	free_all(c[NUMS_TO_SORT], &ops, s, v);
+	return (v[EXIT_CODE]);
 }
