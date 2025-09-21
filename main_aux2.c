@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 19:55:44 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 19:55:45 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:19:08 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,20 @@
 #include "main_aux.h"
 #include "libft.h"
 #include <unistd.h>
+
+/* Inits both A and B stacks and copies input arguments into A */
+int	init_stacks(t_stack *a, t_stack *b, int *arr, size_t elems_num)
+{
+	if (!stack_init(a, elems_num))
+		return (0);
+	array_copy(a->sorted, arr, elems_num);
+	if (!stack_init(b, elems_num))
+	{
+		stack_free(a);
+		return (0);
+	}
+	return (1);
+}
 
 /* Parse argv[1] if it contains the string with all the arguments to sort */
 int	check_string_arg(char ***nums_to_sort, char **argv,
@@ -50,7 +64,7 @@ char	**det_args_source(char **nums_to_sort, size_t *elems_num,
 	else
 	{
 		*elems_num = argc - 1;
-		args_src = argv;
+		args_src = argv + 1;
 	}
 	free(pack);
 	return (args_src);

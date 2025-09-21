@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:32 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 18:52:30 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:40:51 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	check_ints_validity(int argc, char **argv)
 {
 	int	i;
 
-	i = 1;
+	if (argc <= 0 || !argv)
+		return (0);
+	i = 0;
 	while (i < argc)
 	{
 		if (!is_number(argv[i]) || !num_in_range(argv[i], INT_MIN, INT_MAX))
@@ -72,24 +74,14 @@ int	check_duplicates(const int *arr, const size_t size)
 void	args_to_stack(t_stack *stack, size_t elems_num,
 			char **args, int f_string_arg)
 {
-	long long	i;
-	long long	beg_ind;
+	size_t	i;
 
-	if (f_string_arg)
-	{
-		beg_ind = 0;
-		i = elems_num - 1;
-	}
-	else
-	{
-		beg_ind = 1;
-		i = elems_num;
-	}
-	while (i >= beg_ind)
-	{
+	(void)f_string_arg;
+	if (elems_num == 0)
+		return ;
+	i = elems_num;
+	while (i-- > 0)
 		stack_push(stack, ft_atoi(args[i]));
-		--i;
-	}
 }
 
 size_t	get_str_args_size(char **args)

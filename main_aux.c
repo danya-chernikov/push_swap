@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:22:52 by dchernik          #+#    #+#             */
-/*   Updated: 2025/09/21 12:25:05 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:32:30 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,6 @@
  * c[0] = argv
  * c[1] = nums_to_sort
  * */
-# define STACK_A		0
-# define STACK_B		1
-# define EXIT_CODE		0
-# define ELEMS_NUM		1
-# define F_STRING_ARG	2
-# define J				3
-# define ARGC			4
-# define ARGV			0
-# define NUMS_TO_SORT	1
 void	main_loop(t_operations *ops, t_stack *s, size_t *v, char ***c)
 {
 	char	**args;
@@ -45,7 +36,7 @@ void	main_loop(t_operations *ops, t_stack *s, size_t *v, char ***c)
 	while (v[J] < 1)
 	{
 		if (!check_string_arg(&c[NUMS_TO_SORT], c[ARGV],
-			v[ARGC], (int *)&v[F_STRING_ARG]))
+				v[ARGC], (int *)&v[F_STRING_ARG]))
 		{
 			v[EXIT_CODE] = 1;
 			break ;
@@ -87,25 +78,26 @@ int	parsing(char **args, t_stack *a, t_stack *b, void **pack)
 
 	elems_num = *(size_t *)pack[0];
 	f_string_arg = *(int *)pack[1];
-	if (!check_ints_validity(elems_num, args))
-		return (0);
-	arr = (int *)malloc(elems_num * sizeof (int));
+	if (!check_ints_validity((int)elems_num, args))
+		return (cleanup_parsing(NULL, pack, 0));
+	arr = malloc(elems_num * sizeof (*arr));
 	if (!arr)
-		return (0);
-	if (f_string_arg)
-		array_copy_atoi(arr, args, 0, elems_num);
-	else
-		array_copy_atoi(arr, args, 1, elems_num);
+		return (cleanup_parsing(NULL, pack, 0));
+	array_copy_atoi(arr, args, 0, elems_num);
 	quick_sort(arr, 0, elems_num - 1);
 	if (!check_duplicates(arr, elems_num) || !init_stacks(a, b, arr, elems_num))
-	{
-		free(arr);
-		return (0);
-	}
+		return (cleanup_parsing(arr, pack, 0));
 	args_to_stack(a, elems_num, args, f_string_arg);
-	free(arr);
-	free(pack);
-	return (1);
+	return (cleanup_parsing(arr, pack, 1));
+}
+
+int	cleanup_parsing(int *arr, void **pack, int ret)
+{
+	if (arr)
+		free(arr);
+	if (pack)
+		free(pack);
+	return (ret);
 }
 
 int	sorting(t_operations *ops, t_stack *a, t_stack *b, size_t elems_num)
@@ -121,20 +113,6 @@ int	sorting(t_operations *ops, t_stack *a, t_stack *b, size_t elems_num)
 			return (0);
 		}
 		ops_print(ops);
-	}
-	return (1);
-}
-
-/* Inits both A and B stacks and copies input arguments into A */
-int	init_stacks(t_stack *a, t_stack *b, int *arr, size_t elems_num)
-{
-	if (!stack_init(a, elems_num))
-		return (0);
-	array_copy(a->sorted, arr, elems_num);
-	if (!stack_init(b, elems_num))
-	{
-		stack_free(a);
-		return (0);
 	}
 	return (1);
 }
