@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:20 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:55:43 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/22 20:03:07 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@
  * `ops_list` array will be increased during
  * each subsequent memory reallocation */
 # define OPS_LIST_INC_CHUNK_SIZE	100000
-# define SA_OP_STR				"sa"
-# define SB_OP_STR				"sb"
-# define SS_OP_STR				"ss"
-# define PA_OP_STR				"pa"
-# define PB_OP_STR				"pb"
-# define RA_OP_STR				"ra"
-# define RB_OP_STR				"rb"
-# define RR_OP_STR				"rr"
-# define RRA_OP_STR				"rra"
-# define RRB_OP_STR				"rrb"
-# define RRR_OP_STR				"rrr"
+# define SA_OP_STR					"sa"
+# define SB_OP_STR					"sb"
+# define SS_OP_STR					"ss"
+# define PA_OP_STR					"pa"
+# define PB_OP_STR					"pb"
+# define RA_OP_STR					"ra"
+# define RB_OP_STR					"rb"
+# define RR_OP_STR					"rr"
+# define RRA_OP_STR					"rra"
+# define RRB_OP_STR					"rrb"
+# define RRR_OP_STR					"rrr"
 
 typedef enum operation_type
 {
