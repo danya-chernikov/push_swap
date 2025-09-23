@@ -3,12 +3,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MAX_LINE_BUF		2048
-#define NUM_ARR_SIZE		1024
-#define MAX_NUM_STR_LEN		32
-#define MAX_CMD_LEN			4096
-#define PUSH_SWAP_PATH		"push_swap"
-#define CHECKER_PATH		"checker"
+#define MAX_LINE_BUF			2048
+#define NUM_ARR_SIZE			1024
+#define MAX_NUM_STR_LEN			32
+#define MAX_CMD_LEN				4096
+#define MAX_CMD_EXEC_RES_LEN	4096
+#define MAX_CMD_RES_BUF_LEN		16
+#define PUSH_SWAP_PATH			"push_swap"
+#define CHECKER_PATH			"checker_linux"
 
 /*int	array_to_stack(t_stack *a, int *arr, size_t arr_size)
 {
@@ -54,9 +56,15 @@ char	*form_cmd(char *stack, char *push_swap, char *checker)
 {
 	char	*cmd;
 	int		cind;
+	int		max_cmd_len;
 
 	cmd = (char *)malloc((MAX_CMD_LEN + 1) * sizeof (char));
 	if (!cmd)
+		return (NULL);
+	max_cmd_len = 2 + strlen(push_swap) + 1 +
+				  strlen(stack) + 5 + strlen(checker)
+				  + 1 + strlen(stack);
+	if (max_cmd_len > MAX_CMD_LEN - 1)
 		return (NULL);
 	cind = 0;
 	cmd[0] = '.';
@@ -86,23 +94,34 @@ char	*form_cmd(char *stack, char *push_swap, char *checker)
 }
 
 /* The `result` may be either 'OK' or 'KO' */
-int	check(char *stack, char *push_swap, char *checker)
+int	check(char *stack, char *push_swap, char *checker, int *ok_num, int *ko_num)
 {
+	char	result[MAX_CMD_EXEC_RES_LEN] = "";
+	char	buf[MAX_CMD_RES_BUF_LEN];
 	FILE	*fp;
 	char	*cmd;
-	char	result[3];
 
 	cmd = form_cmd(stack, push_swap, checker);
-	printf("%s\n", cmd);
-	free(cmd);
+	if (!cmd)
+	{
+		printf("An error has occured while forming the command\n");
+		return (0);
+	}
 	fp = popen(cmd, "r");
 	if (!fp)
 	{
 		perror("popen() failed");
 		return (0);
 	}
-	while (fgets(result, sizeof (result), fp))
-		strcat(result, );
+	while (fgets(buf, sizeof (buf), fp))
+		strcat(result, buf);
+	if (!strncmp(result, "OK", 2))
+		++(*ok_num);
+	else
+		++(*ko_num);
+	printf("%s\n", result);
+	pclose(fp);
+	free(cmd);
 	return (1);
 }
 
@@ -129,6 +148,8 @@ int	main(int argc, char **argv)
 	FILE	*fptr;
 	char	line[MAX_LINE_BUF];
 	int		arr[NUM_ARR_SIZE];
+	int		ok_num;
+	int		ko_num;
 
 	if (argc != 2)
 	{
@@ -145,15 +166,12 @@ int	main(int argc, char **argv)
 	{
 		substitute_str(line, ',', ' ');
 		line[strlen(line) - 1] = '\0';
-		printf("%s", line);
-		int n = line_to_arr(line, arr, NUM_ARR_SIZE);
-		check(line, PUSH_SWAP_PATH, CHECKER_PATH);
-		/*if (check(arr))
-			printf("OK\n");
-		else
-			printf("KO\n");
-			*/
+		printf("%s : ", line);
+		if (!check(line, PUSH_SWAP_PATH, CHECKER_PATH, &ok_num, &ko_num))
+			return (EXIT_FAILURE);
 	}
+	printf("%d OK /%d KO (%d%%)\n", ok_num, ko_num,
+		(int)(((float)ok_num/((float)ko_num + (float)ok_num))*100));
 	fclose(fptr);
 	exit(EXIT_SUCCESS);
 	return (0);
