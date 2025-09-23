@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:32 by dchernik          #+#    #+#             */
-/*   Updated: 2025/09/21 14:40:51 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:36:25 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,6 @@ int	check_ints_validity(int argc, char **argv)
 	while (i < argc)
 	{
 		if (!is_number(argv[i]) || !num_in_range(argv[i], INT_MIN, INT_MAX))
-			return (0);
-		++i;
-	}
-	return (1);
-}
-
-int	is_number(const char *num)
-{
-	size_t	i;
-
-	if ((num[0] != '-') && !ft_isdigit((num[0])))
-		return (0);
-	if ((num[0] == '-') && (num[1] == '0'))
-		return (0);
-	if ((num[0] == '-') && (ft_strlen(num) == 1))
-		return (0);
-	if ((num[0] == '0') && (ft_strlen(num) > 1))
-		return (0);
-	i = 1;
-	while (i < ft_strlen(num))
-	{
-		if (!ft_isdigit(num[i]))
 			return (0);
 		++i;
 	}

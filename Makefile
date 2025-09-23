@@ -5,13 +5,15 @@ NAME=push_swap
 
 CFLAGS=-Wall -Werror -Wextra -O0 -g3
 
-SRCS=main.c main_aux.c main_aux2.c quick_sort.c auxiliary.c packer.c auxiliary2.c stack_basis.c \
-	 stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c args_parser.c args_parser2.c \
-	 sorting.c sort_aux.c sort_aux2.c sort_aux3.c sort_aux4.c sort_aux5.c sort_aux6.c
+SRCS=main.c main_aux.c main_aux2.c quick_sort.c auxiliary.c auxiliary2.c auxiliary3.c \
+	 packer.c tack_basis.c stack_basis2.c stack_ops.c stack_ops2.c stack_ops3.c \
+	 args_parser.c args_parser2.c sorting.c sort_aux.c sort_aux2.c sort_aux3.c sort_aux4.c \
+	 sort_aux5.c sort_aux6.c
 	 
-OBJS=main.o main_aux.o main_aux2.o quick_sort.o auxiliary.o packer.o auxiliary2.o stack_basis.o \
-	 stack_basis2.o stack_ops.o stack_ops2.o stack_ops3.o args_parser.o args_parser2.o \
-	 sorting.o sort_aux.o sort_aux2.o sort_aux3.o sort_aux4.o sort_aux5.o sort_aux6.o
+OBJS=main.o main_aux.o main_aux2.o quick_sort.o auxiliary.o auxiliary2.o auxiliary3.o \
+	 packer.o stack_basis.o stack_basis2.o stack_ops.o stack_ops2.o stack_ops3.o \
+	 args_parser.o args_parser2.o sorting.o sort_aux.o sort_aux2.o sort_aux3.o sort_aux4.o \
+	 sort_aux5.o sort_aux6.o
 
 all : libft $(NAME)
 
@@ -48,6 +50,9 @@ auxiliary.o : auxiliary.c auxiliary.h libft.h
 
 auxiliary2.o : auxiliary2.c auxiliary.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c auxiliary2.c
+
+auxiliary3.o : auxiliary3.c auxiliary.h libft.h
+	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c auxiliary3.c
 
 stack_basis.o : stack_basis.c stack_basis.h libft.h
 	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c stack_basis.c

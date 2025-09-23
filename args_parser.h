@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:34 by dchernik          #+#    #+#             */
-/*   Updated: 2025/09/21 13:11:14 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:37:08 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 
 /* args_parser.c */
 int		check_ints_validity(int argc, char **argv);
-int		is_number(const char *num);
 int		check_duplicates(const int *arr, const size_t size);
 void	args_to_stack(t_stack *stack, size_t elems_num,
 			char **args, int f_string_arg);

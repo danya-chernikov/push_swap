@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:16:53 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/13 18:54:43 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:37:08 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,24 @@ int	get_digit(long long num, const int len, const int base, const int ind)
 	return (digit);
 }
 
-/* Checks if the number is in range of [INT_MIN; INT_MAX] */
-int	num_in_range(const char *num, const int left, const int right)
+int	is_number(const char *num)
 {
-	long long	number;
+	size_t	i;
 
-	number = ft_atoll(num);
-	if (number < left || number > right)
+	if ((num[0] != '-') && !ft_isdigit((num[0])))
 		return (0);
+	if ((num[0] == '-') && (num[1] == '0'))
+		return (0);
+	if ((num[0] == '-') && (ft_strlen(num) == 1))
+		return (0);
+	if ((num[0] == '0') && (ft_strlen(num) > 1))
+		return (0);
+	i = 1;
+	while (i < ft_strlen(num))
+	{
+		if (!ft_isdigit(num[i]))
+			return (0);
+		++i;
+	}
 	return (1);
 }
