@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:17:15 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 02:00:37 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:06:41 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ void	ops_add(t_operations *ops, const t_ops_type op)
 	++(ops->size);
 }
 
+void	ops_print(const t_operations *ops)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < ops->size)
+	{
+		print_op_by_type(ops->arr[i]);
+		++i;
+	}
+}
+
 void	print_op_by_type(const t_ops_type op)
 {
 	if (op == SA)
@@ -66,16 +78,4 @@ void	print_op_by_type(const t_ops_type op)
 		ft_printf("%s\n", RRB_OP_STR);
 	if (op == RRR)
 		ft_printf("%s\n", RRR_OP_STR);
-}
-
-void	ops_print(const t_operations *ops)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < ops->size)
-	{
-		print_op_by_type(ops->arr[i]);
-		++i;
-	}
 }

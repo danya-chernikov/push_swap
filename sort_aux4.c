@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:24:08 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:55:12 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:02:50 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	free_mov_ops(t_operations **mov_ops, t_stack *a, t_stack *b)
 	mov_ops = NULL;
 }
 
-/* Finds find the element in stack B on top of which `cur_a_num`
+/* Finds the element in stack B on top of which `cur_a_num`
  * should be placed.
  *     tmp_num_ind - Index of the number `cur_a_num` in the
  *					 temporary sorted array formed from the
