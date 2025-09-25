@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:24:02 by dchernik          #+#    #+#             */
-/*   Updated: 2025/07/14 15:52:22 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/25 17:51:01 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,23 @@ void	sort_common_move_a_into_b_init_vars(size_t *mov_ops_cnt,
 	*sai = a->size - 1;
 }
 
+/* While stack B contains at least one element move all
+ * elements back from stack B into stack A according to
+ * the following rule:
+ *     Traverse stack B from top to bottom.
+ *         If the element B[j], when hypothetically placed
+ *         into stack A, would become the greatest element
+ *         there, it should be placed on top of the minimum
+ *         element of stack A (this is done by rotating stack A
+ *         using either "rotate a" or "reverse rotate a",
+ *         depending on which direction brings the minimum
+ *         element to the top more efficiently), and then
+ *         executing "push a");
+ *
+ *         Otherwise, if B[j] would not become the greatest element
+ *         in stack A, it should be placed on top of the element in
+ *         stack A that is greater than B[j], but closest to it in
+ *         value. */
 /* +++ */
 int	sort_common_move_b_into_a(t_operations *ops, t_stack *a,
 		t_stack *b, long long sbi)
@@ -123,10 +140,11 @@ void	sort_common_bring_back_to_a(t_operations *ops, t_stack *a,
 	cur_b_num = *(int *)pack[1];
 	below_b_num = *(int *)pack[2];
 	tmp_num_ind = array_get_elem_index(tmp_arr, a->size + 1, cur_b_num);
-	if (tmp_num_ind == a->size)
+	if (tmp_num_ind == a->size) // moved number became the biggest in stack A
 	{
+		// let's place it on top of the minimum number from A
+		move_elem_to_top(ops, a, STACK_A, tmp_arr[0]);
 		stack_push_a(ops, a, b);
-		stack_rotate(ops, a, STACK_A);
 	}
 	else
 	{

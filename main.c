@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:23:11 by dchernik          #+#    #+#             */
-/*   Updated: 2025/09/21 12:24:28 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/25 20:15:57 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	main(int argc, char **argv)
 	v[ARGC] = (size_t)argc;
 	c[ARGV] = argv;
 	c[NUMS_TO_SORT] = NULL;
+	ops.f_exist = 0;
 	if (argc == 1)
 		exit(1);
 	main_loop(&ops, s, v, c);
