@@ -6,7 +6,7 @@
 /*   By: dchernik <dchernik@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:24:02 by dchernik          #+#    #+#             */
-/*   Updated: 2025/09/25 17:51:01 by dchernik         ###   ########.fr       */
+/*   Updated: 2025/09/25 23:55:35 by dchernik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,8 @@ void	sort_common_bring_back_to_a(t_operations *ops, t_stack *a,
 	cur_b_num = *(int *)pack[1];
 	below_b_num = *(int *)pack[2];
 	tmp_num_ind = array_get_elem_index(tmp_arr, a->size + 1, cur_b_num);
-	if (tmp_num_ind == a->size) // moved number became the biggest in stack A
+	if (tmp_num_ind == a->size)
 	{
-		// let's place it on top of the minimum number from A
 		move_elem_to_top(ops, a, STACK_A, tmp_arr[0]);
 		stack_push_a(ops, a, b);
 	}
